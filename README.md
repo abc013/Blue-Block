@@ -1,6 +1,9 @@
 # Welcome to Blue-Block [GER]!
 ##A small Java game for breaks in school.
 This version is a mix of German and English.
+
+This game has the layout "One Cell = One Color" which means, players etc. have only 1 Color.
+
 _have fun!!_
 ## Please notice
 This game isn't the best, it's one of my first (and best) projects and has many problems.
