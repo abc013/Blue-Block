@@ -56,6 +56,6 @@ I'm available for solutions :).
 ## Authors
 [Me](https://github.com/abc013) (of course)
 
-and my helpful friend,
-_Wolkenfarmer_.
+and my helpful friends,
+_Wolkenfarmer_ and _HerrPudding_.
 
