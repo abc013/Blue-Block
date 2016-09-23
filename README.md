@@ -5,6 +5,11 @@ This version is a mix of German and English.
 This game has the layout "One Cell = One Color" which means, players etc. have only 1 Color.
 
 _have fun!!_
+
+## you need Eclipse to run the game.
+#### Last updated with 'Eclipse Neon`.
+I hope every computer has this ^^.
+
 ## Please notice
 This game isn't the best, it's one of my first (and best) projects and has many problems.
 
