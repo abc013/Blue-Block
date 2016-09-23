@@ -185,8 +185,6 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 
 	@Override
 	public void propertyChange(PropertyChangeEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

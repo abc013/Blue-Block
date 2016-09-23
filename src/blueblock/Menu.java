@@ -5,7 +5,10 @@ import java.awt.Font;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -16,23 +19,26 @@ public class Menu extends JFrame {
 	JButton start, optionen, schliessen;
 	Main Spiel;
 	Options Option;
+	final ImageIcon BlueBlock = new ImageIcon("blblock.png");
+	final ImageIcon RedBlock = new ImageIcon("rdblock.png");
 
-	// Für eclipse
+	// For eclipse
 	public static void main(String[] args) {
 		new Menu();
 	}
 
-	// Für BlueJ
+	// For BlueJ
 	public Menu() {
-		// TODO: Einstellungen
+		// setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("blblock.png")));
 		menu = new JFrame("BLUE BLOCK - Menü");
 		Option = new Options(this);
 		menu.setSize(400, 300);
 		menu.setLayout(null);
 		menu.setResizable(false);
-		start = new JButton("    Spiel Starten    ");
+		start = new JButton("    Spiel Starten    ", BlueBlock);
 		start.setBounds(10, 10, 370, 70);
 		start.setFont(new Font("gabriola", 0, 30));
+		start.setIconTextGap(60);
 		start.setForeground(Color.BLUE);
 		start.setToolTipText("Startet das Spiel.");
 		start.addActionListener(new ActionListener() {
@@ -46,9 +52,33 @@ public class Menu extends JFrame {
 				Spiel.Offen(true);
 			}
 		});
+		start.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				start.setIcon(BlueBlock);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				start.setIcon(RedBlock);
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		menu.add(start);
-		optionen = new JButton("   Optionen   ");
+		optionen = new JButton("   Optionen   ", BlueBlock);
 		optionen.setFont(new Font("gabriola", 0, 30));
+		optionen.setIconTextGap(100);
 		optionen.setForeground(Color.BLUE);
 		optionen.setToolTipText(
 				"Hier kann man die Größe des Spielfelds als auch Spieler- und Power-Up-Anzahl einstellen.");
@@ -62,9 +92,33 @@ public class Menu extends JFrame {
 			}
 
 		});
+		optionen.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				optionen.setIcon(BlueBlock);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				optionen.setIcon(RedBlock);
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		menu.add(optionen);
-		schliessen = new JButton("     Spiel Beenden     ");
+		schliessen = new JButton("     Spiel Beenden     ", BlueBlock);
 		schliessen.setFont(new Font("gabriola", 0, 30));
+		schliessen.setIconTextGap(40);
 		schliessen.setForeground(Color.BLUE);
 		schliessen.setToolTipText("Beendet das Spiel.");
 		schliessen.setBounds(10, 180, 370, 70);
@@ -76,6 +130,29 @@ public class Menu extends JFrame {
 			}
 
 		});
+		schliessen.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				schliessen.setIcon(BlueBlock);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				schliessen.setIcon(RedBlock);
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		menu.add(schliessen);
 
 		menu.setVisible(true);
@@ -85,5 +162,4 @@ public class Menu extends JFrame {
 	public void Offen(boolean offen) {
 		menu.setVisible(offen);
 	}
-
 }

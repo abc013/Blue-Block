@@ -1,4 +1,4 @@
-Höhe: 23
-Breite: 32
+Höhe: 16
+Breite: 16
 Spieler: 4
-PowerUps: 2
+PowerUps: 0
