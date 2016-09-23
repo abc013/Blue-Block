@@ -1,0 +1,4 @@
+Höhe: 23
+Breite: 32
+Spieler: 4
+PowerUps: 2
