@@ -2,6 +2,9 @@
 ##A small Java game for breaks in school.
 This version is a mix of German and English.
 
+From 1 to 5 players.
+The game has no `Internet-Multiplayer` function.
+
 This game has the layout "One Cell = One Color" which means, players etc. have only 1 Color.
 
 _have fun!!_
