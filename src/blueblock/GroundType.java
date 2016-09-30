@@ -5,12 +5,15 @@ import java.awt.Color;
 public class GroundType {
 	private Color color;
 	private String Type;
+	private GroundType InactiveType;
 
-	public GroundType(Color color, String Type) {
+	public GroundType(Color color, String Type, GroundType InactiveType) {
 		this.color = color;
 		if (Type != null) {
 			this.Type = Type;
 		}
+		this.InactiveType = InactiveType;
+
 	}
 
 	public Color GetColor() {
@@ -19,6 +22,10 @@ public class GroundType {
 
 	public String GetType() {
 		return Type;
+	}
+
+	public GroundType GetInactiveType() {
+		return InactiveType;
 	}
 
 	public void setType(String Type) {

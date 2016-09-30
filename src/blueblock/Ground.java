@@ -17,7 +17,6 @@ public class Ground {
 	}
 
 	public void ColorRefresh() {
-		// TODO: ???? warum xy und nicht yx???????? WTF???
 		Main.FarbeWechseln(Main.labels[y][x], color);
 	}
 
@@ -41,7 +40,7 @@ public class Ground {
 			break;
 		default:
 			System.out.println("INVALID TYPE: " + Type.GetType());
-			SetGroundType(new GroundType(Type.GetColor(), "floor"));
+			SetGroundType(new GroundType(Type.GetColor(), "floor", null));
 			break;
 		}
 	}
@@ -77,13 +76,7 @@ public class Ground {
 		return wall;
 	}
 
-	public boolean NotIsWall() {
-		if (wall == false)
-			return true;
-		return false;
-	}
-
-	public boolean isfloor() {
+	public boolean isFloor() {
 		return floor;
 	}
 

@@ -12,12 +12,14 @@ public class Human {
 	private Label[][] labels = Main.labels;
 	private int pos1, pos2, Dpos1, Dpos2;
 	public int Kills, schritte, SuperScore, PowerUps, Spieler;
-	private boolean lebt, poisoned, geschützt;
+	private boolean lives, poisoned, geschützt;
+	private String name;
 
-	public Human(int pos1, int pos2, int Spieler) {
+	public Human(int pos1, int pos2, int Spieler, String name) {
 		this.Spieler = Spieler;
+		this.name = name;
 		System.out.println("Player" + Spieler + " created");
-		lebt = true;
+		lives = true;
 		Main.FarbeWechseln(labels[pos1][pos2], color[Spieler]);
 		this.pos1 = pos1;
 		this.pos2 = pos2;
@@ -26,23 +28,23 @@ public class Human {
 	}
 
 	public void Gehen(int Richtung) {
-		if (lebt) {
+		if (lives) {
 			Locator.MenschGeht(this, Spieler, Richtung);
 			System.out.println("Player" + Spieler + ".pos:" + GetX() + "|" + GetY());
 			if (Locator.GetGround(GetX(), GetY()).isDeadly()) {
 				if (geschützt) {
 					geschützt = false;
 				} else {
-					AmLeben(false);
+					IsLiving(false);
 				}
 				Locator.GetGround(Dpos2, Dpos1).SetGroundType(Main.InactiveLava);
 			}
-			if (!Lebt())
+			if (!Lives())
 				return;
 			if (Locator.GetGround(GetX(), GetY()).isPoison()) {
 				if (poisoned) {
 					Main.FarbeWechseln(labels[GetY()][GetX()], Main.InactiveLava.GetColor());
-					AmLeben(false);
+					IsLiving(false);
 					return;
 				}
 				if (geschützt) {
@@ -95,8 +97,8 @@ public class Human {
 		return pos1;
 	}
 
-	public boolean Lebt() {
-		return lebt;
+	public boolean Lives() {
+		return lives;
 	}
 
 	public boolean Poisoned() {
@@ -111,18 +113,22 @@ public class Human {
 		return schritte;
 	}
 
-	public void AmLeben(boolean lebt) {
-		this.lebt = lebt;
-		if (lebt == false)
+	public String GetName() {
+		return name;
+	}
+
+	public void IsLiving(boolean lives) {
+		this.lives = lives;
+		if (lives == false)
 			SetPosition(-1, -1);
-		if (lebt)
+		if (lives)
 			SetPosition(Dpos1, Dpos2);
 	}
 
 	public void SetPosition(int x, int y) {
 		pos1 = x;
 		pos2 = y;
-		if (Lebt()) {
+		if (Lives()) {
 			Dpos1 = x;
 			Dpos2 = y;
 		}
@@ -143,7 +149,7 @@ public class Human {
 	}
 
 	public void SetGray() {
-		if (!Lebt())
+		if (!Lives())
 			return;
 		color[Spieler] = Color.GRAY;
 		if (!Main.TypesActive[5]) {

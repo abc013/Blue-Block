@@ -68,35 +68,35 @@ public class Locator {
 		HinterGrundFarbe(pos1, pos2);
 		switch (Richtung) {
 		case 1:
-			if (pos1 > 0 && GetGround(h.GetX(), Y0).NotIsWall()) {
+			if (pos1 > 0 && !GetGround(h.GetX(), Y0).isWall()) {
 				pos1--;
 				h.schritte++;
 			} else {
-				System.out.println(h + " ist gegen die Wand gelaufen!");
+				System.out.println(h + " hit the wall!");
 			}
 			break;
 		case 2:
-			if ((h.GetY() + 1) < Main.FelderReihe && GetGround(h.GetX(), YG).NotIsWall()) {
+			if ((h.GetY() + 1) < Main.FelderReihe && !GetGround(h.GetX(), YG).isWall()) {
 				pos1++;
 				h.schritte++;
 			} else {
-				System.out.println(h + " ist gegen die Wand gelaufen!");
+				System.out.println(h + " hit the wall!");
 			}
 			break;
 		case 3:
-			if (h.GetX() > 0 && GetGround(X0, h.GetY()).NotIsWall()) {
+			if (h.GetX() > 0 && !GetGround(X0, h.GetY()).isWall()) {
 				pos2--;
 				h.schritte++;
 			} else {
-				System.out.println(h + " ist gegen die Wand gelaufen!");
+				System.out.println(h + " hit the wall!");
 			}
 			break;
 		case 4:
-			if ((h.GetX() + 1) < Main.FelderLinie && GetGround(XG, h.GetY()).NotIsWall()) {
+			if ((h.GetX() + 1) < Main.FelderLinie && !GetGround(XG, h.GetY()).isWall()) {
 				pos2++;
 				h.schritte++;
 			} else {
-				System.out.println(h + " ist gegen eine Wand gelaufen!");
+				System.out.println(h + " hit the wall!");
 			}
 			break;
 		}
@@ -122,7 +122,7 @@ public class Locator {
 	private static void MenschenTreffen(Human human, int pos1, int pos2) {
 		for (int i = 0; i < Main.h.size(); i++) {
 			if (Main.h.get(i).GetX() == pos2 && Main.h.get(i).GetY() == pos1 && Main.h.get(i) != human) {
-				Main.h.get(i).AmLeben(false);
+				Main.h.get(i).IsLiving(false);
 				human.Kills = human.Kills + 1;
 			}
 		}
@@ -167,7 +167,7 @@ public class Locator {
 		for (int i = 0; i < Main.h.size(); i++) {
 			int x = Main.h.get(i).GetX();
 			int y = Main.h.get(i).GetY();
-			if (Main.h.get(i).Lebt()) {
+			if (Main.h.get(i).Lives()) {
 				Main.FarbeWechseln(labels[y][x], Main.h.get(i).color[i + 1]);
 			}
 		}

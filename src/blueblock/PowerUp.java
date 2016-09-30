@@ -31,17 +31,19 @@ public class PowerUp {
 	}
 
 	public void NewPosition(int x, int y, boolean NoRandomPosition) {
-		if (Locator.GetGround(x, y).isWall() || Locator.GetGround(x, y).isDeadly() || Locator.GetHuman(x, y) != null) {
+		Ground gr = Locator.GetGround(y, x);
+		if (gr.isWall() || gr.isDeadly() || Locator.GetHuman(y, x) != null) {
 			int pos1 = new java.util.Random().nextInt(Main.FelderLinie);
 			int pos2 = new java.util.Random().nextInt(Main.FelderReihe);
 			if (NoRandomPosition)
 				NewPosition(x, y, true);
 			else
 				NewPosition(pos1, pos2, false);
+
 			return;
 		} else {
-			if (Locator.GetGround(x, y).isPoison()) {
-				Locator.GetGround(x, y).SetGroundType(Main.Floor);
+			if (gr.isPoison()) {
+				gr.SetGroundType(Main.Floor);
 			}
 			this.x = x;
 			this.y = y;

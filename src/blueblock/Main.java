@@ -13,33 +13,33 @@ import javax.swing.JFrame;
 
 public class Main extends JFrame implements MouseListener, KeyListener {
 	private static final long serialVersionUID = -3251630880930749621L;
-	// Basische GrundTypen; in allen Welten einbegriffen;
-	public static GroundType Lava = new GroundType(Color.RED, "deadly");
-	public static GroundType InactiveLava = new GroundType(new Color(150, 50, 50), "floor");
-	public static GroundType Wall = new GroundType(Color.BLACK, "wall");
-	public static GroundType InactiveWall = new GroundType(Color.DARK_GRAY, "floor");
-	public static GroundType Floor = new GroundType(Color.WHITE, "floor");
-	public static GroundType Schweif = new GroundType(Color.LIGHT_GRAY, "floor");
-	public static GroundType Säure = new GroundType(new Color(10, 240, 10), "poison");
-	// PowerUps + Menschen
+	// Basic GroundTypes;
+	public static GroundType InactiveLava = new GroundType(new Color(150, 50, 50), "floor", null);
+	public static GroundType Lava = new GroundType(Color.RED, "deadly", InactiveLava);
+	public static GroundType InactiveWall = new GroundType(Color.DARK_GRAY, "floor", null);
+	public static GroundType Wall = new GroundType(Color.BLACK, "wall", InactiveWall);
+	public static GroundType Floor = new GroundType(Color.WHITE, "floor", null);
+	public static GroundType Schweif = new GroundType(Color.LIGHT_GRAY, "floor", null);
+	public static GroundType Säure = new GroundType(new Color(10, 240, 10), "poison", null);
+	// PowerUps + Players
 	public static PowerUp[] PowerUpList;
 	public static ArrayList<Human> h = new ArrayList<Human>();
 	public static Human H1, H2, H3, H4;
 	private int Spieler;
-	// Für jede Nummer ist ein Hintergrund verfügbar; ACHTUNG! Diese sind nicht
-	// an x und y gebunden!
+	// For each number a background is available; WARNING! They aren't directly
+	// bound to x and y!
 	public static ArrayList<Ground> g = new ArrayList<Ground>();
-	// Fenster
+	// Windows
 	public static JFrame fenster;
 	static InfoWindow InfoFenster;
-	// XY Koordinatensystem;
+	// XY coordinate-system;
 	public static Label[][] labels;
-	// Typen der PowerUps, deren booleans und Duration;
-	public static int[] TypesDuration;
-	public static boolean[] TypesActive;
+	// Types of PowerUps, their booleans and Duration;
 	public static String[] Types = { "SuperScore", "OneLive", "PoisonCure", "Confusion", "MouseBlack", "PlayersGray",
 			"Darkness" };
-	// der Rest;
+	public static int[] TypesDuration = new int[Types.length];
+	public static boolean[] TypesActive = new boolean[Types.length];
+	// the rest;
 	public static int FelderLinie, FelderReihe, MouseLava, MouseWall, MouseSäure;
 	private static boolean indirekt;
 	public static boolean EndGame = false;
@@ -51,38 +51,36 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 
 	public Main(int Breite, int Höhe, int spieler, int PowerUps) {
 		PowerUpList = new PowerUp[PowerUps];
-		TypesDuration = new int[Types.length];
-		TypesActive = new boolean[Types.length];
 		FelderLinie = Breite;
 		FelderReihe = Höhe;
 		if (FelderLinie < 6) {
 			FelderLinie = 6;
-			System.out.println("FelderLinie kann nicht unter 3 sein!");
+			System.out.println("FelderLinie can't be under six!");
 		}
 		if (FelderReihe < 6) {
 			FelderReihe = 6;
-			System.out.println("FelderReihe kann nicht unter 3 sein!");
+			System.out.println("FelderReihe can't be under six!");
 		}
 		if (spieler <= 0 || spieler > 4) {
-			System.out.println("Spieler können nicht unter 0 oder über 4 sein!");
+			System.out.println("Players can't be under 0 or above 4!");
 			spieler = 1;
 		}
-		String Überschrift = null;
+		String Heading = null;
 		switch (spieler) {
 		case 4:
-			Überschrift = "BLUE, GREEN, CYAN and MAGENTA BLOCK";
+			Heading = "BLUE, GREEN, CYAN and MAGENTA BLOCK";
 			break;
 		case 3:
-			Überschrift = "BLUE, GREEN and CYAN BLOCK";
+			Heading = "BLUE, GREEN and CYAN BLOCK";
 			break;
 		case 2:
-			Überschrift = "BLUE and GREEN BLOCK";
+			Heading = "BLUE and GREEN BLOCK";
 			break;
 		case 1:
-			Überschrift = "Armer, Armer alleiner BLUE BLOCK";
+			Heading = "Armer, armer alleiner BLUE BLOCK";
 			break;
 		}
-		fenster = new JFrame(Überschrift
+		fenster = new JFrame(Heading
 				+ " --- NEUER ENGINE - NEUES GLÜCK!!! Jetzt größere Welten erschaffen und neue Wände, Lava, Säure oder Böden kreieren!!!!!");
 		fenster.setLocation(-7, 0);
 		fenster.setSize(700, 700);
@@ -123,22 +121,22 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		for (int i = 0; i < spieler; i++) {
 			switch (Spieler) {
 			case 1:
-				final Human H1 = new Human(1, 1, Spieler);
+				final Human H1 = new Human(1, 1, Spieler, "Blauer Block");
 				Main.H1 = H1;
 				h.add(H1);
 				break;
 			case 2:
-				final Human H2 = new Human(FelderLinie - 2, FelderReihe - 2, Spieler);
+				final Human H2 = new Human(FelderLinie - 2, FelderReihe - 2, Spieler, "Grüner Block");
 				Main.H2 = H2;
 				h.add(H2);
 				break;
 			case 3:
-				final Human H3 = new Human(1, FelderReihe - 2, Spieler);
+				final Human H3 = new Human(1, FelderReihe - 2, Spieler, "Cyaner Block");
 				Main.H3 = H3;
 				h.add(H3);
 				break;
 			case 4:
-				final Human H4 = new Human(FelderLinie - 2, 1, Spieler);
+				final Human H4 = new Human(FelderLinie - 2, 1, Spieler, "Magenta Block");
 				Main.H4 = H4;
 				h.add(H4);
 				break;
@@ -173,6 +171,10 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	}
 
 	public static void FarbeWechseln(Label label, Color Color) {
+		/*
+		 * New Idea for future: label.setText("OOO");
+		 * label.setForeground(Color);
+		 */
 		label.setBackground(Color);
 	}
 
@@ -197,23 +199,38 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		}
 		if (e.getButton() == 1) {
 			if (Locator.GetGround(x, y).isDeadly()) {
-				MouseLava--;
-				Locator.GetGround(x, y).SetGroundType(InactiveLava);
+				GroundType NewGround = Locator.GetGround(x, y).GetGroundType().GetInactiveType();
+				if (NewGround != null) {
+					Locator.GetGround(x, y).SetGroundType(NewGround);
+					MouseLava--;
+				}
 			} else {
 				MouseLava++;
 				Locator.GetGround(x, y).SetGroundType(Lava);
 			}
 		} else if (e.getButton() == 3) {
 			if (Locator.GetGround(x, y).isWall()) {
-				MouseWall--;
-				Locator.GetGround(x, y).SetGroundType(InactiveWall);
+				GroundType NewGround = Locator.GetGround(x, y).GetGroundType().GetInactiveType();
+				if (NewGround != null) {
+					Locator.GetGround(x, y).SetGroundType(NewGround);
+					MouseWall--;
+				}
 			} else {
 				MouseWall++;
 				Locator.GetGround(x, y).SetGroundType(Wall);
 			}
 		} else if (e.getButton() == 2) {
-			MouseSäure++;
-			Locator.GetGround(x, y).SetGroundType(Säure);
+			if (Locator.GetGround(x, y).isPoison()) {
+				GroundType NewGround = Locator.GetGround(x, y).GetGroundType().GetInactiveType();
+
+				if (NewGround != null) {
+					Locator.GetGround(x, y).SetGroundType(NewGround);
+					MouseSäure--;
+				}
+			} else {
+				MouseSäure++;
+				Locator.GetGround(x, y).SetGroundType(Säure);
+			}
 		}
 		if (EndGame)
 			NewGame();

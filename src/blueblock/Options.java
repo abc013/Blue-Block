@@ -164,18 +164,18 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 			FileReader fr = new FileReader("settings.txt");
 			br = new BufferedReader(fr);
 
-			int Werte[] = new int[4];
+			int Values[] = new int[4];
 			String names[] = { "Höhe: ", "Breite: ", "Spieler: ", "PowerUps: " };
 
-			for (int i = 0; i < Werte.length; i++) {
-				Werte[i] = Integer.parseInt(br.readLine().substring(names[i].length()));
-				System.out.println(Werte[i]);
+			for (int i = 0; i < Values.length; i++) {
+				Values[i] = Integer.parseInt(br.readLine().substring(names[i].length()));
+				System.out.println(Values[i]);
 			}
 
-			MaxY = Werte[0];
-			MaxX = Werte[1];
-			Spieler = Werte[2];
-			powerUps = Werte[3];
+			MaxY = Values[0];
+			MaxX = Values[1];
+			Spieler = Values[2];
+			powerUps = Values[3];
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -194,8 +194,8 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(reset)) {
-			Ehöhe.setValue(MaxY);
-			EBreite.setValue(MaxY);
+			Ehöhe.setValue(16);
+			EBreite.setValue(16);
 			spieler.select("4 Spieler");
 			PowerUps.select("0");
 			return;
