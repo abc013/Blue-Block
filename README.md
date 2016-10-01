@@ -54,7 +54,7 @@ I'm available for solutions :).
 - mid-click = place sourness
 
 ## Authors
-[Me](https://github.com/abc013) (of course)
+[Me](https://github.com/abc013) (of course), my brother [abcdefg30](https://github.com/abcdefg30)
 
 and my helpful friends,
 _Wolkenfarmer_ and _HerrPudding_.
