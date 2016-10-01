@@ -20,7 +20,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	public static GroundType Wall = new GroundType(Color.BLACK, "wall", InactiveWall);
 	public static GroundType Floor = new GroundType(Color.WHITE, "floor", null);
 	public static GroundType Schweif = new GroundType(Color.LIGHT_GRAY, "floor", null);
-	public static GroundType Säure = new GroundType(new Color(10, 240, 10), "poison", null);
+	public static GroundType Sourness = new GroundType(new Color(10, 240, 10), "poison", null);
 	// PowerUps + Players
 	public static PowerUp[] PowerUpList;
 	public static ArrayList<Human> h = new ArrayList<Human>();
@@ -200,39 +200,40 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		if (Locator.GetPowerUp(y, x) != null) {
 			return;
 		}
+		Ground ground = Locator.GetGround(x, y);
 		if (e.getButton() == 1) {
-			if (Locator.GetGround(x, y).isDeadly()) {
-				GroundType NewGround = Locator.GetGround(x, y).GetGroundType().GetInactiveType();
+			if (ground.isDeadly()) {
+				GroundType NewGround = ground.GetGroundType().GetInactiveType();
 				if (NewGround != null) {
-					Locator.GetGround(x, y).SetGroundType(NewGround);
+					ground.SetGroundType(NewGround);
 					MouseLava--;
 				}
 			} else {
 				MouseLava++;
-				Locator.GetGround(x, y).SetGroundType(Lava);
+				ground.SetGroundType(Lava);
 			}
 		} else if (e.getButton() == 3) {
-			if (Locator.GetGround(x, y).isWall()) {
-				GroundType NewGround = Locator.GetGround(x, y).GetGroundType().GetInactiveType();
+			if (ground.isWall()) {
+				GroundType NewGround = ground.GetGroundType().GetInactiveType();
 				if (NewGround != null) {
-					Locator.GetGround(x, y).SetGroundType(NewGround);
+					ground.SetGroundType(NewGround);
 					MouseWall--;
 				}
 			} else {
 				MouseWall++;
-				Locator.GetGround(x, y).SetGroundType(Wall);
+				ground.SetGroundType(Wall);
 			}
 		} else if (e.getButton() == 2) {
-			if (Locator.GetGround(x, y).isPoison()) {
-				GroundType NewGround = Locator.GetGround(x, y).GetGroundType().GetInactiveType();
+			if (ground.isPoison()) {
+				GroundType NewGround = ground.GetGroundType().GetInactiveType();
 
 				if (NewGround != null) {
-					Locator.GetGround(x, y).SetGroundType(NewGround);
+					ground.SetGroundType(NewGround);
 					MouseSäure--;
 				}
 			} else {
 				MouseSäure++;
-				Locator.GetGround(x, y).SetGroundType(Säure);
+				ground.SetGroundType(Sourness);
 			}
 		}
 		if (EndGame)

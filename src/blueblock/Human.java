@@ -37,13 +37,15 @@ public class Human {
 				} else {
 					IsLiving(false);
 				}
-				Locator.GetGround(Dpos2, Dpos1).SetGroundType(Main.InactiveLava);
+				Locator.GetGround(Dpos2, Dpos1)
+						.SetGroundType(Locator.GetGround(Dpos2, Dpos1).GetGroundType().GetInactiveType());
 			}
 			if (!Lives())
 				return;
 			if (Locator.GetGround(GetX(), GetY()).isPoison()) {
 				if (poisoned) {
-					Main.FarbeWechseln(labels[GetY()][GetX()], Main.InactiveLava.GetColor());
+					Main.FarbeWechseln(labels[GetY()][GetX()],
+							Locator.GetGround(Dpos2, Dpos1).GetGroundType().GetColor());
 					IsLiving(false);
 					return;
 				}
@@ -55,7 +57,7 @@ public class Human {
 				// Main.FarbeWechseln(labels[GetY()][GetX()], color[Spieler]);
 			}
 		} else {
-			System.out.println("Mensch ist Tod!");
+			System.out.println("Player " + name + " is dead!");
 		}
 	}
 

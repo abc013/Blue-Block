@@ -148,11 +148,11 @@ public class Locator {
 
 	private static void HinterGrundFarbe(int pos1, int pos2) {
 		if (GetGround(pos2, pos1).GetGroundType() == Main.InactiveLava) {
-			Main.FarbeWechseln(labels[pos1][pos2], new Color(150, 50, 50));
+			Main.FarbeWechseln(labels[pos1][pos2], Main.InactiveLava.GetColor());
 		} else if (GetGround(pos2, pos1).GetGroundType() == Main.InactiveWall) {
-			Main.FarbeWechseln(labels[pos1][pos2], Color.DARK_GRAY);
-		} else if (GetGround(pos2, pos1).GetGroundType() == Main.Säure) {
-			Main.FarbeWechseln(labels[pos1][pos2], new Color(10, 240, 10));
+			Main.FarbeWechseln(labels[pos1][pos2], Main.InactiveWall.GetColor());
+		} else if (GetGround(pos2, pos1).GetGroundType() == Main.Sourness) {
+			Main.FarbeWechseln(labels[pos1][pos2], Main.Sourness.GetColor());
 		} else {
 			GetGround(pos2, pos1).SetGroundType(Main.Schweif);
 		}
