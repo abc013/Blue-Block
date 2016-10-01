@@ -17,9 +17,6 @@ public class PowerUp {
 			Type = Types[new java.util.Random().nextInt(Types.length)];
 		this.NoRandomPosition = NoRandomPosition;
 		this.NoRandomType = NoRandomType;
-		// TODO: Power-Up types: + 1 Live, Cure from Poison, Coloring all
-		// Players Gray, verwirrung(verdrehte Steuerung), Maus-Black-out (Kann
-		// nichts tun), Super Score, darkness;
 		NewPosition(x, y, NoRandomPosition);
 		for (int i = 0; i < Types.length; i++) {
 			if (Type == Types[i]) {

@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class Menu extends JFrame {
 	public static Label[][] labels;
@@ -21,6 +22,7 @@ public class Menu extends JFrame {
 	Options Option;
 	final ImageIcon BlueBlock = new ImageIcon("blblock.png");
 	final ImageIcon RedBlock = new ImageIcon("rdblock.png");
+	final ImageIcon BackGround = new ImageIcon("Background.png");
 
 	// For eclipse
 	public static void main(String[] args) {
@@ -46,9 +48,7 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Offen(false);
 				Option.LoadSettings();
-				// TODO: 56*56 geht, aber 24*34 nicht oder so.... ACHTUNG!!!
-				// FEHLER IN DER GGGEEESSSAAAMMMTTTEEENNN PROGRAMMIERUNG!!! ;(
-				Spiel = new Main(Option.Y(), Option.X(), Option.Player(), Option.PowerUps());
+				Spiel = new Main(Option.Y(), Option.X(), Option.Player(), Option.PowerUps(), Option.HasMouse());
 				Spiel.Offen(true);
 			}
 		});
@@ -154,8 +154,11 @@ public class Menu extends JFrame {
 			}
 		});
 		menu.add(schliessen);
-
+		JLabel Bg = new JLabel(BackGround);
+		Bg.setSize(400, 300);
+		menu.add(Bg);
 		menu.setVisible(true);
+		menu.validate();
 		menu.repaint();
 	}
 

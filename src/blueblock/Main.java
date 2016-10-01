@@ -41,18 +41,19 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	public static boolean[] TypesActive = new boolean[Types.length];
 	// the rest;
 	public static int FelderLinie, FelderReihe, MouseLava, MouseWall, MouseSäure;
-	private static boolean indirekt;
+	private static boolean indirekt, mouse;
 	public static boolean EndGame = false;
 
 	public static void main(String[] args) {
 		indirekt = true;
-		new Main(16, 16, 4, 2);
+		new Main(16, 16, 4, 2, true);
 	}
 
-	public Main(int Breite, int Höhe, int spieler, int PowerUps) {
+	public Main(int Breite, int Höhe, int spieler, int PowerUps, boolean HasMouse) {
 		PowerUpList = new PowerUp[PowerUps];
 		FelderLinie = Breite;
 		FelderReihe = Höhe;
+		mouse = HasMouse;
 		if (FelderLinie < 6) {
 			FelderLinie = 6;
 			System.out.println("FelderLinie can't be under six!");
@@ -185,6 +186,8 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if (!mouse)
+			return;
 		String name = e.getComponent().getName();
 		String letzter = name.substring(name.length() - 2);
 		String vorletzter = name.substring(name.length() - 4, name.length() - 2);

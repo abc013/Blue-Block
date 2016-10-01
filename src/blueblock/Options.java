@@ -14,7 +14,10 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,13 +26,17 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 	private int MaxX = 56;
 	private int MaxY = 56;
 	private int Spieler = 4;
-	private int powerUps = 20;
+	private int powerUps = 10;
+	private boolean mouse = true;
 	final Menu menu;
 	JFrame options;
 	JLabel Thöhe, TBreite;
 	JButton reset, save, abort;
 	JFormattedTextField Ehöhe, EBreite, PowerUpAnzahl;
+	JCheckBox Mouse;
 	Choice spieler, PowerUps;
+	final ImageIcon BlueBlock = new ImageIcon("blblockbut.png");
+	final ImageIcon RedBlock = new ImageIcon("rdblockbut.png");
 
 	public Options(Menu menu) {
 		this.menu = menu;
@@ -67,13 +74,13 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 		JLabel spielerText = new JLabel("Spieler:");
 		options.add(spielerText);
 		spielerText.setFont(new Font("Chiller", 1, 30));
-		spielerText.setBounds(90, 60, 90, 40);
+		spielerText.setBounds(20, 60, 90, 40);
 
 		spieler = new Choice();
 		for (int i = 1; i < 5; i++)
 			spieler.add(i + "");
 		options.add(spieler);
-		spieler.setBounds(180, 60, 150, 40);
+		spieler.setBounds(110, 60, 80, 40);
 		spieler.setFont(new Font("Arial", 1, 30));
 		spieler.select(spieler + "");
 		spieler.addItemListener(this);
@@ -81,7 +88,7 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 		JLabel TPowerUps = new JLabel("Power-Ups:");
 		options.add(TPowerUps);
 		TPowerUps.setFont(new Font("Chiller", 1, 30));
-		TPowerUps.setBounds(110, 120, 130, 40);
+		TPowerUps.setBounds(200, 60, 130, 40);
 
 		PowerUps = new Choice();
 		for (int i = 0; i < 11; i++)
@@ -89,7 +96,25 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 		options.add(PowerUps);
 		PowerUps.select(powerUps + "");
 		PowerUps.setFont(new Font("Chiller", 1, 30));
-		PowerUps.setBounds(240, 120, 60, 40);
+		PowerUps.setBounds(340, 60, 60, 40);
+
+		Mouse = new JCheckBox(BlueBlock);
+		Mouse.setSelectedIcon(RedBlock);
+		Mouse.setSelected(mouse);
+		Mouse.setText("Maus Aktivieren");
+		Mouse.setFont(new Font("Chiller", 1, 30));
+		Mouse.setToolTipText("Displays wether the Mouse should be disabled in games or not.");
+		Mouse.setBounds(120, 120, 240, 60);
+		Mouse.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (mouse)
+					mouse = false;
+				else
+					mouse = true;
+			}
+		});
+		options.add(Mouse);
 
 		save = new JButton("Speichern");
 		save.addActionListener(this);
@@ -146,8 +171,9 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 			pWriter.println("Breite: " + X);
 			pWriter.println("Spieler: " + player);
 			pWriter.println("PowerUps: " + PUs);
+			pWriter.println("Mouse: " + mouse);
 		} catch (Exception e) {
-
+			System.out.println(e);
 		} finally {
 			if (pWriter != null) {
 				pWriter.flush();
@@ -165,12 +191,18 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 			br = new BufferedReader(fr);
 
 			int Values[] = new int[4];
-			String names[] = { "Höhe: ", "Breite: ", "Spieler: ", "PowerUps: " };
+			String names[] = { "Höhe: ", "Breite: ", "Spieler: ", "PowerUps: ", "Mouse: " };
 
 			for (int i = 0; i < Values.length; i++) {
 				Values[i] = Integer.parseInt(br.readLine().substring(names[i].length()));
 				System.out.println(Values[i]);
 			}
+			String Mouse = br.readLine().substring(names[4].length());
+			System.out.println(Mouse);
+			if (Mouse.equals("true"))
+				mouse = true;
+			else
+				mouse = false;
 
 			MaxY = Values[0];
 			MaxX = Values[1];
@@ -198,6 +230,8 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 			EBreite.setValue(16);
 			spieler.select("4 Spieler");
 			PowerUps.select("0");
+			Mouse.setSelected(true);
+			mouse = true;
 			return;
 		} else if (e.getSource().equals(save)) {
 			SaveSettings();
@@ -220,5 +254,9 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 
 	public int Y() {
 		return MaxY;
+	}
+
+	public boolean HasMouse() {
+		return mouse;
 	}
 }
