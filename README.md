@@ -21,7 +21,7 @@ I'm available for solutions :).
  You have to survive from the mouse (our biggest enemy!) and from the other players (when they run over you, you're dead).
 ###Play as Mouse:
  Klick on the fields to create different Types of Dangerous things!
- F.e. lava and sourness. 
+ F.e. lava and acid. 
 
 ## Movement/Mouse keys
 ####Player 1 (Blue Block):
@@ -51,7 +51,7 @@ I'm available for solutions :).
 ####Player 5(Mouse, can't be disabled yet)
 - left-click = place lava
 - right-click = place walls
-- mid-click = place sourness
+- mid-click = place acid
 
 ## Authors
 [Me](https://github.com/abc013) (of course), my brother [abcdefg30](https://github.com/abcdefg30)
