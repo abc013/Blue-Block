@@ -17,8 +17,8 @@ public class Menu extends JFrame {
 	public static Label[][] labels;
 	private static final long serialVersionUID = 2747526033034065104L;
 	JFrame menu;
-	JButton start, optionen, schliessen;
-	Main Spiel;
+	JButton start, options, close;
+	Main Game;
 	Options Option;
 	final ImageIcon BlueBlock = new ImageIcon("blblock.png");
 	final ImageIcon RedBlock = new ImageIcon("rdblock.png");
@@ -46,10 +46,10 @@ public class Menu extends JFrame {
 		start.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Offen(false);
+				onStart(false);
 				Option.LoadSettings();
-				Spiel = new Main(Option.Y(), Option.X(), Option.Player(), Option.PowerUps(), Option.HasMouse());
-				Spiel.Offen(true);
+				Game = new Main(Option.Y(), Option.X(), Option.Player(), Option.PowerUps(), Option.HasMouse());
+				Game.onStart(true);
 			}
 		});
 		start.addMouseListener(new MouseListener() {
@@ -76,23 +76,23 @@ public class Menu extends JFrame {
 			}
 		});
 		menu.add(start);
-		optionen = new JButton("   Optionen   ", BlueBlock);
-		optionen.setFont(new Font("gabriola", 0, 30));
-		optionen.setIconTextGap(100);
-		optionen.setForeground(Color.BLUE);
-		optionen.setToolTipText(
+		options = new JButton("   Optionen   ", BlueBlock);
+		options.setFont(new Font("gabriola", 0, 30));
+		options.setIconTextGap(100);
+		options.setForeground(Color.BLUE);
+		options.setToolTipText(
 				"Hier kann man die Größe des Spielfelds als auch Spieler- und Power-Up-Anzahl einstellen.");
-		optionen.setBounds(10, 95, 370, 70);
-		optionen.addActionListener(new ActionListener() {
+		options.setBounds(10, 95, 370, 70);
+		options.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Offen(false);
-				Option.Offen(true);
+				onStart(false);
+				Option.onStart(true);
 			}
 
 		});
-		optionen.addMouseListener(new MouseListener() {
+		options.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 			}
@@ -103,26 +103,26 @@ public class Menu extends JFrame {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				optionen.setIcon(BlueBlock);
+				options.setIcon(BlueBlock);
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				optionen.setIcon(RedBlock);
+				options.setIcon(RedBlock);
 			}
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		menu.add(optionen);
-		schliessen = new JButton("     Spiel Beenden     ", BlueBlock);
-		schliessen.setFont(new Font("gabriola", 0, 30));
-		schliessen.setIconTextGap(40);
-		schliessen.setForeground(Color.BLUE);
-		schliessen.setToolTipText("Beendet das Spiel.");
-		schliessen.setBounds(10, 180, 370, 70);
-		schliessen.addActionListener(new ActionListener() {
+		menu.add(options);
+		close = new JButton("     Spiel Beenden     ", BlueBlock);
+		close.setFont(new Font("gabriola", 0, 30));
+		close.setIconTextGap(40);
+		close.setForeground(Color.BLUE);
+		close.setToolTipText("Beendet das Spiel.");
+		close.setBounds(10, 180, 370, 70);
+		close.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -130,7 +130,7 @@ public class Menu extends JFrame {
 			}
 
 		});
-		schliessen.addMouseListener(new MouseListener() {
+		close.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 			}
@@ -141,19 +141,19 @@ public class Menu extends JFrame {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				schliessen.setIcon(BlueBlock);
+				close.setIcon(BlueBlock);
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				schliessen.setIcon(RedBlock);
+				close.setIcon(RedBlock);
 			}
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		menu.add(schliessen);
+		menu.add(close);
 		JLabel Bg = new JLabel(BackGround);
 		Bg.setSize(400, 300);
 		menu.add(Bg);
@@ -162,7 +162,7 @@ public class Menu extends JFrame {
 		menu.repaint();
 	}
 
-	public void Offen(boolean offen) {
-		menu.setVisible(offen);
+	public void onStart(boolean onStart) {
+		menu.setVisible(onStart);
 	}
 }

@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class PowerUp {
 	private int x, y;
-	private boolean Aktiv;
+	private boolean Active;
 	private String[] Types;
 	private String Type;
 	private boolean NoRandomPosition, NoRandomType;
@@ -30,8 +30,8 @@ public class PowerUp {
 	public void NewPosition(int x, int y, boolean NoRandomPosition) {
 		Ground gr = Locator.GetGround(y, x);
 		if (gr.isWall() || gr.isDeadly() || Locator.GetHuman(y, x) != null) {
-			int pos1 = new java.util.Random().nextInt(Main.FelderLinie);
-			int pos2 = new java.util.Random().nextInt(Main.FelderReihe);
+			int pos1 = new java.util.Random().nextInt(Main.FieldColumns);
+			int pos2 = new java.util.Random().nextInt(Main.FieldRows);
 			if (NoRandomPosition)
 				NewPosition(x, y, true);
 			else
@@ -48,7 +48,7 @@ public class PowerUp {
 		if (!NoRandomType) {
 			Type = Types[new java.util.Random().nextInt(Main.Types.length)];
 		}
-		Main.FarbeWechseln(Main.labels[x][y], Color.YELLOW);
+		Main.colorChange(Main.labels[x][y], Color.YELLOW);
 	}
 
 	public boolean GetNotRandom() {
@@ -67,7 +67,7 @@ public class PowerUp {
 		return Type;
 	}
 
-	public boolean IstAktiv() {
-		return Aktiv;
+	public boolean IstActive() {
+		return Active;
 	}
 }

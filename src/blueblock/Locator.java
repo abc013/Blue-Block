@@ -6,7 +6,7 @@ import java.awt.Label;
 public class Locator {
 	private static Label[][] labels;
 
-	public static void VariablenAustausch(Label[][] Labels, int Spieler) {
+	public static void SetVariables(Label[][] Labels, int Player) {
 		labels = Labels;
 	}
 
@@ -50,35 +50,35 @@ public class Locator {
 		return null;
 	}
 
-	public static void MenschGeht(Human h, int Spieler, int Richtung) {
+	public static void GetPlayerPosition(Human h, int Player, int Direction) {
 		int pos1 = h.GetY();
 		int pos2 = h.GetX();
 		int Y0 = h.GetY() - 1;
 		if (Y0 < 0)
 			Y0 = 0;
 		int YG = h.GetY() + 1;
-		if (YG >= Main.FelderReihe)
+		if (YG >= Main.FieldRows)
 			YG = h.GetY();
 		int X0 = h.GetX() - 1;
 		if (X0 < 0)
 			X0 = 0;
 		int XG = h.GetX() + 1;
-		if (XG >= Main.FelderLinie)
+		if (XG >= Main.FieldColumns)
 			XG = h.GetX();
-		HinterGrundFarbe(pos1, pos2);
-		switch (Richtung) {
+		BackgroundColor(pos1, pos2);
+		switch (Direction) {
 		case 1:
 			if (pos1 > 0 && !GetGround(h.GetX(), Y0).isWall()) {
 				pos1--;
-				h.schritte++;
+				h.steps++;
 			} else {
 				System.out.println(h + " hit the wall!");
 			}
 			break;
 		case 2:
-			if ((h.GetY() + 1) < Main.FelderReihe && !GetGround(h.GetX(), YG).isWall()) {
+			if ((h.GetY() + 1) < Main.FieldRows && !GetGround(h.GetX(), YG).isWall()) {
 				pos1++;
-				h.schritte++;
+				h.steps++;
 			} else {
 				System.out.println(h + " hit the wall!");
 			}
@@ -86,15 +86,15 @@ public class Locator {
 		case 3:
 			if (h.GetX() > 0 && !GetGround(X0, h.GetY()).isWall()) {
 				pos2--;
-				h.schritte++;
+				h.steps++;
 			} else {
 				System.out.println(h + " hit the wall!");
 			}
 			break;
 		case 4:
-			if ((h.GetX() + 1) < Main.FelderLinie && !GetGround(XG, h.GetY()).isWall()) {
+			if ((h.GetX() + 1) < Main.FieldColumns && !GetGround(XG, h.GetY()).isWall()) {
 				pos2++;
-				h.schritte++;
+				h.steps++;
 			} else {
 				System.out.println(h + " hit the wall!");
 			}
@@ -113,13 +113,13 @@ public class Locator {
 				}
 			}
 		}
-		Main.FarbeWechseln(labels[pos1][pos2], h.color[Spieler]);
-		MenschenTreffen(h, pos1, pos2);
-		PowerUpEinsammeln(h, pos1, pos2);
+		Main.colorChange(labels[pos1][pos2], h.color[Player]);
+		checkPosition(h, pos1, pos2);
+		PowerUpCollected(h, pos1, pos2);
 		Main.paint();
 	}
 
-	private static void MenschenTreffen(Human human, int pos1, int pos2) {
+	private static void checkPosition(Human human, int pos1, int pos2) {
 		for (int i = 0; i < Main.h.size(); i++) {
 			if (Main.h.get(i).GetX() == pos2 && Main.h.get(i).GetY() == pos1 && Main.h.get(i) != human) {
 				Main.h.get(i).IsLiving(false);
@@ -128,33 +128,33 @@ public class Locator {
 		}
 	}
 
-	private static void PowerUpEinsammeln(Human human, int pos1, int pos2) {
+	private static void PowerUpCollected(Human human, int pos1, int pos2) {
 		try {
 			PowerUp PU = GetPowerUp(pos1, pos2);
 			if (PU.GetX() == pos1 && PU.GetY() == pos2) {
 				if (PU.GetNotRandom()) {
 					PU.NewPosition(pos1, pos2, true);
 				} else {
-					int x = new java.util.Random().nextInt(Main.FelderLinie);
-					int y = new java.util.Random().nextInt(Main.FelderReihe);
+					int x = new java.util.Random().nextInt(Main.FieldColumns);
+					int y = new java.util.Random().nextInt(Main.FieldRows);
 					PU.NewPosition(x, y, false);
 				}
-				human.PowerUpEffekt(PU);
+				human.PowerUpEffect(PU);
 			}
 		} catch (Exception E) {
 
 		}
 	}
 
-	private static void HinterGrundFarbe(int pos1, int pos2) {
+	private static void BackgroundColor(int pos1, int pos2) {
 		if (GetGround(pos2, pos1).GetGroundType() == Main.InactiveLava) {
-			Main.FarbeWechseln(labels[pos1][pos2], Main.InactiveLava.GetColor());
+			Main.colorChange(labels[pos1][pos2], Main.InactiveLava.GetColor());
 		} else if (GetGround(pos2, pos1).GetGroundType() == Main.InactiveWall) {
-			Main.FarbeWechseln(labels[pos1][pos2], Main.InactiveWall.GetColor());
-		} else if (GetGround(pos2, pos1).GetGroundType() == Main.Sourness) {
-			Main.FarbeWechseln(labels[pos1][pos2], Main.Sourness.GetColor());
+			Main.colorChange(labels[pos1][pos2], Main.InactiveWall.GetColor());
+		} else if (GetGround(pos2, pos1).GetGroundType() == Main.Acid) {
+			Main.colorChange(labels[pos1][pos2], Main.Acid.GetColor());
 		} else {
-			GetGround(pos2, pos1).SetGroundType(Main.Schweif);
+			GetGround(pos2, pos1).SetGroundType(Main.Trail);
 		}
 	}
 
@@ -162,19 +162,19 @@ public class Locator {
 		for (int i = 0; i < Main.g.size(); i++) {
 			int x = Main.g.get(i).GetX();
 			int y = Main.g.get(i).GetY();
-			Main.FarbeWechseln(labels[y][x], Main.g.get(i).GetGroundType().GetColor());
+			Main.colorChange(labels[y][x], Main.g.get(i).GetGroundType().GetColor());
 		}
 		for (int i = 0; i < Main.h.size(); i++) {
 			int x = Main.h.get(i).GetX();
 			int y = Main.h.get(i).GetY();
 			if (Main.h.get(i).Lives()) {
-				Main.FarbeWechseln(labels[y][x], Main.h.get(i).color[i + 1]);
+				Main.colorChange(labels[y][x], Main.h.get(i).color[i + 1]);
 			}
 		}
 		for (int i = 0; i < Main.PowerUpList.length; i++) {
 			int x = Main.PowerUpList[i].GetX();
 			int y = Main.PowerUpList[i].GetY();
-			Main.FarbeWechseln(labels[x][y], Color.YELLOW);
+			Main.colorChange(labels[x][y], Color.YELLOW);
 		}
 	}
 }
