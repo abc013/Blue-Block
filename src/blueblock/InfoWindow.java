@@ -10,34 +10,34 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
-public class infoWindow extends JFrame {
+public class InfoWindow extends JFrame {
 	private static final long serialVersionUID = -628078885004570565L;
 	private static String BlueBlockAlive, GreenBlockAlive, MagentaBlockAlive, CyanBlockAlive, BlueBlockposition,
 			GreenBlockposition, MagentaBlockposition, CyanBlockposition, TextScore;
 	private static boolean BlueBlockBool, GreenBlockBool, MagentaBlockBool, CyanBlockBool;
 	private static int BlueBlockScore, GreenBlockScore, MagentaBlockScore, CyanBlockScore, MouseScore;
 	private int Player;
-	JFrame infoWindow;
+	JFrame InfoWindowObject;
 	JTextArea InfoLog;
 	JTextArea Score, BlueBlock, GreenBlock, MagentaBlock, CyanBlock;
 	JButton NewGame;
 	final ImageIcon New_Game = new ImageIcon("New Game.png");
 
-	public infoWindow(int Player) {
+	public InfoWindow(int Player) {
 		this.Player = Player;
-		infoWindow = new JFrame("Informationen");
-		infoWindow.setLocation(700, 0);
-		infoWindow.setSize(300, 700);
-		infoWindow.setLayout(null);
-		infoWindow.setResizable(false);
-		infoWindow.setFocusable(false);
+		InfoWindowObject = new JFrame("Informationen");
+		InfoWindowObject.setLocation(700, 0);
+		InfoWindowObject.setSize(300, 700);
+		InfoWindowObject.setLayout(null);
+		InfoWindowObject.setResizable(false);
+		InfoWindowObject.setFocusable(false);
 		InfoLog = new JTextArea();
 		InfoLog.setBounds(10, 10, 260, 35);
 		InfoLog.setFont(new Font("papyrus", 1, 25));
 		InfoLog.setText("          Ereignislog:");
 		InfoLog.setSelectionColor(Color.WHITE);
 		InfoLog.setEditable(false);
-		infoWindow.add(InfoLog);
+		InfoWindowObject.add(InfoLog);
 		NewGame = new JButton(New_Game);
 		NewGame.setBounds(10, 55, 260, 40);
 		NewGame.setFont(new Font("papyrus", 1, 25));
@@ -52,7 +52,7 @@ public class infoWindow extends JFrame {
 			}
 
 		});
-		infoWindow.add(NewGame);
+		InfoWindowObject.add(NewGame);
 		Score = new JTextArea();
 		Score.setBounds(10, 110, 260, 140);
 		Score.setFont(new Font("forte", Font.ITALIC, 15));
@@ -76,7 +76,7 @@ public class infoWindow extends JFrame {
 			TextScore += "\n Maus: " + MouseScore;
 		}
 		Score.setText("PUNKTE:" + TextScore);
-		infoWindow.add(Score);
+		InfoWindowObject.add(Score);
 		BlueBlockBool = true;
 		BlueBlock = new JTextArea();
 		BlueBlock.setBounds(10, 255, 260, 90);
@@ -85,7 +85,7 @@ public class infoWindow extends JFrame {
 		BlueBlock.setForeground(Color.WHITE);
 		BlueBlock.setEditable(false);
 		BlueBlock.setText(BlueBlockAlive + "\n" + BlueBlockposition + "\nKills: 0");
-		infoWindow.add(BlueBlock);
+		InfoWindowObject.add(BlueBlock);
 		switch (Player) {
 		case 4:
 			MagentaBlockBool = true;
@@ -95,7 +95,7 @@ public class infoWindow extends JFrame {
 			MagentaBlock.setBackground(Color.MAGENTA);
 			MagentaBlock.setEditable(false);
 			MagentaBlock.setText(MagentaBlockAlive + "\n" + GreenBlockposition + "\nKills: 0");
-			infoWindow.add(MagentaBlock);
+			InfoWindowObject.add(MagentaBlock);
 		case 3:
 			CyanBlockBool = true;
 			CyanBlock = new JTextArea();
@@ -104,7 +104,7 @@ public class infoWindow extends JFrame {
 			CyanBlock.setBackground(Color.CYAN);
 			CyanBlock.setEditable(false);
 			CyanBlock.setText(CyanBlockAlive + "\n" + MagentaBlockposition + "\nKills: 0");
-			infoWindow.add(CyanBlock);
+			InfoWindowObject.add(CyanBlock);
 		case 2:
 			GreenBlockBool = true;
 			GreenBlock = new JTextArea();
@@ -113,18 +113,18 @@ public class infoWindow extends JFrame {
 			GreenBlock.setBackground(new Color(10, 220, 10));
 			GreenBlock.setEditable(false);
 			GreenBlock.setText(GreenBlockAlive + "\n" + CyanBlockposition + "\nKills: 0");
-			infoWindow.add(GreenBlock);
+			InfoWindowObject.add(GreenBlock);
 		default:
 		}
 		BlueBlockposition = "Platz: - ";
 		GreenBlockposition = "Platz: - ";
 		CyanBlockposition = "Platz: - ";
 		MagentaBlockposition = "Platz: - ";
-		infoWindow.repaint();
+		InfoWindowObject.repaint();
 	}
 
 	public void onStart(boolean onStart) {
-		infoWindow.setVisible(onStart);
+		InfoWindowObject.setVisible(onStart);
 		if (Main.EndGame)
 			this.dispose();
 	}
@@ -203,7 +203,7 @@ public class infoWindow extends JFrame {
 		MouseScore = Main.MouseLava + Main.MouseWall * 2 + Main.MouseAcid * 3;
 		TextScore += "\n Maus: " + MouseScore;
 		Score.setText(TextScore);
-		infoWindow.repaint();
+		InfoWindowObject.repaint();
 		/*
 		 * for (int i = 0; i == Main.h.size(); i++) { int Score; String Alive =
 		 * ""; String Position = ""; if (Main.h.get(i).Lebt() &&
