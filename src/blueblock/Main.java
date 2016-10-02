@@ -31,7 +31,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	public static ArrayList<Ground> g = new ArrayList<Ground>();
 	// Windows
 	public static JFrame window;
-	static infoWindow infoWindow;
+	static InfoWindow InfoWindowObject;
 	// XY coordinate-system;
 	public static Label[][] labels;
 	// Types of PowerUps, their booleans and Duration;
@@ -115,7 +115,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 				labels[i][j] = label;
 			}
 		}
-		infoWindow = new infoWindow(Player);
+		InfoWindowObject = new InfoWindow(Player);
 		for (int i = 0; i < g.size(); i++)
 			g.get(i).ColorRefresh();
 		Player++;
@@ -163,10 +163,10 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		}
 		if (indirect) {
 			onStart(true);
-			infoWindow.onStart(true);
+			InfoWindowObject.onStart(true);
 		}
 		Locator.SetVariables(labels, Player);
-		infoWindow.Refresh();
+		InfoWindowObject.Refresh();
 		window.repaint();
 		window.setAlwaysOnTop(true);
 	}
@@ -181,7 +181,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 
 	public void onStart(boolean onStart) {
 		window.setVisible(onStart);
-		infoWindow.onStart(onStart);
+		InfoWindowObject.onStart(onStart);
 	}
 
 	@Override
@@ -238,7 +238,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		if (EndGame)
 			NewGame();
 		Main.paint();
-		infoWindow.Refresh();
+		InfoWindowObject.Refresh();
 	}
 
 	@Override
@@ -357,7 +357,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		if (EndGame)
 			NewGame();
 		Main.paint();
-		infoWindow.Refresh();
+		InfoWindowObject.Refresh();
 		// System.out.println(e.getKeyChar());
 	}
 
@@ -379,10 +379,10 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	public void NewGame() {
 		System.out.println("LOL");
 		onStart(false);
-		infoWindow.onStart(false);
+		InfoWindowObject.onStart(false);
 		new Menu();
 		this.dispose();
-		infoWindow.dispose();
+		InfoWindowObject.dispose();
 
 	}
 

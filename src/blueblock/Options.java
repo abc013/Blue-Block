@@ -64,12 +64,12 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 		tWidth.setFont(new Font("Chiller", 2, 30));
 		tWidth.setBounds(215, 10, 70, 40);
 
-		eHeight = new JFormattedTextField(int.class);
-		options.add(eHeight);
-		eHeight.setValue(MaxX);
-		eHeight.setFont(new Font("Chiller", 0, 30));
-		eHeight.setBounds(285, 10, 45, 40);
-		eHeight.addPropertyChangeListener(this);
+		eWidth = new JFormattedTextField(int.class);
+		options.add(eWidth);
+		eWidth.setValue(MaxX);
+		eWidth.setFont(new Font("Chiller", 0, 30));
+		eWidth.setBounds(285, 10, 45, 40);
+		eWidth.addPropertyChangeListener(this);
 
 		JLabel PlayerText = new JLabel("Spieler:");
 		options.add(PlayerText);
@@ -142,7 +142,7 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 		options.setVisible(onStart);
 		LoadSettings();
 		eHeight.setText(MaxY + "");
-		eHeight.setText(MaxX + "");
+		eWidth.setText(MaxX + "");
 		Player.select(Player + "");
 		PowerUps.select(powerUps + "");
 	}
@@ -150,7 +150,7 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 	private void SaveSettings() {
 		PrintWriter pWriter = null;
 		int Y = Integer.parseInt(eHeight.getText());
-		int X = Integer.parseInt(eHeight.getText());
+		int X = Integer.parseInt(eWidth.getText());
 		int player = Integer.parseInt(Player.getSelectedItem());
 		int PUs = Integer.parseInt(PowerUps.getSelectedItem());
 		try {
@@ -227,7 +227,7 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(reset)) {
 			eHeight.setValue(16);
-			eHeight.setValue(16);
+			eWidth.setValue(16);
 			Player.select("4 Spieler");
 			PowerUps.select("0");
 			Mouse.setSelected(true);
