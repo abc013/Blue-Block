@@ -123,8 +123,8 @@ public class InfoWindow extends JFrame {
 		InfoWindowObject.repaint();
 	}
 
-	public void onStart(boolean onStart) {
-		InfoWindowObject.setVisible(onStart);
+	public void setOpen(boolean setOpen) {
+		InfoWindowObject.setVisible(setOpen);
 		if (Main.EndGame)
 			this.dispose();
 	}

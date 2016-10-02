@@ -162,8 +162,8 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 			PowerUpList[i] = PU;
 		}
 		if (indirect) {
-			onStart(true);
-			InfoWindowObject.onStart(true);
+			setOpen(true);
+			InfoWindowObject.setOpen(true);
 		}
 		Locator.SetVariables(labels, Player);
 		InfoWindowObject.Refresh();
@@ -171,7 +171,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		window.setAlwaysOnTop(true);
 	}
 
-	public static void colorChange(Label label, Color Color) {
+	public static void ChangeColor(Label label, Color Color) {
 		/*
 		 * New Idea for future: label.setText("OOO");
 		 * label.setForeground(Color);
@@ -179,9 +179,9 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		label.setBackground(Color);
 	}
 
-	public void onStart(boolean onStart) {
-		window.setVisible(onStart);
-		InfoWindowObject.onStart(onStart);
+	public void setOpen(boolean setOpen) {
+		window.setVisible(setOpen);
+		InfoWindowObject.setOpen(setOpen);
 	}
 
 	@Override
@@ -370,7 +370,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	public static void paint() {
 		if (TypesActive[6]) {
 			for (int i = 0; i < g.size(); i++) {
-				Main.colorChange(labels[g.get(i).GetY()][g.get(i).GetX()], Color.BLACK);
+				Main.ChangeColor(labels[g.get(i).GetY()][g.get(i).GetX()], Color.BLACK);
 			}
 		} else {
 			Locator.PlayerColorRefresh();
@@ -379,8 +379,8 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 
 	public void NewGame() {
 		System.out.println("LOL");
-		onStart(false);
-		InfoWindowObject.onStart(false);
+		setOpen(false);
+		InfoWindowObject.setOpen(false);
 		new Menu();
 		this.dispose();
 		InfoWindowObject.dispose();

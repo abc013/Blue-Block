@@ -29,7 +29,7 @@ public class Human {
 
 	public void Move(int Direction) {
 		if (lives) {
-			Locator.GetPlayerPosition(this, Player, Direction);
+			Locator.MovePlayer(this, Player, Direction);
 			System.out.println("Player" + Player + ".pos:" + GetX() + "|" + GetY());
 			if (Locator.GetGround(GetX(), GetY()).isDeadly()) {
 				if (guarded) {

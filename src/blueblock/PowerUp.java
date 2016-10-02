@@ -67,7 +67,7 @@ public class PowerUp {
 		return Type;
 	}
 
-	public boolean IstActive() {
+	public boolean IsActive() {
 		return Active;
 	}
 }

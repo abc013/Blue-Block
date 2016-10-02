@@ -50,7 +50,7 @@ public class Locator {
 		return null;
 	}
 
-	public static void GetPlayerPosition(Human h, int Player, int Direction) {
+	public static void MovePlayer(Human h, int Player, int Direction) {
 		int pos1 = h.GetY();
 		int pos2 = h.GetX();
 		int Y0 = h.GetY() - 1;
