@@ -11,29 +11,29 @@ public class Human {
 			new Color(155, 0, 155) };
 	private Label[][] labels = Main.labels;
 	private int pos1, pos2, Dpos1, Dpos2;
-	public int Kills, schritte, SuperScore, PowerUps, Spieler;
-	private boolean lives, poisoned, geschützt;
+	public int Kills, steps, SuperScore, PowerUps, Player;
+	private boolean lives, poisoned, guarded;
 	private String name;
 
-	public Human(int pos1, int pos2, int Spieler, String name) {
-		this.Spieler = Spieler;
+	public Human(int pos1, int pos2, int Player, String name) {
+		this.Player = Player;
 		this.name = name;
-		System.out.println("Player" + Spieler + " created");
+		System.out.println("Player" + Player + " created");
 		lives = true;
-		Main.FarbeWechseln(labels[pos1][pos2], color[Spieler]);
+		Main.colorChange(labels[pos1][pos2], color[Player]);
 		this.pos1 = pos1;
 		this.pos2 = pos2;
 		Dpos1 = pos1;
 		Dpos2 = pos2;
 	}
 
-	public void Gehen(int Richtung) {
+	public void Move(int Direction) {
 		if (lives) {
-			Locator.MenschGeht(this, Spieler, Richtung);
-			System.out.println("Player" + Spieler + ".pos:" + GetX() + "|" + GetY());
+			Locator.MovePlayer(this, Player, Direction);
+			System.out.println("Player" + Player + ".pos:" + GetX() + "|" + GetY());
 			if (Locator.GetGround(GetX(), GetY()).isDeadly()) {
-				if (geschützt) {
-					geschützt = false;
+				if (guarded) {
+					guarded = false;
 				} else {
 					IsLiving(false);
 				}
@@ -44,24 +44,24 @@ public class Human {
 				return;
 			if (Locator.GetGround(GetX(), GetY()).isPoison()) {
 				if (poisoned) {
-					Main.FarbeWechseln(labels[GetY()][GetX()],
+					Main.colorChange(labels[GetY()][GetX()], 
 							Locator.GetGround(Dpos2, Dpos1).GetGroundType().GetColor());
 					IsLiving(false);
 					return;
 				}
-				if (geschützt) {
-					geschützt = false;
+				if (guarded) {
+					guarded = false;
 				} else {
 					SetPoisoned(true);
 				}
-				// Main.FarbeWechseln(labels[GetY()][GetX()], color[Spieler]);
+				// Main.colorChange(labels[GetY()][GetX()], color[Player]);
 			}
 		} else {
 			System.out.println("Player " + name + " is dead!");
 		}
 	}
 
-	public void PowerUpEffekt(PowerUp powerup) {
+	public void PowerUpEffect(PowerUp powerup) {
 		PowerUps++;
 		System.out.println("PowerUp : " + powerup.GetType());
 		switch (powerup.GetType()) {
@@ -69,7 +69,7 @@ public class Human {
 			SuperScore++;
 			break;
 		case "OneLive":
-			SetRüstung(true);
+			SetArmor(true);
 			break;
 		case "PoisonCure":
 			SetPoisoned(false);
@@ -107,12 +107,12 @@ public class Human {
 		return poisoned;
 	}
 
-	public boolean Geschützt() {
-		return geschützt;
+	public boolean guarded() {
+		return guarded;
 	}
 
-	public int GetSchritte() {
-		return schritte;
+	public int GetSteps() {
+		return steps;
 	}
 
 	public String GetName() {
@@ -136,29 +136,29 @@ public class Human {
 		}
 	}
 
-	public void SetRüstung(boolean Rüstung) {
-		geschützt = Rüstung;
+	public void SetArmor(boolean HasArmor) {
+		guarded = HasArmor;
 	}
 
 	public void SetPoisoned(boolean poisoned) {
 		this.poisoned = poisoned;
 		if (poisoned) {
-			color[Spieler] = poisonColor[Spieler];
+			color[Player] = poisonColor[Player];
 		} else {
-			color[Spieler] = normalColor[Spieler];
+			color[Player] = normalColor[Player];
 		}
-		Main.FarbeWechseln(labels[GetY()][GetX()], color[Spieler]);
+		Main.colorChange(labels[GetY()][GetX()], color[Player]);
 	}
 
 	public void SetGray() {
 		if (!Lives())
 			return;
-		color[Spieler] = Color.GRAY;
+		color[Player] = Color.GRAY;
 		if (!Main.TypesActive[5]) {
 			if (Poisoned()) {
-				color[Spieler] = poisonColor[Spieler];
+				color[Player] = poisonColor[Player];
 			} else {
-				color[Spieler] = normalColor[Spieler];
+				color[Player] = normalColor[Player];
 			}
 		}
 		Locator.PlayerColorRefresh();
