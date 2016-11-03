@@ -48,7 +48,7 @@ I'm available for solutions :).
 - right = `3`
 - backward = `2`
 
-####Player 5(Mouse, can't be disabled yet)
+####Player 5(Mouse)
 - left-click = place lava
 - right-click = place walls
 - mid-click = place sourness
