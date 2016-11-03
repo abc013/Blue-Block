@@ -20,9 +20,9 @@ public class Menu extends JFrame {
 	JButton start, optionen, schliessen;
 	Main Spiel;
 	Options Option;
-	final ImageIcon BlueBlock = new ImageIcon("blblock.png");
-	final ImageIcon RedBlock = new ImageIcon("rdblock.png");
-	final ImageIcon BackGround = new ImageIcon("Background.png");
+	final ImageIcon BlueBlock = new ImageIcon("src/img/blblock.png");
+	final ImageIcon RedBlock = new ImageIcon("src/img/rdblock.png");
+	final ImageIcon BackGround = new ImageIcon("src/img/Background.png");
 
 	// For eclipse
 	public static void main(String[] args) {

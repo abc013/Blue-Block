@@ -21,7 +21,7 @@ public class InfoWindow extends JFrame {
 	JTextArea InfoLog;
 	JTextArea Score, BlueBlock, GreenBlock, MagentaBlock, CyanBlock;
 	JButton NewGame;
-	final ImageIcon New_Game = new ImageIcon("New Game.png");
+	final ImageIcon New_Game = new ImageIcon("src/img/New Game.png");
 
 	public InfoWindow(int Spieler) {
 		this.Spieler = Spieler;

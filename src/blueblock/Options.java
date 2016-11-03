@@ -35,8 +35,8 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 	JFormattedTextField Ehöhe, EBreite, PowerUpAnzahl;
 	JCheckBox Mouse;
 	Choice spieler, PowerUps;
-	final ImageIcon BlueBlock = new ImageIcon("blblockbut.png");
-	final ImageIcon RedBlock = new ImageIcon("rdblockbut.png");
+	final ImageIcon BlueBlock = new ImageIcon("src/img/blblockbut.png");
+	final ImageIcon RedBlock = new ImageIcon("src/img/rdblockbut.png");
 
 	public Options(Menu menu) {
 		this.menu = menu;
