@@ -28,12 +28,13 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 	private int Spieler = 4;
 	private int powerUps = 10;
 	private boolean mouse = true;
+	private boolean kill = true;
 	final Menu menu;
 	JFrame options;
 	JLabel Thöhe, TBreite;
 	JButton reset, save, abort;
 	JFormattedTextField Ehöhe, EBreite, PowerUpAnzahl;
-	JCheckBox Mouse;
+	JCheckBox Mouse, Kill;
 	Choice spieler, PowerUps;
 	final ImageIcon BlueBlock = new ImageIcon("src/img/blblockbut.png");
 	final ImageIcon RedBlock = new ImageIcon("src/img/rdblockbut.png");
@@ -44,7 +45,7 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 		System.out.println(MaxX);
 		options = new JFrame("Einstellungen");
 		options.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		options.setBounds(300, 300, 450, 270);
+		options.setBounds(300, 300, 450, 370);
 		options.setLayout(null);
 
 		Thöhe = new JLabel("Höhe:");
@@ -104,7 +105,7 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 		Mouse.setText("Maus Aktivieren");
 		Mouse.setFont(new Font("Chiller", 1, 30));
 		Mouse.setToolTipText("Displays wether the Mouse should be disabled in games or not.");
-		Mouse.setBounds(120, 120, 240, 60);
+		Mouse.setBounds(70, 120, 240, 60);
 		Mouse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -115,6 +116,24 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 			}
 		});
 		options.add(Mouse);
+
+		Kill = new JCheckBox(BlueBlock);
+		Kill.setSelectedIcon(RedBlock);
+		Kill.setSelected(kill);
+		Kill.setText("Player-Kill aktivieren");
+		Kill.setFont(new Font("Chiller", 1, 30));
+		Kill.setToolTipText("Displays wether players should kill each other or not.");
+		Kill.setBounds(70, 190, 310, 60);
+		Kill.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (kill)
+					kill = false;
+				else
+					kill = true;
+			}
+		});
+		options.add(Kill);
 
 		save = new JButton("Speichern");
 		save.addActionListener(this);
@@ -129,11 +148,11 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 		options.add(reset);
 		options.add(abort);
 
-		save.setBounds(10, 180, 120, 40);
+		save.setBounds(10, 270, 120, 40);
 		save.setFont(new Font("Harrington", 1, 15));
-		reset.setBounds(140, 180, 150, 40);
+		reset.setBounds(140, 270, 150, 40);
 		reset.setFont(new Font("Harrington", 1, 17));
-		abort.setBounds(300, 180, 120, 40);
+		abort.setBounds(300, 270, 120, 40);
 		abort.setFont(new Font("Harrington", 1, 15));
 
 	}
@@ -172,6 +191,7 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 			pWriter.println("Spieler: " + player);
 			pWriter.println("PowerUps: " + PUs);
 			pWriter.println("Mouse: " + mouse);
+			pWriter.println("Kill: " + kill);
 		} catch (Exception e) {
 			System.out.println(e);
 		} finally {
@@ -191,7 +211,7 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 			br = new BufferedReader(fr);
 
 			int Values[] = new int[4];
-			String names[] = { "Höhe: ", "Breite: ", "Spieler: ", "PowerUps: ", "Mouse: " };
+			String names[] = { "Höhe: ", "Breite: ", "Spieler: ", "PowerUps: ", "Mouse: ", "Kill: " };
 
 			for (int i = 0; i < Values.length; i++) {
 				Values[i] = Integer.parseInt(br.readLine().substring(names[i].length()));
@@ -203,6 +223,12 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 				mouse = true;
 			else
 				mouse = false;
+			String Kill = br.readLine().substring(names[5].length());
+			System.out.println(Kill);
+			if (Kill.equals("true"))
+				kill = true;
+			else
+				kill = false;
 
 			MaxY = Values[0];
 			MaxX = Values[1];
@@ -232,6 +258,8 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 			PowerUps.select("0");
 			Mouse.setSelected(true);
 			mouse = true;
+			Kill.setSelected(true);
+			kill = true;
 			return;
 		} else if (e.getSource().equals(save)) {
 			SaveSettings();
@@ -258,5 +286,9 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 
 	public boolean HasMouse() {
 		return mouse;
+	}
+
+	public boolean PlayerKill() {
+		return kill;
 	}
 }

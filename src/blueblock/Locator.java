@@ -114,7 +114,8 @@ public class Locator {
 			}
 		}
 		Main.FarbeWechseln(labels[pos1][pos2], h.color[Spieler]);
-		MenschenTreffen(h, pos1, pos2);
+		if (Main.kill)
+			MenschenTreffen(h, pos1, pos2);
 		PowerUpEinsammeln(h, pos1, pos2);
 		Main.paint();
 	}

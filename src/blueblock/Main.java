@@ -42,17 +42,19 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	// the rest;
 	public static int FelderLinie, FelderReihe, MouseLava, MouseWall, MouseSäure;
 	private static boolean indirekt, mouse;
+	public static boolean kill;
 	public static boolean EndGame = false;
 
 	public static void main(String[] args) {
 		indirekt = true;
-		new Main(16, 16, 4, 2, true);
+		new Main(16, 16, 4, 2, true, true);
 	}
 
-	public Main(int Breite, int Höhe, int spieler, int PowerUps, boolean HasMouse) {
+	public Main(int Breite, int Höhe, int spieler, int PowerUps, boolean HasMouse, boolean PlayerKill) {
 		PowerUpList = new PowerUp[PowerUps];
 		FelderLinie = Breite;
 		FelderReihe = Höhe;
+		kill = PlayerKill;
 		mouse = HasMouse;
 		if (FelderLinie < 6) {
 			FelderLinie = 6;
@@ -78,28 +80,27 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 			Heading = "BLUE and GREEN BLOCK";
 			break;
 		case 1:
-			Heading = "Armer, armer alleiner BLUE BLOCK";
+			Heading = "Poor, poor alone BLUE BLOCK";
 			break;
 		}
-		fenster = new JFrame(Heading
-				+ " --- NEUER ENGINE - NEUES GLÜCK!!! Jetzt größere Welten erschaffen und neue Wände, Lava, Säure oder Böden kreieren!!!!!");
+		fenster = new JFrame(Heading + " || Visit us on Github! --> https://github.com/abc013/Blue-Block <--");
 		fenster.setLocation(-7, 0);
 		fenster.setSize(700, 700);
 		fenster.setBackground(Color.BLACK);
 		fenster.setLayout(new GridLayout(FelderLinie, FelderReihe));
 		labels = new Label[FelderLinie][FelderReihe];
-		for (int i = 0; i < labels.length; i++) {
-			for (int j = 0; j < labels[i].length; j++) {
+		for (int x = 0; x < labels.length; x++) {
+			for (int y = 0; y < labels[x].length; y++) {
 				String name = "label";
-				if (i < 10)
+				if (x < 10)
 					name += "0";
 
-				name += i;
+				name += x;
 
-				if (j < 10)
+				if (y < 10)
 					name += "0";
 
-				name += j;
+				name += y;
 
 				Label label = new Label("");
 				label.setName(name);
@@ -108,11 +109,11 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 				// else
 				// label.setBackground(Color.BLACK);
 				// label.addMouseListener(this);
-				Ground ground = new Ground(i, j, Floor);
+				Ground ground = new Ground(x, y, Floor);
 				g.add(ground);
 				fenster.add(label);
 				label.addMouseListener(this);
-				labels[i][j] = label;
+				labels[x][y] = label;
 			}
 		}
 		InfoFenster = new InfoWindow(spieler);
