@@ -39,7 +39,7 @@ I'm available for solutions :).
 ####Player 3 (Cyan Block)
 - forward = `o`
 - left = `k`
-- right = `ö` (could cause problems for non-german keypads)
+- right = `ö` or `:`
 - backward = `l`
 
 ####Player 4 (Magenta Block)
