@@ -50,7 +50,7 @@ public class Locator {
 		return null;
 	}
 
-	public static void MenschGeht(Human h, int Spieler, int Richtung) {
+	public static void MenschGeht(Human h, int Spieler, String Richtung) {
 		int pos1 = h.GetY();
 		int pos2 = h.GetX();
 		int Y0 = h.GetY() - 1;
@@ -67,7 +67,7 @@ public class Locator {
 			XG = h.GetX();
 		HinterGrundFarbe(pos1, pos2);
 		switch (Richtung) {
-		case 1:
+		case "up":
 			if (pos1 > 0 && !GetGround(h.GetX(), Y0).isWall()) {
 				pos1--;
 				h.schritte++;
@@ -75,7 +75,7 @@ public class Locator {
 				System.out.println(h + " hit the wall!");
 			}
 			break;
-		case 2:
+		case "down":
 			if ((h.GetY() + 1) < Main.FelderReihe && !GetGround(h.GetX(), YG).isWall()) {
 				pos1++;
 				h.schritte++;
@@ -83,7 +83,7 @@ public class Locator {
 				System.out.println(h + " hit the wall!");
 			}
 			break;
-		case 3:
+		case "left":
 			if (h.GetX() > 0 && !GetGround(X0, h.GetY()).isWall()) {
 				pos2--;
 				h.schritte++;
@@ -91,7 +91,7 @@ public class Locator {
 				System.out.println(h + " hit the wall!");
 			}
 			break;
-		case 4:
+		case "right":
 			if ((h.GetX() + 1) < Main.FelderLinie && !GetGround(XG, h.GetY()).isWall()) {
 				pos2++;
 				h.schritte++;

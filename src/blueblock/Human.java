@@ -27,9 +27,9 @@ public class Human {
 		Dpos2 = pos2;
 	}
 
-	public void Gehen(int Richtung) {
+	public void Go(String Direction) {
 		if (lives) {
-			Locator.MenschGeht(this, Spieler, Richtung);
+			Locator.MenschGeht(this, Spieler, Direction);
 			System.out.println("Player" + Spieler + ".pos:" + GetX() + "|" + GetY());
 			if (Locator.GetGround(GetX(), GetY()).isDeadly()) {
 				if (geschützt) {

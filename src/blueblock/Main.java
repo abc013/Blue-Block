@@ -247,112 +247,118 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	public void keyTyped(KeyEvent e) {
 		if (!TypesActive[3]) {
 			switch (String.valueOf(e.getKeyChar()).toLowerCase()) {
-			// Links
+			// Left
 			case "a":
-				H1.Gehen(3);
+				H1.Go("left");
 				break;
-			// Rechts
+			// Right
 			case "d":
-				H1.Gehen(4);
+				H1.Go("right");
 				break;
-			// Vorne
+			// Up
 			case "w":
-				H1.Gehen(1);
+				H1.Go("up");
 				break;
-			// Hinten
+			// Down
 			case "s":
-				H1.Gehen(2);
+				H1.Go("down");
 				break;
 			case "g":
-				H2.Gehen(3);
+				H2.Go("left");
 				break;
 			case "j":
-				H2.Gehen(4);
+				H2.Go("right");
 				break;
 			case "z":
-				H2.Gehen(1);
+				H2.Go("up");
 				break;
 			case "h":
-				H2.Gehen(2);
+				H2.Go("down");
 				break;
 			case "k":
-				H3.Gehen(3);
+				H3.Go("left");
 				break;
 			case "ö":
-				H3.Gehen(4);
+				H3.Go("right");
+				break;
+			case ":":
+				H3.Go("right");
 				break;
 			case "o":
-				H3.Gehen(1);
+				H3.Go("up");
 				break;
 			case "l":
-				H3.Gehen(2);
+				H3.Go("down");
 				break;
 			case "1":
-				H4.Gehen(3);
+				H4.Go("left");
 				break;
 			case "3":
-				H4.Gehen(4);
+				H4.Go("right");
 				break;
 			case "5":
-				H4.Gehen(1);
+				H4.Go("up");
 				break;
 			case "2":
-				H4.Gehen(2);
+				H4.Go("down");
 				break;
 			}
 		} else {
 			switch (String.valueOf(e.getKeyChar()).toLowerCase()) {
-			// Links
+			// Left
 			case "a":
-				H1.Gehen(4);
+				H1.Go("right");
 				break;
-			// Rechts
+			// Right
 			case "d":
-				H1.Gehen(3);
+				H1.Go("left");
 				break;
-			// Vorne
+			// Up
 			case "w":
-				H1.Gehen(2);
+				H1.Go("down");
 				break;
-			// Hinten
+			// Down
 			case "s":
-				H1.Gehen(1);
+				H1.Go("up");
 				break;
 			case "g":
-				H2.Gehen(4);
+				H2.Go("right");
 				break;
 			case "j":
-				H2.Gehen(3);
+				H2.Go("left");
 				break;
 			case "z":
-				H2.Gehen(2);
+				H2.Go("down");
 				break;
 			case "h":
-				H2.Gehen(1);
+				H2.Go("up");
 				break;
 			case "k":
-				H3.Gehen(4);
+				H3.Go("right");
 				break;
 			case "ö":
-				H3.Gehen(3);
+				H3.Go("left");
+				break;
+			case ":":
+				H3.Go("left");
 				break;
 			case "o":
-				H3.Gehen(2);
+				H3.Go("down");
 				break;
 			case "l":
-				H3.Gehen(1);
+				H3.Go("up");
 				break;
 			case "1":
-				H4.Gehen(4);
+				H4.Go("right");
 				break;
 			case "3":
-				H4.Gehen(3);
+				H4.Go("left");
 				break;
 			case "5":
-				H4.Gehen(2);
+				H4.Go("down");
 				break;
 			case "2":
-				H4.Gehen(1);
+				H4.Go("up");
 				break;
 			}
 		}
