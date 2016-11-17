@@ -4,34 +4,36 @@ import java.awt.Color;
 
 public class PowerUp {
 	private int x, y;
-	private boolean Aktiv;
-	private String[] Types;
-	private String Type;
-	private boolean NoRandomPosition, NoRandomType;
+	private boolean active;
+	private String[] types;
+	private String type;
+	private boolean noRandomPosition, noRandomType;
 
-	public PowerUp(int x, int y, boolean NoRandomPosition, String Type, boolean NoRandomType) {
-		Types = new String[Main.Types.length];
+	public PowerUp(int x, int y, boolean noRandomPosition, String type, boolean noRandomType) {
+		types = new String[Main.Types.length];
 		for (int i = 0; i < Main.Types.length; i++)
-			Types[i] = Main.Types[i];
-		if (Type.equals("Random"))
-			Type = Types[new java.util.Random().nextInt(Types.length)];
-		this.NoRandomPosition = NoRandomPosition;
-		this.NoRandomType = NoRandomType;
-		NewPosition(x, y, NoRandomPosition);
-		for (int i = 0; i < Types.length; i++) {
-			if (Type == Types[i]) {
-				this.Type = Type;
+			types[i] = Main.Types[i];
+
+		if (type.equals("Random"))
+			type = types[new java.util.Random().nextInt(types.length)];
+
+		this.noRandomPosition = noRandomPosition;
+		this.noRandomType = noRandomType;
+		NewPosition(x, y, noRandomPosition);
+		for (int i = 0; i < types.length; i++) {
+			if (type == types[i]) {
+				this.type = type;
 				return;
 			}
 		}
-		Type = Types[new java.util.Random().nextInt(Types.length)];
+		type = types[new java.util.Random().nextInt(types.length)];
 	}
 
 	public void NewPosition(int x, int y, boolean NoRandomPosition) {
 		Ground gr = Locator.GetGround(y, x);
-		if (gr.isWall() || gr.isDeadly() || Locator.GetHuman(y, x) != null) {
-			int pos1 = new java.util.Random().nextInt(Main.FelderLinie);
-			int pos2 = new java.util.Random().nextInt(Main.FelderReihe);
+		if (gr.IsWall() || gr.IsDeadly() || Locator.GetHuman(y, x) != null) {
+			int pos1 = new java.util.Random().nextInt(Main.FieldColumns);
+			int pos2 = new java.util.Random().nextInt(Main.FieldRows);
 			if (NoRandomPosition)
 				NewPosition(x, y, true);
 			else
@@ -39,20 +41,20 @@ public class PowerUp {
 
 			return;
 		} else {
-			if (gr.isPoison()) {
+			if (gr.IsPoison()) {
 				gr.SetGroundType(Main.Floor);
 			}
 			this.x = x;
 			this.y = y;
 		}
-		if (!NoRandomType) {
-			Type = Types[new java.util.Random().nextInt(Main.Types.length)];
+		if (!noRandomType) {
+			type = types[new java.util.Random().nextInt(Main.Types.length)];
 		}
-		Main.FarbeWechseln(Main.labels[x][y], Color.YELLOW);
+		Main.ChangeColor(Main.labels[x][y], Color.YELLOW);
 	}
 
 	public boolean GetNotRandom() {
-		return NoRandomPosition;
+		return noRandomPosition;
 	}
 
 	public int GetX() {
@@ -64,10 +66,10 @@ public class PowerUp {
 	}
 
 	public String GetType() {
-		return Type;
+		return type;
 	}
 
-	public boolean IstAktiv() {
-		return Aktiv;
+	public boolean IsActive() {
+		return active;
 	}
 }

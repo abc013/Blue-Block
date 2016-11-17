@@ -4,16 +4,15 @@ import java.awt.Color;
 
 public class GroundType {
 	private Color color;
-	private String Type;
-	private GroundType InactiveType;
+	private String type;
+	private GroundType inactiveType;
 
-	public GroundType(Color color, String Type, GroundType InactiveType) {
+	public GroundType(Color color, String type, GroundType inactiveType) {
 		this.color = color;
-		if (Type != null) {
-			this.Type = Type;
-		}
-		this.InactiveType = InactiveType;
+		this.inactiveType = inactiveType;
 
+		if (type != null)
+			this.type = type;
 	}
 
 	public Color GetColor() {
@@ -21,27 +20,27 @@ public class GroundType {
 	}
 
 	public String GetType() {
-		return Type;
+		return type;
 	}
 
 	public GroundType GetInactiveType() {
-		return InactiveType;
+		return inactiveType;
 	}
 
-	public void setType(String Type) {
-		this.Type = Type;
+	public void SetType(String type) {
+		this.type = type;
 		refresh();
 	}
 
-	public void setColor(Color color) {
+	public void SetColor(Color color) {
 		this.color = color;
 		refresh();
 	}
 
 	private void refresh() {
-		for (int i = 0; i < Main.g.size(); i++) {
-			if (Main.g.get(i).GetGroundType() == this) {
-				Main.g.get(i).SetGroundType(this);
+		for (int i = 0; i < Main.groundTiles.size(); i++) {
+			if (Main.groundTiles.get(i).GetGroundType() == this) {
+				Main.groundTiles.get(i).SetGroundType(this);
 			}
 		}
 	}

@@ -10,11 +10,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-//import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -25,17 +23,17 @@ import javax.swing.JLabel;
 public class Options implements PropertyChangeListener, ActionListener, ItemListener {
 	private int MaxX = 56;
 	private int MaxY = 56;
-	private int Spieler = 4;
+	private int playerCount = 4;
 	private int powerUps = 10;
 	private boolean mouse = true;
 	private boolean kill = true;
 	final Menu menu;
 	JFrame options;
-	JLabel Thöhe, TBreite;
+	JLabel heightLabel, widthLabel;
 	JButton reset, save, abort;
-	JFormattedTextField Ehöhe, EBreite, PowerUpAnzahl;
-	JCheckBox Mouse, Kill;
-	Choice spieler, PowerUps;
+	JFormattedTextField textFieldHeight, textFieldWidth, powerUpCount;
+	JCheckBox mouseCheckbox, killCheckbox;
+	Choice playerCountSelector, powerUpCountSelector;
 	final ImageIcon BlueBlock = new ImageIcon("src/img/blblockbut.png");
 	final ImageIcon RedBlock = new ImageIcon("src/img/rdblockbut.png");
 
@@ -48,92 +46,86 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 		options.setBounds(300, 300, 450, 370);
 		options.setLayout(null);
 
-		Thöhe = new JLabel("Höhe:");
-		options.add(Thöhe);
-		Thöhe.setFont(new Font("Chiller", 2, 30));
-		Thöhe.setBounds(100, 10, 60, 40);
+		heightLabel = new JLabel("Höhe:");
+		options.add(heightLabel);
+		heightLabel.setFont(new Font("Chiller", 2, 30));
+		heightLabel.setBounds(100, 10, 60, 40);
 
-		Ehöhe = new JFormattedTextField(int.class);
-		options.add(Ehöhe);
-		Ehöhe.setValue(MaxY);
-		Ehöhe.setFont(new Font("Chiller", 0, 30));
-		Ehöhe.setBounds(160, 10, 45, 40);
-		Ehöhe.addPropertyChangeListener(this);
+		textFieldHeight = new JFormattedTextField(int.class);
+		options.add(textFieldHeight);
+		textFieldHeight.setValue(MaxY);
+		textFieldHeight.setFont(new Font("Chiller", 0, 30));
+		textFieldHeight.setBounds(160, 10, 45, 40);
+		textFieldHeight.addPropertyChangeListener(this);
 
-		TBreite = new JLabel("Breite:");
-		options.add(TBreite);
-		TBreite.setFont(new Font("Chiller", 2, 30));
-		TBreite.setBounds(215, 10, 70, 40);
+		widthLabel = new JLabel("Breite:");
+		options.add(widthLabel);
+		widthLabel.setFont(new Font("Chiller", 2, 30));
+		widthLabel.setBounds(215, 10, 70, 40);
 
-		EBreite = new JFormattedTextField(int.class);
-		options.add(EBreite);
-		EBreite.setValue(MaxX);
-		EBreite.setFont(new Font("Chiller", 0, 30));
-		EBreite.setBounds(285, 10, 45, 40);
-		EBreite.addPropertyChangeListener(this);
+		textFieldWidth = new JFormattedTextField(int.class);
+		options.add(textFieldWidth);
+		textFieldWidth.setValue(MaxX);
+		textFieldWidth.setFont(new Font("Chiller", 0, 30));
+		textFieldWidth.setBounds(285, 10, 45, 40);
+		textFieldWidth.addPropertyChangeListener(this);
 
-		JLabel spielerText = new JLabel("Spieler:");
-		options.add(spielerText);
-		spielerText.setFont(new Font("Chiller", 1, 30));
-		spielerText.setBounds(20, 60, 90, 40);
+		JLabel playerText = new JLabel("Spieler:");
+		options.add(playerText);
+		playerText.setFont(new Font("Chiller", 1, 30));
+		playerText.setBounds(20, 60, 90, 40);
 
-		spieler = new Choice();
+		playerCountSelector = new Choice();
 		for (int i = 1; i < 5; i++)
-			spieler.add(i + "");
-		options.add(spieler);
-		spieler.setBounds(110, 60, 80, 40);
-		spieler.setFont(new Font("Arial", 1, 30));
-		spieler.select(spieler + "");
-		spieler.addItemListener(this);
+			playerCountSelector.add(i + "");
+		options.add(playerCountSelector);
+		playerCountSelector.setBounds(110, 60, 80, 40);
+		playerCountSelector.setFont(new Font("Arial", 1, 30));
+		playerCountSelector.select(playerCountSelector + "");
+		playerCountSelector.addItemListener(this);
 
-		JLabel TPowerUps = new JLabel("Power-Ups:");
-		options.add(TPowerUps);
-		TPowerUps.setFont(new Font("Chiller", 1, 30));
-		TPowerUps.setBounds(200, 60, 130, 40);
+		JLabel powerUpLabel = new JLabel("Power-Ups:");
+		options.add(powerUpLabel);
+		powerUpLabel.setFont(new Font("Chiller", 1, 30));
+		powerUpLabel.setBounds(200, 60, 130, 40);
 
-		PowerUps = new Choice();
+		powerUpCountSelector = new Choice();
 		for (int i = 0; i < 11; i++)
-			PowerUps.add(i + "");
-		options.add(PowerUps);
-		PowerUps.select(powerUps + "");
-		PowerUps.setFont(new Font("Chiller", 1, 30));
-		PowerUps.setBounds(340, 60, 60, 40);
+			powerUpCountSelector.add(i + "");
+		options.add(powerUpCountSelector);
+		powerUpCountSelector.select(powerUps + "");
+		powerUpCountSelector.setFont(new Font("Chiller", 1, 30));
+		powerUpCountSelector.setBounds(340, 60, 60, 40);
 
-		Mouse = new JCheckBox(BlueBlock);
-		Mouse.setSelectedIcon(RedBlock);
-		Mouse.setSelected(mouse);
-		Mouse.setText("Maus Aktivieren");
-		Mouse.setFont(new Font("Chiller", 1, 30));
-		Mouse.setToolTipText("Displays wether the Mouse should be disabled in games or not.");
-		Mouse.setBounds(70, 120, 240, 60);
-		Mouse.addActionListener(new ActionListener() {
+		mouseCheckbox = new JCheckBox(BlueBlock);
+		mouseCheckbox.setSelectedIcon(RedBlock);
+		mouseCheckbox.setSelected(mouse);
+		mouseCheckbox.setText("Maus Aktivieren");
+		mouseCheckbox.setFont(new Font("Chiller", 1, 30));
+		mouseCheckbox.setToolTipText("Displays wether the Mouse should be disabled in games or not.");
+		mouseCheckbox.setBounds(70, 120, 240, 60);
+		mouseCheckbox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (mouse)
-					mouse = false;
-				else
-					mouse = true;
+				mouse = !mouse;
 			}
 		});
-		options.add(Mouse);
+		options.add(mouseCheckbox);
 
-		Kill = new JCheckBox(BlueBlock);
-		Kill.setSelectedIcon(RedBlock);
-		Kill.setSelected(kill);
-		Kill.setText("Player-Kill aktivieren");
-		Kill.setFont(new Font("Chiller", 1, 30));
-		Kill.setToolTipText("Displays wether players should kill each other or not.");
-		Kill.setBounds(70, 190, 310, 60);
-		Kill.addActionListener(new ActionListener() {
+		killCheckbox = new JCheckBox(BlueBlock);
+		killCheckbox.setSelectedIcon(RedBlock);
+		killCheckbox.setSelected(kill);
+		killCheckbox.setText("Player-Kill aktivieren");
+		killCheckbox.setFont(new Font("Chiller", 1, 30));
+		killCheckbox.setToolTipText("Displays wether players should kill each other or not.");
+		killCheckbox.setBounds(70, 190, 310, 60);
+		killCheckbox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (kill)
-					kill = false;
-				else
-					kill = true;
+				kill = !kill;
 			}
 		});
-		options.add(Kill);
+		options.add(killCheckbox);
 
 		save = new JButton("Speichern");
 		save.addActionListener(this);
@@ -157,21 +149,21 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 
 	}
 
-	public void Offen(boolean offen) {
-		options.setVisible(offen);
+	public void setOpen(boolean open) {
+		options.setVisible(open);
 		LoadSettings();
-		Ehöhe.setText(MaxY + "");
-		EBreite.setText(MaxX + "");
-		spieler.select(Spieler + "");
-		PowerUps.select(powerUps + "");
+		textFieldHeight.setText(MaxY + "");
+		textFieldWidth.setText(MaxX + "");
+		playerCountSelector.select(playerCount + "");
+		powerUpCountSelector.select(powerUps + "");
 	}
 
 	private void SaveSettings() {
 		PrintWriter pWriter = null;
-		int Y = Integer.parseInt(Ehöhe.getText());
-		int X = Integer.parseInt(EBreite.getText());
-		int player = Integer.parseInt(spieler.getSelectedItem());
-		int PUs = Integer.parseInt(PowerUps.getSelectedItem());
+		int Y = Integer.parseInt(textFieldHeight.getText());
+		int X = Integer.parseInt(textFieldWidth.getText());
+		int players = Integer.parseInt(playerCountSelector.getSelectedItem());
+		int PUs = Integer.parseInt(powerUpCountSelector.getSelectedItem());
 		try {
 			pWriter = new PrintWriter(new BufferedWriter(new FileWriter("settings.txt")));
 			if (Y > 56)
@@ -186,9 +178,9 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 				PUs = 2;
 				X = 6;
 			}
-			pWriter.println("Höhe: " + Y);
-			pWriter.println("Breite: " + X);
-			pWriter.println("Spieler: " + player);
+			pWriter.println("Height: " + Y);
+			pWriter.println("Width: " + X);
+			pWriter.println("Players: " + players);
 			pWriter.println("PowerUps: " + PUs);
 			pWriter.println("Mouse: " + mouse);
 			pWriter.println("Kill: " + kill);
@@ -211,28 +203,24 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 			br = new BufferedReader(fr);
 
 			int Values[] = new int[4];
-			String names[] = { "Höhe: ", "Breite: ", "Spieler: ", "PowerUps: ", "Mouse: ", "Kill: " };
+			String names[] = { "Height: ", "Width: ", "Players: ", "PowerUps: ", "Mouse: ", "Kill: " };
 
 			for (int i = 0; i < Values.length; i++) {
 				Values[i] = Integer.parseInt(br.readLine().substring(names[i].length()));
 				System.out.println(Values[i]);
 			}
+
 			String Mouse = br.readLine().substring(names[4].length());
 			System.out.println(Mouse);
-			if (Mouse.equals("true"))
-				mouse = true;
-			else
-				mouse = false;
+			mouse = Mouse.equals("true");
+
 			String Kill = br.readLine().substring(names[5].length());
 			System.out.println(Kill);
-			if (Kill.equals("true"))
-				kill = true;
-			else
-				kill = false;
+			kill = Kill.equals("true");
 
 			MaxY = Values[0];
 			MaxX = Values[1];
-			Spieler = Values[2];
+			playerCount = Values[2];
 			powerUps = Values[3];
 
 		} catch (Exception e) {
@@ -252,24 +240,24 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(reset)) {
-			Ehöhe.setValue(16);
-			EBreite.setValue(16);
-			spieler.select("4 Spieler");
-			PowerUps.select("0");
-			Mouse.setSelected(true);
+			textFieldHeight.setValue(16);
+			textFieldWidth.setValue(16);
+			playerCountSelector.select("4 Spieler");
+			powerUpCountSelector.select("0");
+			mouseCheckbox.setSelected(true);
 			mouse = true;
-			Kill.setSelected(true);
+			killCheckbox.setSelected(true);
 			kill = true;
 			return;
 		} else if (e.getSource().equals(save)) {
 			SaveSettings();
 		}
-		Offen(false);
-		menu.Offen(true);
+		setOpen(false);
+		menu.setOpen(true);
 	}
 
 	public int Player() {
-		return Spieler;
+		return playerCount;
 	}
 
 	public int PowerUps() {

@@ -16,28 +16,28 @@ public class InfoWindow extends JFrame {
 			GreenBlockposition, MagentaBlockposition, CyanBlockposition, TextScore;
 	private static boolean BlueBlockBool, GreenBlockBool, MagentaBlockBool, CyanBlockBool;
 	private static int BlueBlockScore, GreenBlockScore, MagentaBlockScore, CyanBlockScore, MouseScore;
-	private int Spieler;
-	JFrame InfoFenster;
+	private int PlayerCount;
+	JFrame infoWindow;
 	JTextArea InfoLog;
 	JTextArea Score, BlueBlock, GreenBlock, MagentaBlock, CyanBlock;
 	JButton NewGame;
 	final ImageIcon New_Game = new ImageIcon("src/img/New Game.png");
 
-	public InfoWindow(int Spieler) {
-		this.Spieler = Spieler;
-		InfoFenster = new JFrame("Informationen");
-		InfoFenster.setLocation(700, 0);
-		InfoFenster.setSize(300, 700);
-		InfoFenster.setLayout(null);
-		InfoFenster.setResizable(false);
-		InfoFenster.setFocusable(false);
+	public InfoWindow(int playerCount) {
+		this.PlayerCount = playerCount;
+		infoWindow = new JFrame("Informationen");
+		infoWindow.setLocation(700, 0);
+		infoWindow.setSize(300, 700);
+		infoWindow.setLayout(null);
+		infoWindow.setResizable(false);
+		infoWindow.setFocusable(false);
 		InfoLog = new JTextArea();
 		InfoLog.setBounds(10, 10, 260, 35);
 		InfoLog.setFont(new Font("papyrus", 1, 25));
 		InfoLog.setText("          Ereignislog:");
 		InfoLog.setSelectionColor(Color.WHITE);
 		InfoLog.setEditable(false);
-		InfoFenster.add(InfoLog);
+		infoWindow.add(InfoLog);
 		NewGame = new JButton(New_Game);
 		NewGame.setBounds(10, 55, 260, 40);
 		NewGame.setFont(new Font("papyrus", 1, 25));
@@ -52,13 +52,13 @@ public class InfoWindow extends JFrame {
 			}
 
 		});
-		InfoFenster.add(NewGame);
+		infoWindow.add(NewGame);
 		Score = new JTextArea();
 		Score.setBounds(10, 110, 260, 140);
 		Score.setFont(new Font("forte", Font.ITALIC, 15));
 		Score.setBackground(Color.YELLOW);
 		Score.setEditable(false);
-		for (int i = 0; i < Spieler; i++) {
+		for (int i = 0; i < playerCount; i++) {
 			switch (i) {
 			case 0:
 				TextScore = "\n Blauer Spieler: " + BlueBlockScore;
@@ -76,7 +76,7 @@ public class InfoWindow extends JFrame {
 			TextScore += "\n Maus: " + MouseScore;
 		}
 		Score.setText("PUNKTE:" + TextScore);
-		InfoFenster.add(Score);
+		infoWindow.add(Score);
 		BlueBlockBool = true;
 		BlueBlock = new JTextArea();
 		BlueBlock.setBounds(10, 255, 260, 90);
@@ -85,8 +85,8 @@ public class InfoWindow extends JFrame {
 		BlueBlock.setForeground(Color.WHITE);
 		BlueBlock.setEditable(false);
 		BlueBlock.setText(BlueBlockAlive + "\n" + BlueBlockposition + "\nKills: 0");
-		InfoFenster.add(BlueBlock);
-		switch (Spieler) {
+		infoWindow.add(BlueBlock);
+		switch (playerCount) {
 		case 4:
 			MagentaBlockBool = true;
 			MagentaBlock = new JTextArea();
@@ -95,7 +95,7 @@ public class InfoWindow extends JFrame {
 			MagentaBlock.setBackground(Color.MAGENTA);
 			MagentaBlock.setEditable(false);
 			MagentaBlock.setText(MagentaBlockAlive + "\n" + GreenBlockposition + "\nKills: 0");
-			InfoFenster.add(MagentaBlock);
+			infoWindow.add(MagentaBlock);
 		case 3:
 			CyanBlockBool = true;
 			CyanBlock = new JTextArea();
@@ -104,7 +104,7 @@ public class InfoWindow extends JFrame {
 			CyanBlock.setBackground(Color.CYAN);
 			CyanBlock.setEditable(false);
 			CyanBlock.setText(CyanBlockAlive + "\n" + MagentaBlockposition + "\nKills: 0");
-			InfoFenster.add(CyanBlock);
+			infoWindow.add(CyanBlock);
 		case 2:
 			GreenBlockBool = true;
 			GreenBlock = new JTextArea();
@@ -113,18 +113,18 @@ public class InfoWindow extends JFrame {
 			GreenBlock.setBackground(new Color(10, 220, 10));
 			GreenBlock.setEditable(false);
 			GreenBlock.setText(GreenBlockAlive + "\n" + CyanBlockposition + "\nKills: 0");
-			InfoFenster.add(GreenBlock);
+			infoWindow.add(GreenBlock);
 		default:
 		}
 		BlueBlockposition = "Platz: - ";
 		GreenBlockposition = "Platz: - ";
 		CyanBlockposition = "Platz: - ";
 		MagentaBlockposition = "Platz: - ";
-		InfoFenster.repaint();
+		infoWindow.repaint();
 	}
 
-	public void offen(boolean offen) {
-		InfoFenster.setVisible(offen);
+	public void setOpen(boolean open) {
+		infoWindow.setVisible(open);
 		if (Main.EndGame)
 			this.dispose();
 	}
@@ -138,12 +138,12 @@ public class InfoWindow extends JFrame {
 		} else if (BlueBlockBool) {
 			BlueBlockBool = false;
 			BlueBlockAlive = "Blauer Spieler: Tod";
-			BlueBlockposition = "Platz: " + Spieler;
-			Spieler--;
+			BlueBlockposition = "Platz: " + PlayerCount;
+			PlayerCount--;
 		}
-		if (Main.H1.Lives() && Main.H1.Geschützt())
+		if (Main.H1.Lives() && Main.H1.Secured())
 			BlueBlockAlive += " und Gerüstet";
-		BlueBlockScore = Main.H1.Kills * 300 + Main.H1.schritte + Main.H1.SuperScore * 50 + Main.H1.PowerUps * 5;
+		BlueBlockScore = Main.H1.Kills * 300 + Main.H1.Steps + Main.H1.SuperScore * 50 + Main.H1.PowerUps * 5;
 		TextScore += "\n Blauer Spieler: " + BlueBlockScore;
 		BlueBlock.setText(BlueBlockAlive + "\n" + BlueBlockposition + "\nKills:" + Main.H1.Kills);
 		try {
@@ -154,12 +154,12 @@ public class InfoWindow extends JFrame {
 			} else if (GreenBlockBool) {
 				GreenBlockBool = false;
 				GreenBlockAlive = "Grüner Spieler: Tod";
-				GreenBlockposition = "Platz: " + Spieler;
-				Spieler--;
+				GreenBlockposition = "Platz: " + PlayerCount;
+				PlayerCount--;
 			}
-			if (Main.H2.Lives() && Main.H2.Geschützt())
+			if (Main.H2.Lives() && Main.H2.Secured())
 				GreenBlockAlive += " und Gerüstet";
-			GreenBlockScore = Main.H2.Kills * 300 + Main.H2.schritte + Main.H2.SuperScore * 50 + Main.H2.PowerUps * 5;
+			GreenBlockScore = Main.H2.Kills * 300 + Main.H2.Steps + Main.H2.SuperScore * 50 + Main.H2.PowerUps * 5;
 			TextScore += "\n Grüner Spieler: " + GreenBlockScore;
 			GreenBlock.setText(GreenBlockAlive + "\n" + GreenBlockposition + "\nKills:" + Main.H2.Kills);
 		} catch (Exception E) {
@@ -172,12 +172,12 @@ public class InfoWindow extends JFrame {
 			} else if (CyanBlockBool) {
 				CyanBlockBool = false;
 				CyanBlockAlive = "Cyaner Spieler: Tod";
-				CyanBlockposition = "Platz: " + Spieler;
-				Spieler--;
+				CyanBlockposition = "Platz: " + PlayerCount;
+				PlayerCount--;
 			}
-			if (Main.H3.Lives() && Main.H3.Geschützt())
+			if (Main.H3.Lives() && Main.H3.Secured())
 				CyanBlockAlive += " und Gerüstet";
-			CyanBlockScore = Main.H3.Kills * 300 + Main.H3.schritte + Main.H3.SuperScore * 50 + Main.H3.PowerUps * 5;
+			CyanBlockScore = Main.H3.Kills * 300 + Main.H3.Steps + Main.H3.SuperScore * 50 + Main.H3.PowerUps * 5;
 			TextScore += "\n Cyaner Spieler: " + CyanBlockScore;
 			CyanBlock.setText(CyanBlockAlive + "\n" + CyanBlockposition + "\nKills:" + Main.H3.Kills);
 		} catch (Exception E) {
@@ -190,20 +190,20 @@ public class InfoWindow extends JFrame {
 			} else if (MagentaBlockBool) {
 				MagentaBlockBool = false;
 				MagentaBlockAlive = "Magenta Spieler: Tod";
-				MagentaBlockposition = "Platz: " + Spieler;
-				Spieler--;
+				MagentaBlockposition = "Platz: " + PlayerCount;
+				PlayerCount--;
 			}
-			if (Main.H4.Lives() && Main.H4.Geschützt())
+			if (Main.H4.Lives() && Main.H4.Secured())
 				MagentaBlockAlive = MagentaBlockAlive + " und Gerüstet";
-			MagentaBlockScore = Main.H4.Kills * 300 + Main.H4.schritte + Main.H4.SuperScore * 50 + Main.H4.PowerUps * 5;
+			MagentaBlockScore = Main.H4.Kills * 300 + Main.H4.Steps + Main.H4.SuperScore * 50 + Main.H4.PowerUps * 5;
 			TextScore += "\n Magenta Spieler: " + MagentaBlockScore;
 			MagentaBlock.setText(MagentaBlockAlive + "\n" + MagentaBlockposition + "\nKills:" + Main.H4.Kills);
 		} catch (Exception E) {
 		}
-		MouseScore = Main.MouseLava + Main.MouseWall * 2 + Main.MouseSäure * 3;
+		MouseScore = Main.MouseLava + Main.MouseWall * 2 + Main.MouseAcid * 3;
 		TextScore += "\n Maus: " + MouseScore;
 		Score.setText(TextScore);
-		InfoFenster.repaint();
+		infoWindow.repaint();
 		/*
 		 * for (int i = 0; i == Main.h.size(); i++) { int Score; String Alive =
 		 * ""; String Position = ""; if (Main.h.get(i).Lebt() &&
