@@ -11,29 +11,29 @@ public class Human {
 			new Color(155, 0, 155) };
 	private Label[][] labels = Main.labels;
 	private int pos1, pos2, Dpos1, Dpos2;
-	public int Kills, schritte, SuperScore, PowerUps, Spieler;
-	private boolean lives, poisoned, geschützt;
+	public int Kills, Steps, SuperScore, PowerUps, Player;
+	private boolean lives, poisoned, armored;
 	private String name;
 
-	public Human(int pos1, int pos2, int Spieler, String name) {
-		this.Spieler = Spieler;
+	public Human(int pos1, int pos2, int player, String name) {
+		Player = player;
 		this.name = name;
-		System.out.println("Player" + Spieler + " created");
+		System.out.println("Player" + player + " created");
 		lives = true;
-		Main.FarbeWechseln(labels[pos1][pos2], color[Spieler]);
+		Main.ChangeColor(labels[pos1][pos2], color[player]);
 		this.pos1 = pos1;
 		this.pos2 = pos2;
 		Dpos1 = pos1;
 		Dpos2 = pos2;
 	}
 
-	public void Go(String Direction) {
+	public void Go(String direction) {
 		if (lives) {
-			Locator.MenschGeht(this, Spieler, Direction);
-			System.out.println("Player" + Spieler + ".pos:" + GetX() + "|" + GetY());
-			if (Locator.GetGround(GetX(), GetY()).isDeadly()) {
-				if (geschützt) {
-					geschützt = false;
+			Locator.MovePlayer(this, Player, direction);
+			System.out.println("Player" + Player + ".pos:" + GetX() + "|" + GetY());
+			if (Locator.GetGround(GetX(), GetY()).IsDeadly()) {
+				if (armored) {
+					armored = false;
 				} else {
 					IsLiving(false);
 				}
@@ -42,19 +42,19 @@ public class Human {
 			}
 			if (!Lives())
 				return;
-			if (Locator.GetGround(GetX(), GetY()).isPoison()) {
+			if (Locator.GetGround(GetX(), GetY()).IsPoison()) {
 				if (poisoned) {
-					Main.FarbeWechseln(labels[GetY()][GetX()],
+					Main.ChangeColor(labels[GetY()][GetX()],
 							Locator.GetGround(Dpos2, Dpos1).GetGroundType().GetColor());
 					IsLiving(false);
 					return;
 				}
-				if (geschützt) {
-					geschützt = false;
+				if (armored) {
+					armored = false;
 				} else {
 					SetPoisoned(true);
 				}
-				// Main.FarbeWechseln(labels[GetY()][GetX()], color[Spieler]);
+				// Main.ChangeColor(labels[GetY()][GetX()], color[Player]);
 			}
 		} else {
 			System.out.println("Player " + name + " is dead!");
@@ -69,24 +69,24 @@ public class Human {
 			SuperScore++;
 			break;
 		case "OneLive":
-			SetRüstung(true);
+			SetArmor(true);
 			break;
 		case "PoisonCure":
 			SetPoisoned(false);
 			break;
 		case "Confusion":
-			Main.SetEffectActive(3, Main.h.size() * 10);
+			Main.SetEffectActive(3, Main.Humans.size() * 10);
 			break;
 		case "MouseBlack":
-			Main.SetEffectActive(4, Main.h.size() * 5);
+			Main.SetEffectActive(4, Main.Humans.size() * 5);
 			break;
 		case "PlayersGray":
-			Main.SetEffectActive(5, Main.h.size() * 7);
-			for (int i = 0; i < Main.h.size(); i++)
-				Main.h.get(i).SetGray();
+			Main.SetEffectActive(5, Main.Humans.size() * 7);
+			for (int i = 0; i < Main.Humans.size(); i++)
+				Main.Humans.get(i).SetGray();
 			break;
 		case "Darkness":
-			Main.SetEffectActive(6, Main.h.size() * 3);
+			Main.SetEffectActive(6, Main.Humans.size() * 3);
 			break;
 		}
 	}
@@ -107,12 +107,12 @@ public class Human {
 		return poisoned;
 	}
 
-	public boolean Geschützt() {
-		return geschützt;
+	public boolean Secured() {
+		return armored;
 	}
 
 	public int GetSchritte() {
-		return schritte;
+		return Steps;
 	}
 
 	public String GetName() {
@@ -136,31 +136,31 @@ public class Human {
 		}
 	}
 
-	public void SetRüstung(boolean Rüstung) {
-		geschützt = Rüstung;
+	public void SetArmor(boolean armor) {
+		armored = armor;
 	}
 
 	public void SetPoisoned(boolean poisoned) {
 		this.poisoned = poisoned;
 		if (poisoned) {
-			color[Spieler] = poisonColor[Spieler];
+			color[Player] = poisonColor[Player];
 		} else {
-			color[Spieler] = normalColor[Spieler];
+			color[Player] = normalColor[Player];
 		}
-		Main.FarbeWechseln(labels[GetY()][GetX()], color[Spieler]);
+		Main.ChangeColor(labels[GetY()][GetX()], color[Player]);
 	}
 
 	public void SetGray() {
 		if (!Lives())
 			return;
-		color[Spieler] = Color.GRAY;
+		color[Player] = Color.GRAY;
 		if (!Main.TypesActive[5]) {
 			if (Poisoned()) {
-				color[Spieler] = poisonColor[Spieler];
+				color[Player] = poisonColor[Player];
 			} else {
-				color[Spieler] = normalColor[Spieler];
+				color[Player] = normalColor[Player];
 			}
 		}
-		Locator.PlayerColorRefresh();
+		Locator.RefreshPlayerColors();
 	}
 }

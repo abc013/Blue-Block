@@ -16,15 +16,12 @@ public class Ground {
 		ChangeStatus();
 	}
 
-	public void ColorRefresh() {
-		Main.FarbeWechseln(Main.labels[y][x], color);
+	public void RefreshColor() {
+		Main.ChangeColor(Main.labels[y][x], color);
 	}
 
 	private void ChangeStatus() {
-		floor = false;
-		wall = false;
-		deadly = false;
-		poison = false;
+		floor = wall = deadly = poison = false;
 		switch (Type.GetType()) {
 		case "wall":
 			wall = true;
@@ -61,22 +58,22 @@ public class Ground {
 		this.Type = Type;
 		color = Type.GetColor();
 		ChangeStatus();
-		ColorRefresh();
+		RefreshColor();
 	}
 
-	public boolean isDeadly() {
+	public boolean IsDeadly() {
 		return deadly;
 	}
 
-	public boolean isPoison() {
+	public boolean IsPoison() {
 		return poison;
 	}
 
-	public boolean isWall() {
+	public boolean IsWall() {
 		return wall;
 	}
 
-	public boolean isFloor() {
+	public boolean IsFloor() {
 		return floor;
 	}
 
