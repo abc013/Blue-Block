@@ -48,7 +48,7 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				setOpen(false);
 				options.LoadSettings();
-				game = new Main(options.Y(), options.X(), options.Player(), options.PowerUps(), options.HasMouse(),
+				game = new Main(options.X(), options.Y(), options.Player(), options.PowerUps(), options.HasMouse(),
 						options.PlayerKill());
 				game.setOpen(true);
 			}

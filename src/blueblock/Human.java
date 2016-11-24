@@ -21,40 +21,40 @@ public class Human {
 		System.out.println("Player" + player + " created");
 		lives = true;
 		Main.ChangeColor(labels[pos1][pos2], color[player]);
-		this.pos1 = pos1;
-		this.pos2 = pos2;
-		Dpos1 = pos1;
-		Dpos2 = pos2;
+		this.pos1 = Dpos1 = pos1;
+		this.pos2 = Dpos2 = pos2;
 	}
 
 	public void Go(String direction) {
 		if (lives) {
 			Locator.MovePlayer(this, Player, direction);
-			System.out.println("Player" + Player + ".pos:" + GetX() + "|" + GetY());
-			if (Locator.GetGround(GetX(), GetY()).IsDeadly()) {
+			System.out.println("Player" + Player + ".pos:" + pos1 + "|" + pos2);
+			if (Locator.GetGround(pos1, pos2).IsDeadly()) {
 				if (armored) {
 					armored = false;
 				} else {
 					IsLiving(false);
 				}
-				Locator.GetGround(Dpos2, Dpos1)
-						.SetGroundType(Locator.GetGround(Dpos2, Dpos1).GetGroundType().GetInactiveType());
+				Locator.GetGround(Dpos1, Dpos2)
+						.SetGroundType(Locator.GetGround(Dpos1, Dpos2).GetGroundType().GetInactiveType());
 			}
+
 			if (!Lives())
 				return;
-			if (Locator.GetGround(GetX(), GetY()).IsPoison()) {
-				if (poisoned) {
-					Main.ChangeColor(labels[GetY()][GetX()],
-							Locator.GetGround(Dpos2, Dpos1).GetGroundType().GetColor());
-					IsLiving(false);
-					return;
-				}
+
+			if (Locator.GetGround(pos1, pos2).IsPoison()) {
 				if (armored) {
 					armored = false;
 				} else {
+					if (poisoned) {
+						Main.ChangeColor(labels[pos1][pos2],
+								Locator.GetGround(Dpos1, Dpos2).GetGroundType().GetColor());
+						IsLiving(false);
+						return;
+					}
 					SetPoisoned(true);
 				}
-				// Main.ChangeColor(labels[GetY()][GetX()], color[Player]);
+				// Main.ChangeColor(labels[pos1][pos2], color[Player]);
 			}
 		} else {
 			System.out.println("Player " + name + " is dead!");
@@ -92,11 +92,11 @@ public class Human {
 	}
 
 	public int GetX() {
-		return pos2;
+		return pos1;
 	}
 
 	public int GetY() {
-		return pos1;
+		return pos2;
 	}
 
 	public boolean Lives() {
@@ -121,9 +121,9 @@ public class Human {
 
 	public void IsLiving(boolean lives) {
 		this.lives = lives;
-		if (lives == false)
+		if (!lives)
 			SetPosition(-1, -1);
-		if (lives)
+		else
 			SetPosition(Dpos1, Dpos2);
 	}
 
@@ -142,25 +142,19 @@ public class Human {
 
 	public void SetPoisoned(boolean poisoned) {
 		this.poisoned = poisoned;
-		if (poisoned) {
-			color[Player] = poisonColor[Player];
-		} else {
-			color[Player] = normalColor[Player];
-		}
-		Main.ChangeColor(labels[GetY()][GetX()], color[Player]);
+		Color playerColor = poisoned ? poisonColor[Player] : normalColor[Player];
+		color[Player] = playerColor;
+		Main.ChangeColor(labels[pos1][pos2], playerColor);
 	}
 
 	public void SetGray() {
 		if (!Lives())
 			return;
+
 		color[Player] = Color.GRAY;
-		if (!Main.TypesActive[5]) {
-			if (Poisoned()) {
-				color[Player] = poisonColor[Player];
-			} else {
-				color[Player] = normalColor[Player];
-			}
-		}
+		if (!Main.TypesActive[5])
+			color[Player] = Poisoned() ? poisonColor[Player] : normalColor[Player];
+
 		Locator.RefreshPlayerColors();
 	}
 }
