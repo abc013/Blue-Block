@@ -30,10 +30,10 @@ public class PowerUp {
 	}
 
 	public void NewPosition(int x, int y, boolean NoRandomPosition) {
-		Ground gr = Locator.GetGround(y, x);
-		if (gr.IsWall() || gr.IsDeadly() || Locator.GetHuman(y, x) != null) {
-			int pos1 = new java.util.Random().nextInt(Main.FieldColumns);
-			int pos2 = new java.util.Random().nextInt(Main.FieldRows);
+		Ground gr = Locator.GetGround(x, y);
+		if (gr.IsWall() || gr.IsDeadly() || Locator.GetHuman(x, y) != null) {
+			int pos1 = new java.util.Random().nextInt(Main.FieldWidth);
+			int pos2 = new java.util.Random().nextInt(Main.FieldHeight);
 			if (NoRandomPosition)
 				NewPosition(x, y, true);
 			else

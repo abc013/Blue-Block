@@ -40,7 +40,6 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 	public Options(Menu menu) {
 		this.menu = menu;
 		LoadSettings();
-		System.out.println(MaxX);
 		options = new JFrame("Einstellungen");
 		options.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		options.setBounds(300, 300, 450, 370);
@@ -152,34 +151,29 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 	public void setOpen(boolean open) {
 		options.setVisible(open);
 		LoadSettings();
-		textFieldHeight.setText(MaxY + "");
 		textFieldWidth.setText(MaxX + "");
+		textFieldHeight.setText(MaxY + "");
 		playerCountSelector.select(playerCount + "");
 		powerUpCountSelector.select(powerUps + "");
 	}
 
 	private void SaveSettings() {
 		PrintWriter pWriter = null;
-		int Y = Integer.parseInt(textFieldHeight.getText());
-		int X = Integer.parseInt(textFieldWidth.getText());
+		int x = Integer.parseInt(textFieldWidth.getText());
+		int y = Integer.parseInt(textFieldHeight.getText());
 		int players = Integer.parseInt(playerCountSelector.getSelectedItem());
 		int PUs = Integer.parseInt(powerUpCountSelector.getSelectedItem());
 		try {
 			pWriter = new PrintWriter(new BufferedWriter(new FileWriter("settings.txt")));
-			if (Y > 56)
-				Y = 56;
-			if (X > 56)
-				X = 56;
-			if (Y < 6) {
-				PUs = 2;
-				Y = 6;
-			}
-			if (X < 6) {
-				PUs = 2;
-				X = 6;
-			}
-			pWriter.println("Height: " + Y);
-			pWriter.println("Width: " + X);
+
+			x = Math.min(56, Math.max(6, x));
+			y = Math.min(56, Math.max(6, y));
+
+			// Don't allow more powerups than there are free fields
+			PUs = Math.min((x - 2) * (y - 2) - players, PUs);
+
+			pWriter.println("Height: " + y);
+			pWriter.println("Width: " + x);
 			pWriter.println("Players: " + players);
 			pWriter.println("PowerUps: " + PUs);
 			pWriter.println("Mouse: " + mouse);
@@ -222,7 +216,6 @@ public class Options implements PropertyChangeListener, ActionListener, ItemList
 			MaxX = Values[1];
 			playerCount = Values[2];
 			powerUps = Values[3];
-
 		} catch (Exception e) {
 			System.out.println(e);
 		}

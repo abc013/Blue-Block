@@ -17,7 +17,7 @@ public class Ground {
 	}
 
 	public void RefreshColor() {
-		Main.ChangeColor(Main.labels[y][x], color);
+		Main.ChangeColor(Main.labels[x][y], color);
 	}
 
 	private void ChangeStatus() {

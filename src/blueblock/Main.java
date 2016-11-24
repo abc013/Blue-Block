@@ -8,7 +8,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
 
 public class Main extends JFrame implements MouseListener, KeyListener {
@@ -40,7 +39,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	public static int[] TypesDuration = new int[Types.length];
 	public static boolean[] TypesActive = new boolean[Types.length];
 	// the rest;
-	public static int FieldColumns, FieldRows, MouseLava, MouseWall, MouseAcid;
+	public static int FieldHeight, FieldWidth, MouseLava, MouseWall, MouseAcid;
 	private static boolean indirect, mouse;
 	public static boolean kill;
 	public static boolean EndGame = false;
@@ -52,22 +51,25 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 
 	public Main(int width, int height, int playerCount, int PowerUps, boolean HasMouse, boolean PlayerKill) {
 		PowerUpList = new PowerUp[PowerUps];
-		FieldColumns = width;
-		FieldRows = height;
+		FieldWidth = width;
+		FieldHeight = height;
 		kill = PlayerKill;
 		mouse = HasMouse;
-		if (FieldColumns < 6) {
-			FieldColumns = 6;
+
+		if (FieldHeight < 6) {
+			FieldHeight = 6;
 			System.out.println("FieldColumns can't be under six!");
 		}
-		if (FieldRows < 6) {
-			FieldRows = 6;
+		if (FieldWidth < 6) {
+			FieldWidth = 6;
 			System.out.println("FieldRows can't be under six!");
 		}
+
 		if (playerCount <= 0 || playerCount > 4) {
 			System.out.println("Players can't be under 0 or above 4!");
 			playerCount = 1;
 		}
+
 		String Heading = null;
 		switch (playerCount) {
 		case 4:
@@ -83,14 +85,17 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 			Heading = "Poor, poor alone BLUE BLOCK";
 			break;
 		}
+
 		window = new JFrame(Heading + " || Visit us on Github! --> https://github.com/abc013/Blue-Block <--");
 		window.setLocation(-7, 0);
 		window.setSize(700, 700);
 		window.setBackground(Color.BLACK);
-		window.setLayout(new GridLayout(FieldColumns, FieldRows));
-		labels = new Label[FieldColumns][FieldRows];
-		for (int x = 0; x < labels.length; x++) {
-			for (int y = 0; y < labels[x].length; y++) {
+		window.setLayout(new GridLayout(FieldWidth, FieldHeight));
+		labels = new Label[FieldWidth][FieldHeight];
+
+		// We have to create the columns first, as window.add(label) will fill each column before starting on the next row
+		for (int y = 0; y < FieldHeight; y++) {
+			for (int x = 0; x < FieldWidth; x++) {
 				String name = "label";
 				if (x < 10)
 					name += "0";
@@ -111,9 +116,11 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 				labels[x][y] = label;
 			}
 		}
+
 		infoWindow = new InfoWindow(playerCount);
 		for (int i = 0; i < groundTiles.size(); i++)
 			groundTiles.get(i).RefreshColor();
+
 		players++;
 		for (int i = 0; i < playerCount; i++) {
 			switch (players) {
@@ -123,17 +130,17 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 				Humans.add(H1);
 				break;
 			case 2:
-				final Human H2 = new Human(FieldColumns - 2, FieldRows - 2, players, "Grüner Block");
+				final Human H2 = new Human(FieldWidth - 2, FieldHeight  - 2, players, "Grüner Block");
 				Main.H2 = H2;
 				Humans.add(H2);
 				break;
 			case 3:
-				final Human H3 = new Human(1, FieldRows - 2, players, "Cyaner Block");
+				final Human H3 = new Human(1, FieldHeight - 2, players, "Cyaner Block");
 				Main.H3 = H3;
 				Humans.add(H3);
 				break;
 			case 4:
-				final Human H4 = new Human(FieldColumns - 2, 1, players, "Magenta Block");
+				final Human H4 = new Human(FieldWidth - 2, 1, players, "Magenta Block");
 				Main.H4 = H4;
 				Humans.add(H4);
 				break;
@@ -143,17 +150,19 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		window.setDefaultCloseOperation(3);
 		window.addMouseListener(this);
 		window.addKeyListener(this);
-		for (int i = 0; i < FieldRows; i++) {
+
+		for (int i = 0; i < FieldHeight; i++) {
 			Locator.GetGround(0, i).SetGroundType(Wall);
-			Locator.GetGround(i, FieldColumns - 1).SetGroundType(Wall);
+			Locator.GetGround(FieldWidth - 1, i).SetGroundType(Wall);
 		}
-		for (int i = 0; i < FieldColumns; i++) {
+		for (int i = 0; i < FieldWidth; i++) {
 			Locator.GetGround(i, 0).SetGroundType(Wall);
-			Locator.GetGround(FieldRows - 1, i).SetGroundType(Wall);
+			Locator.GetGround(i, FieldHeight - 1).SetGroundType(Wall);
 		}
+
 		for (int i = 0; i < PowerUps; i++) {
-			int pos1 = new java.util.Random().nextInt(FieldColumns);
-			int pos2 = new java.util.Random().nextInt(FieldRows);
+			int pos1 = new java.util.Random().nextInt(FieldWidth);
+			int pos2 = new java.util.Random().nextInt(FieldHeight);
 			PowerUp PU = new PowerUp(pos1, pos2, false, Types[new java.util.Random().nextInt(Types.length)], false);
 			PowerUpList[i] = PU;
 		}
@@ -188,9 +197,9 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		String name = e.getComponent().getName();
 		String last = name.substring(name.length() - 2);
 		String secondToLast = name.substring(name.length() - 4, name.length() - 2);
-		int y = Integer.parseInt(secondToLast);
-		int x = Integer.parseInt(last);
-		if (TypesActive[4] || Locator.GetHuman(x, y) != null || Locator.GetPowerUp(y, x) != null)
+		int x = Integer.parseInt(secondToLast);
+		int y = Integer.parseInt(last);
+		if (TypesActive[4] || Locator.GetHuman(x, y) != null || Locator.GetPowerUp(x, y) != null)
 			return;
 
 		Ground ground = Locator.GetGround(x, y);
@@ -239,122 +248,65 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if (!TypesActive[3]) {
-			switch (String.valueOf(e.getKeyChar()).toLowerCase()) {
+		boolean confused = TypesActive[3];
+		String input = String.valueOf(e.getKeyChar()).toLowerCase();
+
+		switch (input) {
 			// Left
 			case "a":
-				H1.Go("left");
+				H1.Go(confused ? "right" : "left");
 				break;
 			// Right
 			case "d":
-				H1.Go("right");
+				H1.Go(confused ? "left" : "right");
 				break;
 			// Up
 			case "w":
-				H1.Go("up");
+				H1.Go(confused ? "down" : "up");
 				break;
 			// Down
 			case "s":
-				H1.Go("down");
+				H1.Go(confused ? "up" : "down");
 				break;
 			case "g":
-				H2.Go("left");
+				H2.Go(confused ? "right" : "left");
 				break;
 			case "j":
-				H2.Go("right");
+				H2.Go(confused ? "left" : "right");
 				break;
 			case "z":
-				H2.Go("up");
+				H2.Go(confused ? "down" : "up");
 				break;
 			case "h":
-				H2.Go("down");
+				H2.Go(confused ? "up" : "down");
 				break;
 			case "k":
-				H3.Go("left");
+				H3.Go(confused ? "right" : "left");
 				break;
 			case "ö":
-				H3.Go("right");
+				H3.Go(confused ? "left" : "right");
 				break;
 			case ":":
-				H3.Go("right");
+				H3.Go(confused ? "left" : "right");
 				break;
 			case "o":
-				H3.Go("up");
+				H3.Go(confused ? "down" : "up");
 				break;
 			case "l":
-				H3.Go("down");
+				H3.Go(confused ? "up" : "down");
 				break;
 			case "1":
-				H4.Go("left");
+				H4.Go(confused ? "right" : "left");
 				break;
 			case "3":
-				H4.Go("right");
+				H4.Go(confused ? "left" : "right");
 				break;
 			case "5":
-				H4.Go("up");
+				H4.Go(confused ? "down" : "up");
 				break;
 			case "2":
-				H4.Go("down");
+				H4.Go(confused ? "up" : "down");
 				break;
-			}
-		} else {
-			switch (String.valueOf(e.getKeyChar()).toLowerCase()) {
-			// Left
-			case "a":
-				H1.Go("right");
-				break;
-			// Right
-			case "d":
-				H1.Go("left");
-				break;
-			// Up
-			case "w":
-				H1.Go("down");
-				break;
-			// Down
-			case "s":
-				H1.Go("up");
-				break;
-			case "g":
-				H2.Go("right");
-				break;
-			case "j":
-				H2.Go("left");
-				break;
-			case "z":
-				H2.Go("down");
-				break;
-			case "h":
-				H2.Go("up");
-				break;
-			case "k":
-				H3.Go("right");
-				break;
-			case "ö":
-				H3.Go("left");
-				break;
-			case ":":
-				H3.Go("left");
-				break;
-			case "o":
-				H3.Go("down");
-				break;
-			case "l":
-				H3.Go("up");
-				break;
-			case "1":
-				H4.Go("right");
-				break;
-			case "3":
-				H4.Go("left");
-				break;
-			case "5":
-				H4.Go("down");
-				break;
-			case "2":
-				H4.Go("up");
-				break;
-			}
 		}
 
 		if (EndGame)
@@ -373,7 +325,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	public static void paint() {
 		if (TypesActive[6]) {
 			for (int i = 0; i < groundTiles.size(); i++) {
-				Main.ChangeColor(labels[groundTiles.get(i).GetY()][groundTiles.get(i).GetX()], Color.BLACK);
+				Main.ChangeColor(labels[groundTiles.get(i).GetX()][groundTiles.get(i).GetY()], Color.BLACK);
 			}
 		} else {
 			Locator.RefreshPlayerColors();
