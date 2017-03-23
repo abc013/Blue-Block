@@ -1,5 +1,5 @@
 # Welcome to Blue-Block [GER]!
-##A small Java game for breaks in school.
+## A small Java game for breaks in school.
 This version is a mix of German and English.
 
 From 1 to 5 players.
@@ -10,45 +10,45 @@ This game has the layout "One Cell = One Color" which means, players etc. have o
 _have fun!!_
 
 ## you need Eclipse to run the game.
-#### Last updated with 'Eclipse Neon`.
-I hope every computer has this ^^.
+#### Last updated with 'Eclipse Neon'.
+I hope every computer has this.
 
 ## Please notice
 This game isn't the best, it's one of my first (and best) projects and has many problems.
 
 I'm available for solutions :).
-###Play as Block:
+### Play as Block:
  You have to survive from the mouse (our biggest enemy!) and from the other players (when they run over you, you're dead).
-###Play as Mouse:
+### Play as Mouse:
  Klick on the fields to create different Types of Dangerous things!
  F.e. lava and sourness. 
 
 ## Movement/Mouse keys
-####Player 1 (Blue Block):
+#### Player 1 (Blue Block):
 - forward = `w`
 - left = `a`
 - right = `d`
 - backward = `s`
 
-####Player 2 (Green Block):
+#### Player 2 (Green Block):
 - forward = `z`
 - left = `g`
 - right = `j`
 - backward = `h`
 
-####Player 3 (Cyan Block)
+#### Player 3 (Cyan Block)
 - forward = `o`
 - left = `k`
 - right = `ö` or `:`
 - backward = `l`
 
-####Player 4 (Magenta Block)
+#### Player 4 (Magenta Block)
 - forward = `5`
 - left = `1`
 - right = `3`
 - backward = `2`
 
-####Player 5(Mouse, can't be disabled yet)
+#### Player 5(Mouse, can't be disabled yet)
 - left-click = place lava
 - right-click = place walls
 - mid-click = place sourness
@@ -59,5 +59,5 @@ I'm available for solutions :).
 and my helpful friends,
 [Wolkenfarmer](https://github.com/Wolkenfarmer) and _HerrPudding_.
 
-##YOU USE THIS SOFTWARE AT YOUR OWN RISK
+## YOU USE THIS SOFTWARE AT YOUR OWN RISK
 
