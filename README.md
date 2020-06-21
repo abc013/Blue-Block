@@ -1,4 +1,5 @@
 # Welcome to Blue-Block [GER]!
+## ⚠️ Please note that the project archived, which means that it is no longer maintained; standing and new issues won't be fixed. ⚠️
 ## A small Java game for breaks in school.
 This version is a mix of German and English.
 
