@@ -31,31 +31,32 @@ public class InfoWindow extends JFrame {
 		infoWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		infoWindow.setLayout(null);
 		infoWindow.setResizable(false);
+		infoWindow.setAlwaysOnTop(true);
 
 		Font font = new Font("papyrus", 1, 25);
 
-		InfoLog = new JTextArea();
-		InfoLog.setFont(font);
-		InfoLog.setBounds(10, 10, 260, 35);
-		InfoLog.setText("Log:");
-		InfoLog.setSelectionColor(Color.WHITE);
-		InfoLog.setEditable(false);
-		infoWindow.add(InfoLog);
-
 		JButton NewGame = new JButton(ResourceManager.New_Game);
 		NewGame.setFont(font);
-		NewGame.setBounds(10, 55, 260, 40);
+		NewGame.setBounds(10, 10, 260, 40);
 		NewGame.setToolTipText(
-				"Stop the current game and return to menu.\nAfter pressing the button, refocus the main window.");
+				"Stop the game and return to the menu.");
 		NewGame.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				main.StopGame = true;
+				main.EndGame(true);;
 			}
 
 		});
 		infoWindow.add(NewGame);
+
+		InfoLog = new JTextArea();
+		InfoLog.setFont(font);
+		InfoLog.setBounds(10, 65, 260, 35);
+		InfoLog.setText("Information:");
+		InfoLog.setSelectionColor(Color.WHITE);
+		InfoLog.setEditable(false);
+		infoWindow.add(InfoLog);
 
 		Font font2 = new Font("forte", Font.PLAIN, 15);
 

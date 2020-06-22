@@ -1,7 +1,5 @@
 package blueblock;
 
-import java.awt.Color;
-
 public class Locator {
 	private Game game;
 

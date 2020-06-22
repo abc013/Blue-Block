@@ -19,7 +19,6 @@ public class Game {
 
 	public int Height, Width;
 	public int MouseLava, MouseWall, MouseAcid;
-	public boolean EndGame = false;
 
 	public Game(Main main) {
 		Main = main;

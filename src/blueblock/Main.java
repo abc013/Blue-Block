@@ -35,6 +35,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.addMouseListener(this);
 		window.addKeyListener(this);
+		window.setAlwaysOnTop(true);
 
 		NewGame();
 		infoWindow = new InfoWindow(this);
@@ -42,8 +43,6 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		setOpen(setOpen);
 
 		infoWindow.Refresh();
-		window.repaint();
-		window.setAlwaysOnTop(true);
 	}
 
 	public void EndGame(boolean toMenu) {
@@ -124,8 +123,8 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	}
 
 	public void setOpen(boolean open) {
-		window.setVisible(open);
 		infoWindow.setOpen(open);
+		window.setVisible(open);
 	}
 
 	public void mouseClicked(MouseEvent e) {
