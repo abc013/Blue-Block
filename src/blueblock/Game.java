@@ -105,8 +105,8 @@ public class Game {
 	public void HandleKeyInput(char key) {
 		final char[][] keys = {
 			{ 'a', 'd', 'w', 's' },
-			{ 'g', 'j', 'z', 'h' },
-			{ 'k', 'ö', 'o', 'l' },
+			{ 'f', 'h', 't', 'g' },
+			{ 'j', 'l', 'i', 'k' },
 			{ '1', '3', '5', '2' },
 		};
 
