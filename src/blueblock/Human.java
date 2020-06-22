@@ -3,33 +3,33 @@ package blueblock;
 import java.awt.Color;
 
 public class Human {
-	public Color[] normalColor = { Color.WHITE, Color.BLUE, new Color(10, 220, 10), Color.CYAN, Color.MAGENTA,
-			Color.RED };
-	public Color[] color = { Color.WHITE, Color.BLUE, new Color(10, 220, 10), Color.CYAN, Color.MAGENTA, Color.RED };
-	public Color[] poisonColor = { Color.WHITE, new Color(0, 0, 200), new Color(10, 120, 10), new Color(0, 155, 155),
-			new Color(155, 0, 155) };
-	private int pos1, pos2;
-	public int Kills, Steps, SuperScore, PowerUps, Player;
-	private boolean lives, poisoned, armored;
 	private Game game;
 
+	private int pos1, pos2;
+	private int player;
+	private boolean lives, poisoned, armored;
+	private Color color;
+
+	public int Kills, Steps, SuperScore, PowerUps;
+
 	public Human(Game game, int pos1, int pos2, int player) {
-		Player = player;
+		this.player = player;
 		this.game = game;
 		lives = true;
 		this.pos1 = pos1;
 		this.pos2 = pos2;
 
+		color = ResourceManager.PlayerColor(player);
+		Paint();
 		System.out.println("Player " + player + " created.");
-		game.Main.ChangeColor(pos1, pos2, color[player + 1]);
 	}
 
 	public void Go(String direction) {
 		if (!Lives())
 			return;
 
-		game.Locator.MovePlayer(this, Player, direction);
-		System.out.println("Player" + Player + ".pos:" + pos1 + "|" + pos2);
+		game.Locator.MovePlayer(this, player, direction);
+		System.out.println("Player" + player + ".pos:" + pos1 + "|" + pos2);
 		Ground ground = game.Locator.GetGround(pos1, pos2);
 
 		if (ground.GetType().IsDeadly()) {
@@ -84,6 +84,12 @@ public class Human {
 		}
 	}
 
+	public void Paint()
+	{
+		if (lives)
+			game.Main.ChangeColor(pos1, pos2, color);
+	}
+
 	public int GetX() {
 		return pos1;
 	}
@@ -125,19 +131,18 @@ public class Human {
 
 	public void SetPoisoned(boolean poisoned) {
 		this.poisoned = poisoned;
-		Color playerColor = poisoned ? poisonColor[Player] : normalColor[Player];
-		color[Player] = playerColor;
-		game.Main.ChangeColor(pos1, pos2, playerColor);
+		color = poisoned ? ResourceManager.PlayerPoisonColor(player) : ResourceManager.PlayerColor(player);
+		Paint();
 	}
 
 	public void SetGray() {
 		if (!Lives())
 			return;
 
-		color[Player] = Color.GRAY;
+		color = Color.GRAY;
 		if (!game.TypesActive[5])
-			color[Player] = Poisoned() ? poisonColor[Player] : normalColor[Player];
+			SetPoisoned(poisoned);
 
-		game.Locator.RefreshPlayerColors();
+		Paint();
 	}
 }

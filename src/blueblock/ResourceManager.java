@@ -29,7 +29,13 @@ public final class ResourceManager {
 	}
 
 	public static Color PlayerColor(int player) {
-		final Color[] colors = { Color.BLUE, Color.GREEN, Color.CYAN, Color.MAGENTA };
+		final Color[] colors = { Color.BLUE, new Color(10, 220, 10), Color.CYAN, Color.MAGENTA };
+
+		return colors[player];
+	}
+
+	public static Color PlayerPoisonColor(int player) {
+		final Color[] colors = { new Color(0, 0, 200), new Color(10, 120, 10), new Color(0, 155, 155), new Color(155, 0, 155) };
 
 		return colors[player];
 	}

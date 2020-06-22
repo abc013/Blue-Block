@@ -33,8 +33,11 @@ public class Locator {
 	}
 
 	public void MovePlayer(Human h, int player, String direction) {
-		int pos1 = h.GetX();
-		int pos2 = h.GetY();
+		int old1 = h.GetX();
+		int old2 = h.GetY();
+		int pos1 = old1;
+		int pos2 = old2;
+
 		backgroundColor(pos1, pos2);
 
 		switch (direction) {
@@ -88,8 +91,8 @@ public class Locator {
 		checkKills(h);
 		checkPowerups(h);
 
-		game.Main.ChangeColor(pos1, pos2, h.color[player]);
-		game.Main.paint();
+		if (old1 != pos1 || old2 != pos2)
+			h.Paint();
 	}
 
 	private void checkKills(Human human) {
@@ -120,21 +123,5 @@ public class Locator {
 			ground.SetGroundType(GroundType.Trail);
 
 		game.Main.ChangeColor(pos1, pos2, ground.GetType().GetColor());
-	}
-
-	public void RefreshPlayerColors() {
-		for (int x = 0; x < Settings.Width; x++) {
-			for (int y = 0; y < Settings.Height; y++)
-				game.Main.ChangeColor(x, y, GetGround(x, y).GetType().GetColor());
-		}
-
-		// TODO necessary? What is this?
-		for (Human human : game.Humans) {
-			if (human.Lives())
-				game.Main.ChangeColor(human.GetX(), human.GetY(), human.color[human.Player + 1]);
-		}
-
-		for (PowerUp powerup : game.PowerUpList)
-			game.Main.ChangeColor(powerup.GetX(), powerup.GetY(), Color.YELLOW);
 	}
 }

@@ -29,6 +29,9 @@ public class Ground {
 	}
 
 	public void SetGroundType(GroundType Type) {
+		if (Type == null)
+			return;
+
 		this.Type = Type;
 		RefreshColor();
 	}

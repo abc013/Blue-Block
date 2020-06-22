@@ -89,8 +89,18 @@ public class Game {
 	public void Paint() {
 		if (TypesActive[6])
 			Main.Clear(Color.BLACK);
-		else
-			Locator.RefreshPlayerColors();
+		else {
+			for (int x = 0; x < Settings.Width; x++) {
+				for (int y = 0; y < Settings.Height; y++)
+					Main.ChangeColor(x, y, GroundTiles[x][y].GetType().GetColor());
+			}
+
+			for (Human human : Humans)
+				human.Paint();
+
+			for (PowerUp powerup : PowerUpList)
+				Main.ChangeColor(powerup.GetX(), powerup.GetY(), Color.YELLOW);
+		}
 	}
 
 	public void HandleKeyInput(char key) {
@@ -114,6 +124,8 @@ public class Game {
 			else if (key == keys[i][3]) // Down
 				Humans[i].Go(confused ? "up" : "down");
 		}
+
+		Paint();
 	}
 
 	public void HandleMouseInput(int button, int x, int y) {
@@ -125,39 +137,30 @@ public class Game {
 
 		Ground ground = Locator.GetGround(x, y);
 		GroundType type = ground.GetType();
+
 		if (button == 1) {
 			if (type.IsDeadly()) {
-				GroundType NewGround = type.GetInactiveType();
-				if (NewGround != null) {
-					ground.SetGroundType(NewGround);
-					MouseLava--;
-				}
+				ground.SetGroundType(type.GetInactiveType());
+				MouseLava--;
 			} else {
-				MouseLava++;
 				ground.SetGroundType(GroundType.Lava);
+				MouseLava++;
 			}
 		} else if (button == 3) {
 			if (type.IsPoison()) {
-				GroundType NewGround = type.GetInactiveType();
-
-				if (NewGround != null) {
-					ground.SetGroundType(NewGround);
-					MouseAcid--;
-				}
+				ground.SetGroundType(type.GetInactiveType());
+				MouseAcid--;
 			} else {
-				MouseAcid++;
 				ground.SetGroundType(GroundType.Acid);
+				MouseAcid++;
 			}
 		} else {
 			if (type.IsWall()) {
-				GroundType NewGround = type.GetInactiveType();
-				if (NewGround != null) {
-					ground.SetGroundType(NewGround);
-					MouseWall--;
-				}
+				ground.SetGroundType(type.GetInactiveType());
+				MouseWall--;
 			} else {
-				MouseWall++;
 				ground.SetGroundType(GroundType.Wall);
+				MouseWall++;
 			}
 		}
 	}

@@ -17,6 +17,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	private InfoWindow infoWindow;
 	// XY coordinate-system;
 	public Label[][] labels;
+	private int labelWidth, labelHeight;
 
 	public boolean StopGame;
 
@@ -61,14 +62,24 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	}
 
 	public void SetMapBounds(int w, int h) {
+		if (labels != null) {
+			for (int y = 0; y < labelHeight; y++) {
+				for (int x = 0; x < labelWidth; x++)
+					window.remove(labels[x][y]);
+			}
+		}
+
+		labelWidth = w;
+		labelHeight = h;
 		window.setLayout(new GridLayout(w, h));
+		window.setSize(700, (int)(700 * h/(float)w));
 		labels = new Label[w][h];
 
 		// We have to create the columns first, as window.add(label) will fill each column before starting on the next row
-		for (int y = 0; y < w; y++) {
-			for (int x = 0; x < h; x++) {
+		for (int y = 0; y < h; y++) {
+			for (int x = 0; x < w; x++) {
 				// Name used for identifying the label later
-				Label label = new Label(x + "," + y);
+				Label label = new Label(/*x + "," + y*/);
 				label.setName(x + "," + y);
 				label.addMouseListener(this);
 
@@ -101,12 +112,15 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		return title + " || On Github! https://github.com/abc013/Blue-Block";
 	}
 
-	public void ChangeColor(int x, int y, Color Color) {
+	public void ChangeColor(int x, int y, Color color) {
 		/*
 		 * New Idea for future: label.setText("OOO");
 		 * label.setForeground(Color);
 		 */
-		labels[x][y].setBackground(Color);
+		if (Game.TypesActive[6])
+			color = Color.BLACK;
+
+		labels[x][y].setBackground(color);
 	}
 
 	public void setOpen(boolean open) {
@@ -129,7 +143,6 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		if (StopGame)
 			EndGame(true);
 
-		paint();
 		infoWindow.Refresh();
 	}
 
@@ -140,12 +153,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		if (StopGame)
 			EndGame(true);
 
-		paint();
 		infoWindow.Refresh();
-	}
-
-	public void paint() {
-		Game.Paint();
 	}
 
 	public void Clear(Color color) {

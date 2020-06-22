@@ -4,8 +4,7 @@ import java.awt.Color;
 
 public class PowerUp {
 	// The different types
-	public static final String[] Types = { "SuperScore", "OneLive", "PoisonCure", "Confusion", "MouseBlack", "PlayersGray",
-	"Darkness" };
+	public static final String[] Types = { "SuperScore", "OneLive", "PoisonCure", "Confusion", "MouseBlack", "PlayersGray", "Darkness" };
 
 	private Game game;
 	private int x, y;

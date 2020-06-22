@@ -93,6 +93,8 @@ public final class Settings {
 	}
 
 	public static void SaveSettings() {
+		CheckSettings();
+
 		PrintWriter pWriter = null;
 		try {
 			new File("settings.txt").createNewFile();
@@ -118,6 +120,10 @@ public final class Settings {
 	public static void CheckSettings() {
 		Width = Math.min(MaxWidth, Math.max(MinWidth, Width));
 		Height = Math.min(MaxHeight, Math.max(MinHeight, Height));
+		if (Width != Height) {
+			Height = Width;
+			System.out.println("Unable to use width and height when not equal because Java. Fallback to width: " + Width);
+		}
 
 		PowerupCount = Math.min(MaxPowerupCount, PowerupCount);
 		PlayerCount = Math.min(MaxPlayerCount, PlayerCount);
