@@ -27,7 +27,7 @@ public class Menu extends JFrame {
 	}
 
 	public Menu() {
-		menu = new JFrame("Blue Block | Menu");
+		menu = new JFrame("Blue Block | " + ResourceManager.LanguageStrings.get("Menu"));
 		options = new Options(this);
 		menu.setBounds(ResourceManager.ScreenWidth / 2 - 200, ResourceManager.ScreenHeight / 2 - 150, 400, 300);
 		menu.setLayout(null);
@@ -35,12 +35,12 @@ public class Menu extends JFrame {
 
 		Font font = new Font("gabriola", 0, 30);
 
-		start = new JButton("Start game", ResourceManager.BlueBlock);
+		start = new JButton(ResourceManager.LanguageStrings.get("Start"), ResourceManager.BlueBlock);
 		start.setFont(font);
 		start.setBounds(10, 10, 370, 70);
 		start.setIconTextGap(75);
 		start.setForeground(Color.BLUE);
-		start.setToolTipText("Starts the game.");
+		start.setToolTipText(ResourceManager.LanguageStrings.get("StartDesc"));
 		start.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -74,12 +74,12 @@ public class Menu extends JFrame {
 		});
 		menu.add(start);
 
-		optionsButton = new JButton("Settings", ResourceManager.BlueBlock);
+		optionsButton = new JButton(ResourceManager.LanguageStrings.get("Settings"), ResourceManager.BlueBlock);
 		optionsButton.setFont(font);
 		optionsButton.setBounds(10, 95, 370, 70);
 		optionsButton.setIconTextGap(100);
 		optionsButton.setForeground(Color.BLUE);
-		optionsButton.setToolTipText("Various options for the game can be set here.");
+		optionsButton.setToolTipText(ResourceManager.LanguageStrings.get("SettingsDesc"));
 		optionsButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -114,12 +114,12 @@ public class Menu extends JFrame {
 		});
 		menu.add(optionsButton);
 
-		close = new JButton("Exit game", ResourceManager.BlueBlock);
+		close = new JButton(ResourceManager.LanguageStrings.get("Exit"), ResourceManager.BlueBlock);
 		close.setFont(font);
 		close.setBounds(10, 180, 370, 70);
 		close.setIconTextGap(80);
 		close.setForeground(Color.BLUE);
-		close.setToolTipText("Exits the game.");
+		close.setToolTipText(ResourceManager.LanguageStrings.get("ExitDesc"));
 		close.addActionListener(new ActionListener() {
 
 			@Override

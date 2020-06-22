@@ -24,7 +24,7 @@ public class Options {
 	public Options(final Menu menu) {
 		this.menu = menu;
 
-		options = new JFrame("Blue Block | Settings");
+		options = new JFrame("Blue Block | " + ResourceManager.LanguageStrings.get("Settings"));
 		options.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		options.setBounds(ResourceManager.ScreenWidth / 2 - 225, ResourceManager.ScreenHeight / 2 - 185, 450, 370);
 		options.setLayout(null);
@@ -32,7 +32,7 @@ public class Options {
 
 		Font font = new Font("chiller", 0, 30);
 
-		JLabel widthLabel = new JLabel("Width:");
+		JLabel widthLabel = new JLabel(ResourceManager.LanguageStrings.get("Width") + ":");
 		widthLabel.setFont(font);
 		widthLabel.setBounds(90, 10, 70, 40);
 		options.add(widthLabel);
@@ -43,7 +43,7 @@ public class Options {
 		textFieldWidth.setValue(Settings.Width);
 		options.add(textFieldWidth);
 
-		JLabel heightLabel = new JLabel("Height:");
+		JLabel heightLabel = new JLabel(ResourceManager.LanguageStrings.get("Height") + ":");
 		heightLabel.setFont(font);
 		heightLabel.setBounds(215, 10, 60, 40);
 		options.add(heightLabel);
@@ -54,7 +54,7 @@ public class Options {
 		textFieldHeight.setValue(Settings.Height);
 		options.add(textFieldHeight);
 
-		JLabel playerText = new JLabel("Players:");
+		JLabel playerText = new JLabel(ResourceManager.LanguageStrings.get("Players") + ":");
 		playerText.setFont(font);
 		playerText.setBounds(20, 60, 90, 40);
 		options.add(playerText);
@@ -69,7 +69,7 @@ public class Options {
 
 		options.add(playerCountSelector);
 
-		JLabel powerUpLabel = new JLabel("Power-ups:");
+		JLabel powerUpLabel = new JLabel(ResourceManager.LanguageStrings.get("Powerups") + ":");
 		powerUpLabel.setFont(font);
 		powerUpLabel.setBounds(200, 60, 130, 40);
 		options.add(powerUpLabel);
@@ -89,8 +89,8 @@ public class Options {
 		mouseCheckbox.setBounds(70, 120, 240, 60);
 		mouseCheckbox.setSelectedIcon(ResourceManager.RedButton);
 		mouseCheckbox.setSelected(Settings.EnableMouse);
-		mouseCheckbox.setText("Enable mouse");
-		mouseCheckbox.setToolTipText("Determines wether the Mouse is disabled in games or not.");
+		mouseCheckbox.setText(ResourceManager.LanguageStrings.get("EnableMouse"));
+		mouseCheckbox.setToolTipText(ResourceManager.LanguageStrings.get("EnableMouseDesc"));
 		options.add(mouseCheckbox);
 
 		killCheckbox = new JCheckBox(ResourceManager.BlueButton);
@@ -98,13 +98,13 @@ public class Options {
 		killCheckbox.setBounds(70, 190, 310, 60);
 		killCheckbox.setSelectedIcon(ResourceManager.RedButton);
 		killCheckbox.setSelected(Settings.EnablePlayerKills);
-		killCheckbox.setText("Enable PvP");
-		killCheckbox.setToolTipText("Determines wether players can kill each other or not.");
+		killCheckbox.setText(ResourceManager.LanguageStrings.get("EnablePvP"));
+		killCheckbox.setToolTipText(ResourceManager.LanguageStrings.get("EnablePvPDesc"));
 		options.add(killCheckbox);
 
 		Font harrington = new Font("Harrington", 1, 15);
 
-		save = new JButton("Save");
+		save = new JButton(ResourceManager.LanguageStrings.get("Save"));
 		save.setFont(harrington);
 		save.setBounds(10, 270, 120, 40);
 		save.addActionListener(new ActionListener() {
@@ -119,7 +119,7 @@ public class Options {
 		});
 		options.add(save);
 
-		reset = new JButton("Reset");
+		reset = new JButton(ResourceManager.LanguageStrings.get("Reset"));
 		reset.setFont(harrington);
 		reset.setBounds(140, 270, 150, 40);
 		reset.addActionListener(new ActionListener() {
@@ -137,7 +137,7 @@ public class Options {
 		});
 		options.add(reset);
 
-		abort = new JButton("Cancel");
+		abort = new JButton(ResourceManager.LanguageStrings.get("Cancel"));
 		abort.setFont(harrington);
 		abort.setBounds(300, 270, 120, 40);
 		abort.addActionListener(new ActionListener() {

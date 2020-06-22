@@ -35,13 +35,11 @@ public final class Settings {
 	public static boolean EnablePlayerKills = DefEnablePlayerKills;
 
 	public static void LoadSettings() {
-		FileReader fr = null;
-		BufferedReader br = null;
 		ArrayList<String> lines = new ArrayList<String>();
 
 		try {
-			fr = new FileReader("settings.txt");
-			br = new BufferedReader(fr);
+			FileReader fr = new FileReader("settings.txt");
+			BufferedReader br = new BufferedReader(fr);
 
 			while (br.ready())
 				lines.add(br.readLine());

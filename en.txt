@@ -1,0 +1,35 @@
+Settings: Settings
+Width: Width
+Height: Height
+Players: Players
+Powerups: Powerups
+EnableMouse: Enable mouse
+EnableMouseDesc: Determines wether the Mouse is disabled in games or not.
+EnablePvP: Enable PvP
+EnablePvPDesc: Determines wether players can kill each other or not.
+Save: Save
+Reset: Reset
+Cancel: Cancel
+InformationTitle: Information Board
+Information: Information:
+NewGameDesc: Stop the game and return to the menu.
+Points: Points:
+Mouse: Mouse
+Menu: Menu
+Start: Start Game
+StartDesc: Starts the game.
+Settings: Settings
+SettingsDesc: Various options for the game can be set here.
+Exit: Exit Game
+ExitDesc: Exits the game.
+Player: Player
+Poisoned: poisoned
+Alive: alive
+And_Armored: and armored
+Dead: dead
+Rank: Rank
+Kills: Kills
+Blue: Blue
+Green: Green
+Cyan: Cyan
+Magenta: Magenta

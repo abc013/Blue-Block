@@ -32,33 +32,33 @@ public class InfoPanel extends JTextArea {
 		if (dead || block == null)
 			return;
 
-		String text = name + " player: ";
+		String text = name + " " + ResourceManager.LanguageStrings.get("Player") + ": ";
 
 		if (block.Lives()) {
 
 			if (block.Poisoned())
-				text += "poisoned";
+				text += ResourceManager.LanguageStrings.get("Poisoned");
 			else
-				text += "alive";
+				text += ResourceManager.LanguageStrings.get("Alive");
 
 			if (block.Secured())
-				text += " and armored";
+				text += ResourceManager.LanguageStrings.get("And_Armored");
 
 			// We are the last block
 			if (window.currentRank == 1)
 				rank = window.currentRank--;
 		} else {
-			text += "dead";
+			text += ResourceManager.LanguageStrings.get("Dead");
 			rank = window.currentRank--;
 			dead = true;
 			setBackground(color.darker());
 		}
 		score = block.Kills * 300 + block.Steps + block.SuperScore * 50 + block.PowerUps * 5;
 
-		setText(text + "\nRank: " + (rank == 0 ? "-" : rank + "") + "\nKills: " + block.Kills);
+		setText(text + "\n" + ResourceManager.LanguageStrings.get("Rank") + ": " + (rank == 0 ? "-" : rank + "") + "\n" + ResourceManager.LanguageStrings.get("Kills") + ": " + block.Kills);
 	}
 
 	public String GetScore() {
-		return name + " player: " + score;
+		return name + " " + ResourceManager.LanguageStrings.get("Player") + ": " + score;
 	}
 }

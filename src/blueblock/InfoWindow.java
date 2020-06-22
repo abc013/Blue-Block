@@ -25,7 +25,7 @@ public class InfoWindow extends JFrame {
 
 		currentRank = Settings.PlayerCount;
 
-		infoWindow = new JFrame("Blue Block | Information Board");
+		infoWindow = new JFrame("Blue Block | " + ResourceManager.LanguageStrings.get("InformationTitle"));
 		infoWindow.setLocation(ResourceManager.ScreenWidth / 2 + 350 /* Game window */, ResourceManager.ScreenHeight / 2 - 350);
 		infoWindow.setSize(300, 700);
 		infoWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -38,8 +38,7 @@ public class InfoWindow extends JFrame {
 		JButton NewGame = new JButton(ResourceManager.New_Game);
 		NewGame.setFont(font);
 		NewGame.setBounds(10, 10, 260, 40);
-		NewGame.setToolTipText(
-				"Stop the game and return to the menu.");
+		NewGame.setToolTipText(ResourceManager.LanguageStrings.get("NewGameDesc"));
 		NewGame.addActionListener(new ActionListener() {
 
 			@Override
@@ -53,7 +52,7 @@ public class InfoWindow extends JFrame {
 		InfoLog = new JTextArea();
 		InfoLog.setFont(font);
 		InfoLog.setBounds(10, 65, 260, 35);
-		InfoLog.setText("Information:");
+		InfoLog.setText(ResourceManager.LanguageStrings.get("Information"));
 		InfoLog.setSelectionColor(Color.WHITE);
 		InfoLog.setEditable(false);
 		infoWindow.add(InfoLog);
@@ -81,7 +80,7 @@ public class InfoWindow extends JFrame {
 	public void Refresh() {
 		Game game = main.Game;
 
-		String TextScore = "POINTS:";
+		String TextScore = ResourceManager.LanguageStrings.get("Points");
 
 		for (InfoPanel panel : panels)
 			TextScore += "\n" + panel.GetScore();
@@ -91,7 +90,7 @@ public class InfoWindow extends JFrame {
 
 		int mouseScore = game.MouseLava + game.MouseWall * 2 + game.MouseAcid * 3;
 
-		TextScore += "\nMouse: " + mouseScore;
+		TextScore += "\n" + ResourceManager.LanguageStrings.get("Mouse") + ": " + mouseScore;
 		Score.setText(TextScore);
 	}
 
