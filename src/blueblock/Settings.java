@@ -11,12 +11,12 @@ import java.util.ArrayList;
 
 public final class Settings {
 	// max values
-	private static final int MinWidth = 8;
-	private static final int MinHeight = 8;
-	private static final int MaxWidth = 56;
-	private static final int MaxHeight = 56;
-	private static final int MaxPlayerCount = 4;
-	private static final int MaxPowerupCount = 10;
+	public static final int MinWidth = 8;
+	public static final int MinHeight = 8;
+	public static final int MaxWidth = 56;
+	public static final int MaxHeight = 56;
+	public static final int MaxPlayerCount = 4;
+	public static final int MaxPowerupCount = 10;
 
 	// default values
 	public static final int DefWidth = 16;

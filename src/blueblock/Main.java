@@ -70,7 +70,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		window.setLayout(new GridLayout(FieldWidth, FieldHeight));
 		labels = new Label[FieldWidth][FieldHeight];
 
-		infoWindow = new InfoWindow(Settings.PlayerCount);
+		infoWindow = new InfoWindow();
 
 		// We have to create the columns first, as window.add(label) will fill each column before starting on the next row
 		for (int y = 0; y < FieldHeight; y++) {
