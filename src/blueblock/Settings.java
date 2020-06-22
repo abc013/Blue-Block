@@ -56,31 +56,31 @@ public final class Settings {
 		}
 
 		for (String line : lines) {
-			String[] tuple = line.split(",");
+			String[] tuple = line.split(":");
 			switch (tuple[0])
 			{
 				case "Height":
-					Height = Integer.parseInt(tuple[1]);
+					Height = Integer.parseInt(tuple[1].trim());
 
 					break;
 				case "Width":
-					Width = Integer.parseInt(tuple[1]);
+					Width = Integer.parseInt(tuple[1].trim());
 
 					break;
 				case "PlayerCount":
-					PlayerCount = Integer.parseInt(tuple[1]);
+					PlayerCount = Integer.parseInt(tuple[1].trim());
 
 					break;
 				case "PowerupCount":
-					PowerupCount = Integer.parseInt(tuple[1]);
+					PowerupCount = Integer.parseInt(tuple[1].trim());
 
 					break;
 				case "EnableMouse":
-					EnableMouse = Boolean.parseBoolean(tuple[1]);
+					EnableMouse = Boolean.parseBoolean(tuple[1].trim());
 
 					break;
 				case "EnablePlayerKills":
-					EnablePlayerKills = Boolean.parseBoolean(tuple[1]);
+					EnablePlayerKills = Boolean.parseBoolean(tuple[1].trim());
 
 					break;
 				default:
