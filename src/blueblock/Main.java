@@ -52,42 +52,25 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	}
 
 	public Main(boolean setOpen) {
-		PowerUpList = new PowerUp[Settings.PowerupCount];
 		FieldWidth = Settings.Width;
 		FieldHeight = Settings.Height;
+
+		PowerUpList = new PowerUp[Settings.PowerupCount];
+		players = Settings.PlayerCount;
 		kill = Settings.EnablePlayerKills;
 		mouse = Settings.EnableMouse;
 
-		String title;
-		switch (Settings.PlayerCount) {
-			case 4:
-				title = "BLUE, GREEN, CYAN and MAGENTA BLOCK";
-				break;
-			case 3:
-				title = "BLUE, GREEN and CYAN BLOCK";
-				break;
-			case 2:
-				title = "BLUE and GREEN BLOCK";
-				break;
-			case 1:
-				title = "Poor, poor alone BLUE BLOCK";
-				break;
-			default:
-				title = "8752897457 BLOCKS?!";
-				System.out.println("Player count invalid: " + Settings.PlayerCount);
-				Settings.PlayerCount = 4;
-				break;
-		}
-
-		window = new JFrame(title + " || Available on Github! --> https://github.com/abc013/Blue-Block <--");
-		window.setLocation(-7, 0);
+		window = new JFrame(title());
+		window.setLocation(ResourceManager.ScreenWidth / 2 - 350, ResourceManager.ScreenHeight / 2 - 350);
 		window.setSize(700, 700);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.addMouseListener(this);
+		window.addKeyListener(this);
+
 		window.setLayout(new GridLayout(FieldWidth, FieldHeight));
 		labels = new Label[FieldWidth][FieldHeight];
 
-		window.setDefaultCloseOperation(3);
-		window.addMouseListener(this);
-		window.addKeyListener(this);
+		infoWindow = new InfoWindow(Settings.PlayerCount);
 
 		// We have to create the columns first, as window.add(label) will fill each column before starting on the next row
 		for (int y = 0; y < FieldHeight; y++) {
@@ -113,37 +96,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 			}
 		}
 
-		infoWindow = new InfoWindow(Settings.PlayerCount);
-		for (int i = 0; i < groundTiles.size(); i++)
-			groundTiles.get(i).RefreshColor();
-
-		players++;
-		for (int i = 0; i < Settings.PlayerCount; i++) {
-			switch (players) {
-			case 1:
-				final Human H1 = new Human(1, 1, players, "Blauer Block");
-				Main.H1 = H1;
-				Humans.add(H1);
-				break;
-			case 2:
-				final Human H2 = new Human(FieldWidth - 2, FieldHeight  - 2, players, "Grüner Block");
-				Main.H2 = H2;
-				Humans.add(H2);
-				break;
-			case 3:
-				final Human H3 = new Human(1, FieldHeight - 2, players, "Cyaner Block");
-				Main.H3 = H3;
-				Humans.add(H3);
-				break;
-			case 4:
-				final Human H4 = new Human(FieldWidth - 2, 1, players, "Magenta Block");
-				Main.H4 = H4;
-				Humans.add(H4);
-				break;
-			}
-			players++;
-		}
-
+		// Generate walls surrounding the playground
 		for (int i = 0; i < FieldHeight; i++) {
 			Locator.GetGround(0, i).SetGroundType(Wall);
 			Locator.GetGround(FieldWidth - 1, i).SetGroundType(Wall);
@@ -153,11 +106,40 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 			Locator.GetGround(i, FieldHeight - 1).SetGroundType(Wall);
 		}
 
+		for (Ground ground : groundTiles)
+			ground.RefreshColor();
+
+		// Generate players
+		for (int i = 0; i < Settings.PlayerCount; i++) {
+			switch (i) {
+				case 0:
+					final Human H1 = new Human(1, 1, i, "Blue Block");
+					Main.H1 = H1;
+					Humans.add(H1);
+					break;
+				case 1:
+					final Human H2 = new Human(FieldWidth - 2, FieldHeight  - 2, i, "Green Block");
+					Main.H2 = H2;
+					Humans.add(H2);
+					break;
+				case 2:
+					final Human H3 = new Human(1, FieldHeight - 2, i, "Cyan Block");
+					Main.H3 = H3;
+					Humans.add(H3);
+					break;
+				case 3:
+					final Human H4 = new Human(FieldWidth - 2, 1, i, "Magenta Block");
+					Main.H4 = H4;
+					Humans.add(H4);
+					break;
+			}
+		}
+
+		// Generate powerups
 		for (int i = 0; i < Settings.PowerupCount; i++) {
-			int pos1 = new java.util.Random().nextInt(FieldWidth);
-			int pos2 = new java.util.Random().nextInt(FieldHeight);
-			PowerUp PU = new PowerUp(pos1, pos2, false, Types[new java.util.Random().nextInt(Types.length)], false);
-			PowerUpList[i] = PU;
+			int pos1 = ResourceManager.SharedRandom.nextInt(FieldWidth);
+			int pos2 = ResourceManager.SharedRandom.nextInt(FieldHeight);
+			PowerUpList[i] = new PowerUp(pos1, pos2, false, Types[ResourceManager.SharedRandom.nextInt(Types.length)], false);
 		}
 
 		setOpen(setOpen);
@@ -166,6 +148,29 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		infoWindow.Refresh();
 		window.repaint();
 		window.setAlwaysOnTop(true);
+	}
+
+	String title() {
+		String title;
+		switch (Settings.PlayerCount) {
+			case 4:
+				title = "BLUE, GREEN, CYAN and MAGENTA BLOCK";
+				break;
+			case 3:
+				title = "BLUE, GREEN and CYAN BLOCK";
+				break;
+			case 2:
+				title = "BLUE and GREEN BLOCK";
+				break;
+			case 1:
+				title = "Poor, poor alone BLUE BLOCK";
+				break;
+			default:
+				title = "8752897457 BLOCKS?!";
+				break;
+		}
+
+		return title + " || Available on Github! --> https://github.com/abc013/Blue-Block <--";
 	}
 
 	public static void ChangeColor(Label label, Color Color) {

@@ -2,6 +2,7 @@ package blueblock;
 
 import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 
@@ -13,6 +14,8 @@ public final class ResourceManager {
 	public static final ImageIcon RedButton = new ImageIcon("src/img/rdblockbut.png");
 
 	public static final ImageIcon Background = new ImageIcon("src/img/Background.png");
+
+	public static final Random SharedRandom = new Random();
 
 	public static int ScreenWidth;
 	public static int ScreenHeight;
