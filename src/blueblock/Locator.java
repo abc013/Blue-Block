@@ -1,40 +1,38 @@
 package blueblock;
 
 import java.awt.Color;
-import java.awt.Label;
 
 public class Locator {
-	private static Label[][] labels;
+	private Game game;
 
-	public static void ChangeVariables(Label[][] newLabels) {
-		labels = newLabels;
+	public Locator(Game game) {
+		this.game = game;
 	}
 
-	public static PowerUp GetPowerup(int x, int y) {
-		for (PowerUp powerup : Main.PowerUpList) {
+	public PowerUp GetPowerup(int x, int y) {
+		for (PowerUp powerup : game.PowerUpList) {
 			if (powerup.GetX() == x && powerup.GetY() == y)
 				return powerup;
 		}
 		return null;
 	}
 
-	public static Ground GetGround(int x, int y) {
-		for (Ground ground : Main.groundTiles) {
-			if (ground.GetX() == x && ground.GetY() == y)
-				return ground;
-		}
-		return null;
+	public Ground GetGround(int x, int y) {
+		if (x < 0 || y < 0 || x >= game.Width || y >= game.Height)
+			return null;
+
+		return game.GroundTiles[x][y];
 	}
 
-	public static Human GetHuman(int x, int y) {
-		for (Human human : Main.Humans) {
+	public Human GetHuman(int x, int y) {
+		for (Human human : game.Humans) {
 			if (human.GetX() == x && human.GetY() == y)
 				return human;
 		}
 		return null;
 	}
 
-	public static void MovePlayer(Human h, int player, String direction) {
+	public void MovePlayer(Human h, int player, String direction) {
 		int pos1 = h.GetX();
 		int pos2 = h.GetY();
 		backgroundColor(pos1, pos2);
@@ -49,7 +47,7 @@ public class Locator {
 				}
 				break;
 			case "down":
-				if ((pos2 + 1) < Main.FieldHeight && !GetGround(pos1, pos2 + 1).GetType().IsWall()) {
+				if ((pos2 + 1) < game.Height && !GetGround(pos1, pos2 + 1).GetType().IsWall()) {
 					pos2++;
 					h.Steps++;
 				} else {
@@ -65,7 +63,7 @@ public class Locator {
 				}
 				break;
 			case "right":
-				if ((pos1 + 1) < Main.FieldWidth && !GetGround(pos1 + 1, pos2).GetType().IsWall()) {
+				if ((pos1 + 1) < game.Width && !GetGround(pos1 + 1, pos2).GetType().IsWall()) {
 					pos1++;
 					h.Steps++;
 				} else {
@@ -76,12 +74,12 @@ public class Locator {
 
 		h.SetPosition(pos1, pos2);
 		for (int i = 0; i < PowerUp.Types.length; i++) {
-			if (Main.TypesActive[i]) {
-				Main.TypesDuration[i]--;
-				if (Main.TypesDuration[i] <= 0)
-					Main.TypesActive[i] = false;
-				if (Main.TypesActive[i] == Main.TypesActive[5]) {
-					for (Human human : Main.Humans)
+			if (game.TypesActive[i]) {
+				game.TypesDuration[i]--;
+				if (game.TypesDuration[i] <= 0)
+					game.TypesActive[i] = false;
+				if (game.TypesActive[i] == game.TypesActive[5]) {
+					for (Human human : game.Humans)
 						human.SetGray();
 				}
 			}
@@ -90,15 +88,15 @@ public class Locator {
 		checkKills(h);
 		checkPowerups(h);
 
-		Main.ChangeColor(labels[pos1][pos2], h.color[player]);
-		Main.paint();
+		game.Main.ChangeColor(pos1, pos2, h.color[player]);
+		game.Main.paint();
 	}
 
-	private static void checkKills(Human human) {
+	private void checkKills(Human human) {
 		if (!Settings.EnablePlayerKills)
 			return;
 
-		for (Human other : Main.Humans) {
+		for (Human other : game.Humans) {
 			if (other != human && other.GetX() == human.GetX() && other.GetY() == human.GetY()) {
 				other.IsLiving(false);
 				human.Kills++;
@@ -106,35 +104,37 @@ public class Locator {
 		}
 	}
 
-	private static void checkPowerups(Human human) {
+	private void checkPowerups(Human human) {
 		PowerUp PU = GetPowerup(human.GetX(), human.GetY());
 
 		if (PU != null) {
-			human.PowerUpEffekt(PU);
+			human.PowerUpEffect(PU);
 			PU.NewPosition();
 		}
 	}
 
-	private static void backgroundColor(int pos1, int pos2) {
+	private void backgroundColor(int pos1, int pos2) {
 		Ground ground = GetGround(pos1, pos2);
 
 		if (ground.GetType() == GroundType.Floor)
 			ground.SetGroundType(GroundType.Trail);
 
-		Main.ChangeColor(labels[pos1][pos2], ground.GetType().GetColor());
+		game.Main.ChangeColor(pos1, pos2, ground.GetType().GetColor());
 	}
 
-	public static void RefreshPlayerColors() {
-		for (Ground ground : Main.groundTiles)
-			Main.ChangeColor(labels[ground.GetX()][ground.GetY()], ground.GetType().GetColor());
-
-		// TODO necessary? What is this?
-		for (Human human : Main.Humans) {
-			if (human.Lives())
-				Main.ChangeColor(labels[human.GetX()][human.GetY()], human.color[human.Player + 1]);
+	public void RefreshPlayerColors() {
+		for (int x = 0; x < Settings.Width; x++) {
+			for (int y = 0; y < Settings.Height; y++)
+				game.Main.ChangeColor(x, y, GetGround(x, y).GetType().GetColor());
 		}
 
-		for (PowerUp powerup : Main.PowerUpList)
-			Main.ChangeColor(labels[powerup.GetX()][powerup.GetY()], Color.YELLOW);
+		// TODO necessary? What is this?
+		for (Human human : game.Humans) {
+			if (human.Lives())
+				game.Main.ChangeColor(human.GetX(), human.GetY(), human.color[human.Player + 1]);
+		}
+
+		for (PowerUp powerup : game.PowerUpList)
+			game.Main.ChangeColor(powerup.GetX(), powerup.GetY(), Color.YELLOW);
 	}
 }

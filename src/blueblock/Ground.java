@@ -1,17 +1,19 @@
 package blueblock;
 
 public class Ground {
+	private Game game;
 	private int x, y;
 	private GroundType Type;
 
-	public Ground(int x, int y, GroundType Type) {
+	public Ground(Game game, int x, int y, GroundType Type) {
+		this.game = game;
 		this.x = x;
 		this.y = y;
 		this.Type = Type;
 	}
 
 	public void RefreshColor() {
-		Main.ChangeColor(Main.labels[x][y], Type.GetColor());
+		game.Main.ChangeColor(x, y, Type.GetColor());
 	}
 
 	public int GetX() {

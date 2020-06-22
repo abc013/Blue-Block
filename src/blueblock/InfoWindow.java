@@ -15,11 +15,14 @@ public class InfoWindow extends JFrame {
 	private InfoPanel[] panels;
 
 	int currentRank;
+	private Main main;
 	private JFrame infoWindow;
 	private JTextArea InfoLog;
 	private JTextArea Score;
 
-	public InfoWindow() {
+	public InfoWindow(final Main main) {
+		this.main = main;
+
 		currentRank = Settings.PlayerCount;
 
 		infoWindow = new JFrame("Blue Block | Information Board");
@@ -48,7 +51,7 @@ public class InfoWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Main.EndGame = true;
+				main.StopGame = true;
 			}
 
 		});
@@ -75,15 +78,17 @@ public class InfoWindow extends JFrame {
 	}
 
 	public void Refresh() {
+		Game game = main.Game;
+
 		String TextScore = "POINTS:";
 
 		for (InfoPanel panel : panels)
 			TextScore += "\n" + panel.GetScore();
 
 		for (int i = 0; i < Settings.PlayerCount; i++)
-			panels[i].Update(Main.Humans[i], this);
+			panels[i].Update(game.Humans[i], this);
 
-		int mouseScore = Main.MouseLava + Main.MouseWall * 2 + Main.MouseAcid * 3;
+		int mouseScore = game.MouseLava + game.MouseWall * 2 + game.MouseAcid * 3;
 
 		TextScore += "\nMouse: " + mouseScore;
 		Score.setText(TextScore);
@@ -91,8 +96,5 @@ public class InfoWindow extends JFrame {
 
 	public void setOpen(boolean open) {
 		infoWindow.setVisible(open);
-		if (Main.EndGame)
-			this.dispose();
 	}
-
 }
