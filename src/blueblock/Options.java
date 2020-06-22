@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
@@ -13,9 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class Options {
-	final ImageIcon BlueBlock = new ImageIcon("src/img/blblockbut.png");
-	final ImageIcon RedBlock = new ImageIcon("src/img/rdblockbut.png");
-
 	final Menu menu;
 
 	private JFrame options;
@@ -30,8 +26,9 @@ public class Options {
 
 		options = new JFrame("Blue Block | Settings");
 		options.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		options.setBounds(300, 300, 450, 370);
+		options.setBounds(ResourceManager.ScreenWidth / 2 - 225, ResourceManager.ScreenHeight / 2 - 185, 450, 370);
 		options.setLayout(null);
+		options.setResizable(false);
 
 		Font font = new Font("chiller", 0, 30);
 
@@ -87,19 +84,19 @@ public class Options {
 
 		options.add(powerUpCountSelector);
 
-		mouseCheckbox = new JCheckBox(BlueBlock);
+		mouseCheckbox = new JCheckBox(ResourceManager.BlueButton);
 		mouseCheckbox.setFont(font);
 		mouseCheckbox.setBounds(70, 120, 240, 60);
-		mouseCheckbox.setSelectedIcon(RedBlock);
+		mouseCheckbox.setSelectedIcon(ResourceManager.RedButton);
 		mouseCheckbox.setSelected(Settings.EnableMouse);
 		mouseCheckbox.setText("Enable mouse");
 		mouseCheckbox.setToolTipText("Determines wether the Mouse is disabled in games or not.");
 		options.add(mouseCheckbox);
 
-		killCheckbox = new JCheckBox(BlueBlock);
+		killCheckbox = new JCheckBox(ResourceManager.BlueButton);
 		killCheckbox.setFont(font);
 		killCheckbox.setBounds(70, 190, 310, 60);
-		killCheckbox.setSelectedIcon(RedBlock);
+		killCheckbox.setSelectedIcon(ResourceManager.RedButton);
 		killCheckbox.setSelected(Settings.EnablePlayerKills);
 		killCheckbox.setText("Enable PvP");
 		killCheckbox.setToolTipText("Determines wether players can kill each other or not.");
@@ -115,6 +112,8 @@ public class Options {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SaveSettings();
+				setOpen(false);
+				menu.setOpen(true);
 			}
 
 		});

@@ -10,8 +10,8 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
+@SuppressWarnings("serial")
 public class Main extends JFrame implements MouseListener, KeyListener {
-	private static final long serialVersionUID = -3251630880930749621L;
 	// Basic GroundTypes;
 	public static GroundType InactiveLava = new GroundType(new Color(150, 50, 50), "floor", null);
 	public static GroundType Lava = new GroundType(Color.RED, "deadly", InactiveLava);
@@ -46,6 +46,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 
 	public static void main(String[] args) {
 		Settings.LoadSettings();
+		ResourceManager.LoadResources();
 
 		new Main(true);
 	}
