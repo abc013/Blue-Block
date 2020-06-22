@@ -24,12 +24,12 @@ public class Menu extends JFrame {
 	final ImageIcon RedBlock = new ImageIcon("src/img/rdblock.png");
 	final ImageIcon BackGround = new ImageIcon("src/img/Background.png");
 
-	// For eclipse
 	public static void main(String[] args) {
+		Settings.LoadSettings();
+
 		new Menu();
 	}
 
-	// For BlueJ
 	public Menu() {
 		// setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("blblock.png")));
 		menu = new JFrame("BLUE BLOCK - Menü");
@@ -46,10 +46,8 @@ public class Menu extends JFrame {
 		start.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				game = new Main(false);
 				setOpen(false);
-				options.LoadSettings();
-				game = new Main(options.X(), options.Y(), options.Player(), options.PowerUps(), options.HasMouse(),
-						options.PlayerKill());
 				game.setOpen(true);
 			}
 		});

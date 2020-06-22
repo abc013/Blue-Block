@@ -1,6 +1,0 @@
-Height: 8
-Width: 16
-Players: 4
-PowerUps: 2
-Mouse: true
-Kill: true

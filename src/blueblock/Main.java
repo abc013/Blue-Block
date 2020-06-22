@@ -40,58 +40,53 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	public static boolean[] TypesActive = new boolean[Types.length];
 	// the rest;
 	public static int FieldHeight, FieldWidth, MouseLava, MouseWall, MouseAcid;
-	private static boolean indirect, mouse;
+	private static boolean mouse;
 	public static boolean kill;
 	public static boolean EndGame = false;
 
 	public static void main(String[] args) {
-		indirect = true;
-		new Main(16, 16, 4, 2, true, true);
+		Settings.LoadSettings();
+
+		new Main(true);
 	}
 
-	public Main(int width, int height, int playerCount, int PowerUps, boolean HasMouse, boolean PlayerKill) {
-		PowerUpList = new PowerUp[PowerUps];
-		FieldWidth = width;
-		FieldHeight = height;
-		kill = PlayerKill;
-		mouse = HasMouse;
+	public Main(boolean setOpen) {
+		PowerUpList = new PowerUp[Settings.PowerupCount];
+		FieldWidth = Settings.Width;
+		FieldHeight = Settings.Height;
+		kill = Settings.EnablePlayerKills;
+		mouse = Settings.EnableMouse;
 
-		if (FieldHeight < 6) {
-			FieldHeight = 6;
-			System.out.println("FieldColumns can't be under six!");
-		}
-		if (FieldWidth < 6) {
-			FieldWidth = 6;
-			System.out.println("FieldRows can't be under six!");
-		}
-
-		if (playerCount <= 0 || playerCount > 4) {
-			System.out.println("Players can't be under 0 or above 4!");
-			playerCount = 1;
-		}
-
-		String Heading = null;
-		switch (playerCount) {
-		case 4:
-			Heading = "BLUE, GREEN, CYAN and MAGENTA BLOCK";
-			break;
-		case 3:
-			Heading = "BLUE, GREEN and CYAN BLOCK";
-			break;
-		case 2:
-			Heading = "BLUE and GREEN BLOCK";
-			break;
-		case 1:
-			Heading = "Poor, poor alone BLUE BLOCK";
-			break;
+		String title;
+		switch (Settings.PlayerCount) {
+			case 4:
+				title = "BLUE, GREEN, CYAN and MAGENTA BLOCK";
+				break;
+			case 3:
+				title = "BLUE, GREEN and CYAN BLOCK";
+				break;
+			case 2:
+				title = "BLUE and GREEN BLOCK";
+				break;
+			case 1:
+				title = "Poor, poor alone BLUE BLOCK";
+				break;
+			default:
+				title = "8752897457 BLOCKS?!";
+				System.out.println("Player count invalid: " + Settings.PlayerCount);
+				Settings.PlayerCount = 4;
+				break;
 		}
 
-		window = new JFrame(Heading + " || Visit us on Github! --> https://github.com/abc013/Blue-Block <--");
+		window = new JFrame(title + " || Available on Github! --> https://github.com/abc013/Blue-Block <--");
 		window.setLocation(-7, 0);
 		window.setSize(700, 700);
-		window.setBackground(Color.BLACK);
 		window.setLayout(new GridLayout(FieldWidth, FieldHeight));
 		labels = new Label[FieldWidth][FieldHeight];
+
+		window.setDefaultCloseOperation(3);
+		window.addMouseListener(this);
+		window.addKeyListener(this);
 
 		// We have to create the columns first, as window.add(label) will fill each column before starting on the next row
 		for (int y = 0; y < FieldHeight; y++) {
@@ -117,12 +112,12 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 			}
 		}
 
-		infoWindow = new InfoWindow(playerCount);
+		infoWindow = new InfoWindow(Settings.PlayerCount);
 		for (int i = 0; i < groundTiles.size(); i++)
 			groundTiles.get(i).RefreshColor();
 
 		players++;
-		for (int i = 0; i < playerCount; i++) {
+		for (int i = 0; i < Settings.PlayerCount; i++) {
 			switch (players) {
 			case 1:
 				final Human H1 = new Human(1, 1, players, "Blauer Block");
@@ -147,9 +142,6 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 			}
 			players++;
 		}
-		window.setDefaultCloseOperation(3);
-		window.addMouseListener(this);
-		window.addKeyListener(this);
 
 		for (int i = 0; i < FieldHeight; i++) {
 			Locator.GetGround(0, i).SetGroundType(Wall);
@@ -160,15 +152,14 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 			Locator.GetGround(i, FieldHeight - 1).SetGroundType(Wall);
 		}
 
-		for (int i = 0; i < PowerUps; i++) {
+		for (int i = 0; i < Settings.PowerupCount; i++) {
 			int pos1 = new java.util.Random().nextInt(FieldWidth);
 			int pos2 = new java.util.Random().nextInt(FieldHeight);
 			PowerUp PU = new PowerUp(pos1, pos2, false, Types[new java.util.Random().nextInt(Types.length)], false);
 			PowerUpList[i] = PU;
 		}
 
-		if (indirect)
-			setOpen(true);
+		setOpen(setOpen);
 
 		Locator.ChangeVariables(labels, players);
 		infoWindow.Refresh();
