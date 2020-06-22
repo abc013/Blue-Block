@@ -29,7 +29,6 @@ public class Human {
 			return;
 
 		game.Locator.MovePlayer(this, player, direction);
-		System.out.println("Player" + player + ".pos:" + pos1 + "|" + pos2);
 		Ground ground = game.Locator.GetGround(pos1, pos2);
 
 		if (ground.GetType().IsDeadly()) {
@@ -51,36 +50,6 @@ public class Human {
 				}
 				SetPoisoned(true);
 			}
-		}
-	}
-
-	public void PowerUpEffect(PowerUp powerup) {
-		PowerUps++;
-		System.out.println("PowerUp : " + powerup.GetType());
-		switch (powerup.GetType()) {
-		case "SuperScore":
-			SuperScore++;
-			break;
-		case "OneLive":
-			SetArmor(true);
-			break;
-		case "PoisonCure":
-			SetPoisoned(false);
-			break;
-		case "Confusion":
-			game.ActivateEffect(3, Settings.PlayerCount * 10);
-			break;
-		case "MouseBlack":
-			game.ActivateEffect(4, Settings.PlayerCount * 5);
-			break;
-		case "PlayersGray":
-			game.ActivateEffect(5, Settings.PlayerCount * 7);
-			for (Human human : game.Humans)
-				human.SetGray();
-			break;
-		case "Darkness":
-			game.ActivateEffect(6, Settings.PlayerCount * 3);
-			break;
 		}
 	}
 

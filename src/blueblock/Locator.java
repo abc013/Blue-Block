@@ -40,35 +40,35 @@ public class Locator {
 
 		switch (direction) {
 			case "up":
-				if (pos2 > 0 && !GetGround(pos1, pos2 - 1).GetType().IsWall()) {
+				if (pos2 > 0 && isFree(pos1, pos2 - 1)) {
 					pos2--;
 					h.Steps++;
 				} else {
-					System.out.println(h + " hit the wall!");
+					System.out.println("Player" + player + " hit an obstacle!");
 				}
 				break;
 			case "down":
-				if ((pos2 + 1) < game.Height && !GetGround(pos1, pos2 + 1).GetType().IsWall()) {
+				if ((pos2 + 1) < game.Height && isFree(pos1, pos2 + 1)) {
 					pos2++;
 					h.Steps++;
 				} else {
-					System.out.println(h + " hit the wall!");
+					System.out.println("Player" + player + " hit an obstacle!");
 				}
 				break;
 			case "left":
-				if (pos1 > 0 && !GetGround(pos1 - 1, pos2).GetType().IsWall()) {
+				if (pos1 > 0 && isFree(pos1 - 1, pos2)) {
 					pos1--;
 					h.Steps++;
 				} else {
-					System.out.println(h + " hit the wall!");
+					System.out.println("Player" + player + " hit an obstacle!");
 				}
 				break;
 			case "right":
-				if ((pos1 + 1) < game.Width && !GetGround(pos1 + 1, pos2).GetType().IsWall()) {
+				if ((pos1 + 1) < game.Width && isFree(pos1 + 1, pos2)) {
 					pos1++;
 					h.Steps++;
 				} else {
-					System.out.println(h + " hit the wall!");
+					System.out.println("Player" + player + " hit an obstacle!");
 				}
 				break;
 		}
@@ -89,8 +89,14 @@ public class Locator {
 		checkKills(h);
 		checkPowerups(h);
 
-		if (old1 != pos1 || old2 != pos2)
+		if (old1 != pos1 || old2 != pos2) {
+			System.out.println("Player" + player + ".pos:" + pos1 + "|" + pos2);
 			h.Paint();
+		}
+	}
+
+	private boolean isFree(int x, int y) {
+		return !GetGround(x, y).GetType().IsWall() && (Settings.EnablePlayerKills || GetHuman(x, y) == null);
 	}
 
 	private void checkKills(Human human) {
@@ -109,7 +115,7 @@ public class Locator {
 		PowerUp PU = GetPowerup(human.GetX(), human.GetY());
 
 		if (PU != null) {
-			human.PowerUpEffect(PU);
+			PU.TakeEffect(human);
 			PU.NewPosition();
 		}
 	}
