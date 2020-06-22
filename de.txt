@@ -1,0 +1,35 @@
+Settings: Einstellungen
+Width: Breite
+Height: Hoehe
+Players: Spieler
+Powerups: Powerups
+EnableMouse: Maus benutzen
+EnableMouseDesc: Aktiviert die Maus für weitere Funktionen im Spielfeld.
+EnablePvP: PvP aktivieren
+EnablePvPDesc: Aktiviert Tod durch Überrennen.
+Save: Speichern
+Reset: Standard
+Cancel: Abbruch
+InformationTitle: Informationsfenster
+Information: Informationen:
+NewGameDesc: Stoppt das Spiel und kehrt zum Menue zurueck.
+Points: Punkte:
+Mouse: Maus
+Menu: Menue
+Start: Spiel starten
+StartDesc: Startet das Spiel.
+Settings: Einstellungen
+SettingsDesc: Verschiedene Optionen fuer das Spiel.
+Exit: Spiel verlassen
+ExitDesc: Verlaesst das Spiel.
+Player: Spieler
+Poisoned: vergiftet
+Alive: gesund
+And_Armored: und geruestet
+Dead: tot
+Rank: Rang
+Kills: Toetungen
+Blue: Blauer
+Green: Gruener
+Cyan: Cyaner
+Magenta: Magenta
