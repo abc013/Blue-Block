@@ -80,10 +80,8 @@ public class InfoWindow extends JFrame {
 		for (InfoPanel panel : panels)
 			TextScore += "\n" + panel.GetScore();
 
-		panels[0].Update(Main.H1, this);
-		panels[1].Update(Main.H2, this);
-		panels[2].Update(Main.H3, this);
-		panels[3].Update(Main.H4, this);
+		for (int i = 0; i < Settings.PlayerCount; i++)
+			panels[i].Update(Main.Humans[i], this);
 
 		int mouseScore = Main.MouseLava + Main.MouseWall * 2 + Main.MouseAcid * 3;
 

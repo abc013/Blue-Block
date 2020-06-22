@@ -6,13 +6,12 @@ import java.awt.Label;
 public class Locator {
 	private static Label[][] labels;
 
-	public static void ChangeVariables(Label[][] newLabels, int players) {
+	public static void ChangeVariables(Label[][] newLabels) {
 		labels = newLabels;
 	}
 
-	public static PowerUp GetPowerUp(int x, int y) {
-		for (int i = 0; i < Main.PowerUpList.length; i++) {
-			PowerUp powerup = Main.PowerUpList[i];
+	public static PowerUp GetPowerup(int x, int y) {
+		for (PowerUp powerup : Main.PowerUpList) {
 			if (powerup.GetX() == x && powerup.GetY() == y)
 				return powerup;
 		}
@@ -20,8 +19,7 @@ public class Locator {
 	}
 
 	public static Ground GetGround(int x, int y) {
-		for (int i = 0; i < Main.groundTiles.size(); i++) {
-			Ground ground = Main.groundTiles.get(i);
+		for (Ground ground : Main.groundTiles) {
 			if (ground.GetX() == x && ground.GetY() == y)
 				return ground;
 		}
@@ -29,15 +27,9 @@ public class Locator {
 	}
 
 	public static Human GetHuman(int x, int y) {
-		if (Main.Humans.size() == 0) {
-			return null;
-		} else {
-			for (int i = 0; i < Main.Humans.size(); i++) {
-				Human human = Main.Humans.get(i);
-				if (human.GetX() == x && human.GetY() == y) {
-					return human;
-				}
-			}
+		for (Human human : Main.Humans) {
+			if (human.GetX() == x && human.GetY() == y)
+				return human;
 		}
 		return null;
 	}
@@ -49,7 +41,7 @@ public class Locator {
 
 		switch (direction) {
 			case "up":
-				if (pos2 > 0 && !GetGround(pos1, pos2 - 1).IsWall()) {
+				if (pos2 > 0 && !GetGround(pos1, pos2 - 1).GetType().IsWall()) {
 					pos2--;
 					h.Steps++;
 				} else {
@@ -57,7 +49,7 @@ public class Locator {
 				}
 				break;
 			case "down":
-				if ((pos2 + 1) < Main.FieldHeight && !GetGround(pos1, pos2 + 1).IsWall()) {
+				if ((pos2 + 1) < Main.FieldHeight && !GetGround(pos1, pos2 + 1).GetType().IsWall()) {
 					pos2++;
 					h.Steps++;
 				} else {
@@ -65,7 +57,7 @@ public class Locator {
 				}
 				break;
 			case "left":
-				if (pos1 > 0 && !GetGround(pos1 - 1, pos2).IsWall()) {
+				if (pos1 > 0 && !GetGround(pos1 - 1, pos2).GetType().IsWall()) {
 					pos1--;
 					h.Steps++;
 				} else {
@@ -73,7 +65,7 @@ public class Locator {
 				}
 				break;
 			case "right":
-				if ((pos1 + 1) < Main.FieldWidth && !GetGround(pos1 + 1, pos2).IsWall()) {
+				if ((pos1 + 1) < Main.FieldWidth && !GetGround(pos1 + 1, pos2).GetType().IsWall()) {
 					pos1++;
 					h.Steps++;
 				} else {
@@ -83,88 +75,66 @@ public class Locator {
 		}
 
 		h.SetPosition(pos1, pos2);
-		for (int i = 0; i < Main.Types.length; i++) {
+		for (int i = 0; i < PowerUp.Types.length; i++) {
 			if (Main.TypesActive[i]) {
 				Main.TypesDuration[i]--;
 				if (Main.TypesDuration[i] <= 0)
 					Main.TypesActive[i] = false;
 				if (Main.TypesActive[i] == Main.TypesActive[5]) {
-					for (int in = 0; in < Main.Humans.size(); in++) {
-						Main.Humans.get(in).SetGray();
-					}
+					for (Human human : Main.Humans)
+						human.SetGray();
 				}
 			}
 		}
 
-		Main.ChangeColor(labels[pos1][pos2], h.color[player]);
-		if (Main.kill)
-			checkPosition(h, pos1, pos2);
+		checkKills(h);
+		checkPowerups(h);
 
-		collectPowerUp(h, pos1, pos2);
+		Main.ChangeColor(labels[pos1][pos2], h.color[player]);
 		Main.paint();
 	}
 
-	private static void checkPosition(Human human, int pos1, int pos2) {
-		for (int i = 0; i < Main.Humans.size(); i++) {
-			Human otherHuman = Main.Humans.get(i);
-			if (otherHuman.GetX() == pos1 && otherHuman.GetY() == pos2 && otherHuman != human) {
-				otherHuman.IsLiving(false);
+	private static void checkKills(Human human) {
+		if (!Settings.EnablePlayerKills)
+			return;
+
+		for (Human other : Main.Humans) {
+			if (other != human && other.GetX() == human.GetX() && other.GetY() == human.GetY()) {
+				other.IsLiving(false);
 				human.Kills++;
 			}
 		}
 	}
 
-	private static void collectPowerUp(Human human, int pos1, int pos2) {
-		try {
-			PowerUp PU = GetPowerUp(pos1, pos2);
-			if (PU.GetX() == pos1 && PU.GetY() == pos2) {
-				if (PU.GetNotRandom()) {
-					PU.NewPosition(pos1, pos2, true);
-				} else {
-					int x = new java.util.Random().nextInt(Main.FieldWidth);
-					int y = new java.util.Random().nextInt(Main.FieldHeight);
-					PU.NewPosition(x, y, false);
-				}
-				human.PowerUpEffekt(PU);
-			}
-		} catch (Exception E) {
+	private static void checkPowerups(Human human) {
+		PowerUp PU = GetPowerup(human.GetX(), human.GetY());
 
+		if (PU != null) {
+			human.PowerUpEffekt(PU);
+			PU.NewPosition();
 		}
 	}
 
 	private static void backgroundColor(int pos1, int pos2) {
-		if (GetGround(pos1, pos2).GetGroundType() == Main.InactiveLava) {
-			Main.ChangeColor(labels[pos1][pos2], Main.InactiveLava.GetColor());
-		} else if (GetGround(pos1, pos2).GetGroundType() == Main.InactiveWall) {
-			Main.ChangeColor(labels[pos1][pos2], Main.InactiveWall.GetColor());
-		} else if (GetGround(pos1, pos2).GetGroundType() == Main.Acid) {
-			Main.ChangeColor(labels[pos1][pos2], Main.Acid.GetColor());
-		} else {
-			GetGround(pos1, pos2).SetGroundType(Main.Trail);
-		}
+		Ground ground = GetGround(pos1, pos2);
+
+		if (ground.GetType() == GroundType.Floor)
+			ground.SetGroundType(GroundType.Trail);
+
+		Main.ChangeColor(labels[pos1][pos2], ground.GetType().GetColor());
 	}
 
 	public static void RefreshPlayerColors() {
-		for (int i = 0; i < Main.groundTiles.size(); i++) {
-			Ground ground = Main.groundTiles.get(i);
-			int x = ground.GetX();
-			int y = ground.GetY();
-			Main.ChangeColor(labels[x][y], ground.GetGroundType().GetColor());
+		for (Ground ground : Main.groundTiles)
+			Main.ChangeColor(labels[ground.GetX()][ground.GetY()], ground.GetType().GetColor());
+
+		// TODO necessary? What is this?
+		for (Human human : Main.Humans) {
+			if (human.Lives())
+				Main.ChangeColor(labels[human.GetX()][human.GetY()], human.color[human.Player + 1]);
 		}
 
-		for (int i = 0; i < Main.Humans.size(); i++) {
-			Human currentHuman = Main.Humans.get(i);
-			int x = currentHuman.GetX();
-			int y = currentHuman.GetY();
-			if (currentHuman.Lives()) {
-				Main.ChangeColor(labels[x][y], currentHuman.color[i + 1]);
-			}
-		}
-
-		for (int i = 0; i < Main.PowerUpList.length; i++) {
-			int x = Main.PowerUpList[i].GetX();
-			int y = Main.PowerUpList[i].GetY();
-			Main.ChangeColor(labels[x][y], Color.YELLOW);
-		}
+		for (PowerUp powerup : Main.PowerUpList)
+			Main.ChangeColor(labels[powerup.GetX()][powerup.GetY()], Color.YELLOW);
 	}
 }

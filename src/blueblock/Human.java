@@ -29,26 +29,26 @@ public class Human {
 		if (lives) {
 			Locator.MovePlayer(this, Player, direction);
 			System.out.println("Player" + Player + ".pos:" + pos1 + "|" + pos2);
-			if (Locator.GetGround(pos1, pos2).IsDeadly()) {
+			if (Locator.GetGround(pos1, pos2).GetType().IsDeadly()) {
 				if (armored) {
 					armored = false;
 				} else {
 					IsLiving(false);
 				}
 				Locator.GetGround(Dpos1, Dpos2)
-						.SetGroundType(Locator.GetGround(Dpos1, Dpos2).GetGroundType().GetInactiveType());
+						.SetGroundType(Locator.GetGround(Dpos1, Dpos2).GetType().GetInactiveType());
 			}
 
 			if (!Lives())
 				return;
 
-			if (Locator.GetGround(pos1, pos2).IsPoison()) {
+			if (Locator.GetGround(pos1, pos2).GetType().IsPoison()) {
 				if (armored) {
 					armored = false;
 				} else {
 					if (poisoned) {
 						Main.ChangeColor(labels[pos1][pos2],
-								Locator.GetGround(Dpos1, Dpos2).GetGroundType().GetColor());
+								Locator.GetGround(Dpos1, Dpos2).GetType().GetColor());
 						IsLiving(false);
 						return;
 					}
@@ -75,18 +75,18 @@ public class Human {
 			SetPoisoned(false);
 			break;
 		case "Confusion":
-			Main.SetEffectActive(3, Main.Humans.size() * 10);
+			Main.SetEffectActive(3, Settings.PlayerCount * 10);
 			break;
 		case "MouseBlack":
-			Main.SetEffectActive(4, Main.Humans.size() * 5);
+			Main.SetEffectActive(4, Settings.PlayerCount * 5);
 			break;
 		case "PlayersGray":
-			Main.SetEffectActive(5, Main.Humans.size() * 7);
-			for (int i = 0; i < Main.Humans.size(); i++)
-				Main.Humans.get(i).SetGray();
+			Main.SetEffectActive(5, Settings.PlayerCount * 7);
+			for (Human human : Main.Humans)
+				human.SetGray();
 			break;
 		case "Darkness":
-			Main.SetEffectActive(6, Main.Humans.size() * 3);
+			Main.SetEffectActive(6, Settings.PlayerCount * 3);
 			break;
 		}
 	}

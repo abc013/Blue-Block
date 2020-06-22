@@ -55,11 +55,7 @@ public class InfoPanel extends JTextArea {
 		}
 		score = block.Kills * 300 + block.Steps + block.SuperScore * 50 + block.PowerUps * 5;
 
-		String rankText = rank + "";
-		if (rank == 0)
-			rankText = "-";
-
-		setText(text + "\nRank: " + rankText + "\nKills: " + block.Kills);
+		setText(text + "\nRank: " + (rank == 0 ? "-" : rank + "") + "\nKills: " + block.Kills);
 	}
 
 	public String GetScore() {

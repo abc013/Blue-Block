@@ -12,19 +12,9 @@ import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
 public class Main extends JFrame implements MouseListener, KeyListener {
-	// Basic GroundTypes;
-	public static GroundType InactiveLava = new GroundType(new Color(150, 50, 50), "floor", null);
-	public static GroundType Lava = new GroundType(Color.RED, "deadly", InactiveLava);
-	public static GroundType InactiveWall = new GroundType(Color.DARK_GRAY, "floor", null);
-	public static GroundType Wall = new GroundType(Color.BLACK, "wall", InactiveWall);
-	public static GroundType Floor = new GroundType(Color.WHITE, "floor", null);
-	public static GroundType Trail = new GroundType(Color.LIGHT_GRAY, "floor", null);
-	public static GroundType Acid = new GroundType(new Color(10, 240, 10), "poison", null);
 	// PowerUps + Players
 	public static PowerUp[] PowerUpList;
-	public static ArrayList<Human> Humans = new ArrayList<Human>();
-	public static Human H1, H2, H3, H4;
-	private int players;
+	public static Human[] Humans;
 	// For each number a background is available; WARNING! They aren't directly
 	// bound to x and y!
 	public static ArrayList<Ground> groundTiles = new ArrayList<Ground>();
@@ -34,10 +24,8 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 	// XY coordinate-system;
 	public static Label[][] labels;
 	// Types of PowerUps, their booleans and Duration;
-	public static String[] Types = { "SuperScore", "OneLive", "PoisonCure", "Confusion", "MouseBlack", "PlayersGray",
-			"Darkness" };
-	public static int[] TypesDuration = new int[Types.length];
-	public static boolean[] TypesActive = new boolean[Types.length];
+	public static int[] TypesDuration = new int[PowerUp.Types.length];
+	public static boolean[] TypesActive = new boolean[PowerUp.Types.length];
 	// the rest;
 	public static int FieldHeight, FieldWidth, MouseLava, MouseWall, MouseAcid;
 	private static boolean mouse;
@@ -56,7 +44,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		FieldHeight = Settings.Height;
 
 		PowerUpList = new PowerUp[Settings.PowerupCount];
-		players = Settings.PlayerCount;
+		Humans = new Human[Settings.PlayerCount];
 		kill = Settings.EnablePlayerKills;
 		mouse = Settings.EnableMouse;
 
@@ -88,7 +76,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 
 				Label label = new Label("");
 				label.setName(name);
-				Ground ground = new Ground(x, y, Floor);
+				Ground ground = new Ground(x, y, GroundType.Floor);
 				groundTiles.add(ground);
 				window.add(label);
 				label.addMouseListener(this);
@@ -98,12 +86,12 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 
 		// Generate walls surrounding the playground
 		for (int i = 0; i < FieldHeight; i++) {
-			Locator.GetGround(0, i).SetGroundType(Wall);
-			Locator.GetGround(FieldWidth - 1, i).SetGroundType(Wall);
+			Locator.GetGround(0, i).SetGroundType(GroundType.Wall);
+			Locator.GetGround(FieldWidth - 1, i).SetGroundType(GroundType.Wall);
 		}
 		for (int i = 0; i < FieldWidth; i++) {
-			Locator.GetGround(i, 0).SetGroundType(Wall);
-			Locator.GetGround(i, FieldHeight - 1).SetGroundType(Wall);
+			Locator.GetGround(i, 0).SetGroundType(GroundType.Wall);
+			Locator.GetGround(i, FieldHeight - 1).SetGroundType(GroundType.Wall);
 		}
 
 		for (Ground ground : groundTiles)
@@ -114,37 +102,30 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 			switch (i) {
 				case 0:
 					final Human H1 = new Human(1, 1, i, "Blue Block");
-					Main.H1 = H1;
-					Humans.add(H1);
+					Humans[0] = H1;
 					break;
 				case 1:
 					final Human H2 = new Human(FieldWidth - 2, FieldHeight  - 2, i, "Green Block");
-					Main.H2 = H2;
-					Humans.add(H2);
+					Humans[1] = H2;
 					break;
 				case 2:
 					final Human H3 = new Human(1, FieldHeight - 2, i, "Cyan Block");
-					Main.H3 = H3;
-					Humans.add(H3);
+					Humans[2] = H3;
 					break;
 				case 3:
 					final Human H4 = new Human(FieldWidth - 2, 1, i, "Magenta Block");
-					Main.H4 = H4;
-					Humans.add(H4);
+					Humans[3] = H4;
 					break;
 			}
 		}
 
 		// Generate powerups
-		for (int i = 0; i < Settings.PowerupCount; i++) {
-			int pos1 = ResourceManager.SharedRandom.nextInt(FieldWidth);
-			int pos2 = ResourceManager.SharedRandom.nextInt(FieldHeight);
-			PowerUpList[i] = new PowerUp(pos1, pos2, false, Types[ResourceManager.SharedRandom.nextInt(Types.length)], false);
-		}
+		for (int i = 0; i < Settings.PowerupCount; i++)
+			PowerUpList[i] = new PowerUp();
 
 		setOpen(setOpen);
 
-		Locator.ChangeVariables(labels, players);
+		Locator.ChangeVariables(labels);
 		infoWindow.Refresh();
 		window.repaint();
 		window.setAlwaysOnTop(true);
@@ -196,35 +177,36 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 		String secondToLast = name.substring(name.length() - 4, name.length() - 2);
 		int x = Integer.parseInt(secondToLast);
 		int y = Integer.parseInt(last);
-		if (TypesActive[4] || Locator.GetHuman(x, y) != null || Locator.GetPowerUp(x, y) != null)
+		if (TypesActive[4] || Locator.GetHuman(x, y) != null || Locator.GetPowerup(x, y) != null)
 			return;
 
 		Ground ground = Locator.GetGround(x, y);
+		GroundType type = ground.GetType();
 		if (e.getButton() == 1) {
-			if (ground.IsDeadly()) {
-				GroundType NewGround = ground.GetGroundType().GetInactiveType();
+			if (type.IsDeadly()) {
+				GroundType NewGround = type.GetInactiveType();
 				if (NewGround != null) {
 					ground.SetGroundType(NewGround);
 					MouseLava--;
 				}
 			} else {
 				MouseLava++;
-				ground.SetGroundType(Lava);
+				ground.SetGroundType(GroundType.Lava);
 			}
 		} else if (e.getButton() == 3) {
-			if (ground.IsWall()) {
-				GroundType NewGround = ground.GetGroundType().GetInactiveType();
+			if (type.IsWall()) {
+				GroundType NewGround = type.GetInactiveType();
 				if (NewGround != null) {
 					ground.SetGroundType(NewGround);
 					MouseWall--;
 				}
 			} else {
 				MouseWall++;
-				ground.SetGroundType(Wall);
+				ground.SetGroundType(GroundType.Wall);
 			}
 		} else if (e.getButton() == 2) {
-			if (ground.IsPoison()) {
-				GroundType NewGround = ground.GetGroundType().GetInactiveType();
+			if (type.IsPoison()) {
+				GroundType NewGround = type.GetInactiveType();
 
 				if (NewGround != null) {
 					ground.SetGroundType(NewGround);
@@ -232,7 +214,7 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 				}
 			} else {
 				MouseAcid++;
-				ground.SetGroundType(Acid);
+				ground.SetGroundType(GroundType.Acid);
 			}
 		}
 
@@ -245,65 +227,26 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		boolean confused = TypesActive[3];
-		String input = String.valueOf(e.getKeyChar()).toLowerCase();
+		final char[][] keys = {
+			{ 'a', 'd', 'w', 's' },
+			{ 'g', 'j', 'z', 'h' },
+			{ 'k', 'ö', 'o', 'l' },
+			{ '1', '3', '5', '2' },
+		};
 
-		switch (input) {
-			// Left
-			case "a":
-				H1.Go(confused ? "right" : "left");
-				break;
-			// Right
-			case "d":
-				H1.Go(confused ? "left" : "right");
-				break;
-			// Up
-			case "w":
-				H1.Go(confused ? "down" : "up");
-				break;
-			// Down
-			case "s":
-				H1.Go(confused ? "up" : "down");
-				break;
-			case "g":
-				H2.Go(confused ? "right" : "left");
-				break;
-			case "j":
-				H2.Go(confused ? "left" : "right");
-				break;
-			case "z":
-				H2.Go(confused ? "down" : "up");
-				break;
-			case "h":
-				H2.Go(confused ? "up" : "down");
-				break;
-			case "k":
-				H3.Go(confused ? "right" : "left");
-				break;
-			case "ö":
-				H3.Go(confused ? "left" : "right");
-				break;
-			case ":":
-				H3.Go(confused ? "left" : "right");
-				break;
-			case "o":
-				H3.Go(confused ? "down" : "up");
-				break;
-			case "l":
-				H3.Go(confused ? "up" : "down");
-				break;
-			case "1":
-				H4.Go(confused ? "right" : "left");
-				break;
-			case "3":
-				H4.Go(confused ? "left" : "right");
-				break;
-			case "5":
-				H4.Go(confused ? "down" : "up");
-				break;
-			case "2":
-				H4.Go(confused ? "up" : "down");
-				break;
+		boolean confused = TypesActive[3];
+		char input = e.getKeyChar();
+
+		for (int i = 0; i < Settings.PlayerCount; i++)
+		{
+			if (input == keys[i][0]) // Left
+				Humans[i].Go(confused ? "right" : "left");
+			else if (input == keys[i][1]) // Right
+				Humans[i].Go(confused ? "left" : "right");
+			else if (input == keys[i][2]) // Up
+				Humans[i].Go(confused ? "down" : "up");
+			else if (input == keys[i][3]) // Down
+				Humans[i].Go(confused ? "up" : "down");
 		}
 
 		if (EndGame)
@@ -311,7 +254,6 @@ public class Main extends JFrame implements MouseListener, KeyListener {
 
 		Main.paint();
 		infoWindow.Refresh();
-		// System.out.println(e.getKeyChar());
 	}
 
 	public static void SetEffectActive(int number, int Duration) {
